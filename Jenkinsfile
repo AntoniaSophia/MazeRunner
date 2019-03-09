@@ -1,5 +1,11 @@
 pipeline {
-    agent any 
+    agent {
+        label {
+            label ""
+            customWorkspace "'D:\\_Projects\\MazeRunner\\jenkins_build\\${BRANCH_NAME}"
+        }
+    }
+
     stages {
         stage('Stage SayHello') {
             steps {
