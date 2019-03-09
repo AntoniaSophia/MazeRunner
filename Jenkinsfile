@@ -2,7 +2,7 @@ pipeline {
     agent {
         label {
             label ""
-            customWorkspace "'D:\\_Projects\\MazeRunner\\jenkins_build\\${BRANCH_NAME}"
+            customWorkspace "D:\\_Projects\\MazeRunner\\jenkins_build\\${BRANCH_NAME}"
         }
     }
 
@@ -17,6 +17,7 @@ pipeline {
             steps {
                 dir ('D:\\_Projects\\MazeRunner\\jenkins_build') {
                 }
+                echo 'Hello Setup'
             }
         }
     }
