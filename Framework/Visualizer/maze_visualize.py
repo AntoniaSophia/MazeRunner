@@ -33,19 +33,31 @@ class MqttClient:
         self.last_topics.insert(0,str(msg.topic))
         topic = str(msg.payload.decode("utf-8"))
         payload = str(msg.payload.decode("utf-8"))
+        print("Published message: " , topic , " --> " , payload)
         if topic=="/maze":
             if payload == "clear":
+                self.maze.clearMaze()
             elif payload == "start":
+                self.maze.startMaze()
             elif payload == "end":
+                self.maze.endMaze()
             else:
                 pass
         elif topic=="/maze/dimRow":
+            self.maze.setDimRows(int(payload))
         elif topic=="/maze/dimCol":
+            self.maze.setDimCols(int(payload))
         elif topic=="/maze/startCol":
+            self.maze.setStartCol(int(payload))
         elif topic=="/maze/startRow":
+            self.maze.setStartRow(int(payload))
         elif topic=="/maze/endCol":
+            self.maze.setEndCol(int(payload))
         elif topic=="/maze/endRow":
+            self.maze.setEndRow(int(payload))
         elif topic=="/maze/blocked":
+            cell = payload.split(",")
+            self.maze.setBlocked(int(cell[0]),int(cell[1]))
         else:
             pass
 
@@ -53,7 +65,7 @@ class MqttClient:
     def __init__(self,master,app):
         self.master=master
         self.master.on_connect=self.on_connect
-        self.master.on_message=self.on_message
+        self.master.on_message=self.onMessage
         self.master.connect("127.0.0.1",1883,60)
 
         self.maze = Maze71(app)
@@ -107,6 +119,34 @@ class Maze71:
     MSG_SELECT_STEP_BY_STEP_ETC = "Click 'Step-by-Step' or 'Animation' or 'Clear'"
     MSG_NO_SOLUTION = "There is no path to the target !!!"
 
+    def setDimRows(self, rows):
+        self.rows = rows
+
+    def setDimCols(self, cols):
+        self.columns = cols
+
+    def setStartCol(self, col):
+        self.robotStart_col = col
+
+    def setStartRow(self, row):
+        self.robotStart_row = row
+
+    def setEndCol(self, col):
+        self.targetPos_col = col
+
+    def setEndRow(self, row):
+        self.targetPos = row
+
+    def setBlocked(row,col):
+        self.grid[row][col]=1
+
+
+    def startMaze():
+        self.grid=[[]]
+    
+    def endMaze():
+        self.fill_grid()
+
     def __init__(self, maze):
         """
         Constructor
@@ -115,8 +155,8 @@ class Maze71:
    
         self.center(maze)
 
-        self.rows = 0               # the number of rows of the grid
-        self.columns = 0            # the number of columns of the grid
+        self.rows = 9               # the number of rows of the grid
+        self.columns = 9            # the number of columns of the grid
         self.square_size = 0        # the cell size in pixels
         self.arrow_size = 0         # the size of the tips of the arrow pointing the predecessor cell
 
@@ -128,8 +168,14 @@ class Maze71:
         self.closedSet = []         # the CLOSED SET
         self.graph = []             # the set of vertices of the graph to be explored by Dijkstra's algorithm
 
-        self.robotStart = self.Cell(self.rows - 2, 1)    # the initial position of the robot
-        self.targetPos = self.Cell(1, self.columns - 2)  # the position of the target
+
+        self.robotStart_col = self.rows - 2
+        self.robotStart_row = 1
+        self.targetPos_col = 1
+        self.targetPos_row = self.columns - 2
+
+        self.robotStart = self.Cell(self.robotStart_col,self.robotStart_row)
+        self.targetPos = self.Cell(self.targetPos_col,self.targetPos_row)
 
         self.grid = [[]]            # the grid
         self.centers = [[self.Point(0, 0) for c in range(83)] for r in range(83)]  # the centers of the cells
@@ -192,8 +238,6 @@ class Maze71:
 
         :param make_maze: flag that indicates the creation of a random maze
         """
-        self.rows = 9
-        self.columns = 9
         # the square maze must have an odd number of rows
         # the rows of the triangular maze must be at least 8 and a multiple of 4
         if make_maze and (self.rows % 2 != 1 if self.shape == "Square" else self.rows % 4 !=0):
@@ -297,24 +341,24 @@ class Maze71:
         # in order to be able to run another algorithm
         # with the same data.
         # With the second click removes any obstacles also.
-        if self.searching or self.endOfSearch:
-            for r in range(self.rows):
-                for c in range(self.columns):
-                    if self.grid[r][c] in [self.FRONTIER, self.CLOSED, self.ROUTE]:
-                        self.grid[r][c] = self.EMPTY
-                    if self.grid[r][c] == self.ROBOT:
-                        self.robotStart = self.Cell(r, c)
-            self.searching = False
-        else:
-            for r in range(self.rows):
-                for c in range(self.columns):
-                    self.grid[r][c] = self.EMPTY
-            if self.shape == "Square":
-                self.robotStart = self.Cell(self.rows - 2, 1)
-                self.targetPos = self.Cell(1, self.columns - 2)
-            else:
-                self.robotStart = self.Cell(self.rows - 1, 0)
-                self.targetPos = self.Cell(0, self.columns - 1)
+        # if self.searching or self.endOfSearch:
+        #     for r in range(self.rows):
+        #         for c in range(self.columns):
+        #             if self.grid[r][c] in [self.FRONTIER, self.CLOSED, self.ROUTE]:
+        #                 self.grid[r][c] = self.EMPTY
+        #             if self.grid[r][c] == self.ROBOT:
+        #                 self.robotStart = self.Cell(r, c)
+        #     self.searching = False
+        # else:
+        #     for r in range(self.rows):
+        #         for c in range(self.columns):
+        #             self.grid[r][c] = self.EMPTY
+        #     if self.shape == "Square":
+        #         self.robotStart = self.Cell(self.rows - 2, 1)
+        #         self.targetPos = self.Cell(1, self.columns - 2)
+        #     else:
+        #         self.robotStart = self.Cell(self.rows - 1, 0)
+        #         self.targetPos = self.Cell(0, self.columns - 1)
 
         self.grid[self.targetPos.row][self.targetPos.col] = self.TARGET
         self.grid[self.robotStart.row][self.robotStart.col] = self.ROBOT
@@ -442,6 +486,7 @@ class Maze71:
         """
         Action performed when user clicks "Clear" button
         """
+        self.grid=[[]]
         self.animation = False
         self.realTime = False
         self.drawArrowsBtn.configure(state="normal")
@@ -680,5 +725,5 @@ if __name__ == '__main__':
 
     mqttclient=mqtt.Client()
     ob1=MqttClient(mqttclient, app)
-    client.loop_start()
+    mqttclient.loop_start()
     app.mainloop()
