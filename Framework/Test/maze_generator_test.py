@@ -97,17 +97,17 @@ class TestMazeGenerator(unittest.TestCase):
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
-        self.assertEqual(receivedMsg,'0,1')
-        self.assertEqual(receivedTopic,'/maze/blocked')
-
-        receivedMsg = self.aMazeSubscriber.getLastMessage()
-        receivedTopic = self.aMazeSubscriber.getLastTopic()
-        self.assertEqual(receivedMsg,'0,3')
+        self.assertEqual(receivedMsg,'1,1')
         self.assertEqual(receivedTopic,'/maze/blocked')
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
         self.assertEqual(receivedMsg,'1,2')
+        self.assertEqual(receivedTopic,'/maze/blocked')
+
+        receivedMsg = self.aMazeSubscriber.getLastMessage()
+        receivedTopic = self.aMazeSubscriber.getLastTopic()
+        self.assertEqual(receivedMsg,'1,3')
         self.assertEqual(receivedTopic,'/maze/blocked')
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
@@ -122,17 +122,7 @@ class TestMazeGenerator(unittest.TestCase):
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
-        self.assertEqual(receivedMsg,'2,2')
-        self.assertEqual(receivedTopic,'/maze/blocked')
-
-        receivedMsg = self.aMazeSubscriber.getLastMessage()
-        receivedTopic = self.aMazeSubscriber.getLastTopic()
-        self.assertEqual(receivedMsg,'2,3')
-        self.assertEqual(receivedTopic,'/maze/blocked')
-
-        receivedMsg = self.aMazeSubscriber.getLastMessage()
-        receivedTopic = self.aMazeSubscriber.getLastTopic()
-        self.assertEqual(receivedMsg,'2,4')
+        self.assertEqual(receivedMsg,'3,3')
         self.assertEqual(receivedTopic,'/maze/blocked')
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
