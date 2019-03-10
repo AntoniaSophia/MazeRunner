@@ -2,7 +2,10 @@ import unittest
 from test import support
 from subprocess import Popen, PIPE
 import sys, os
-import subprocess as sp
+#http://www.bx.psu.edu/~nate/pexpect/pexpect.html
+from pexpect import popen_spawn
+from test_mqtt_client import SubTestDemo, SubTest, PubTest, PubTestDemo
+import time
 
 pathname = os.path.dirname(sys.argv[0])        
 curpath=os.path.abspath(pathname)
@@ -15,21 +18,23 @@ class TestMQTTBroker(unittest.TestCase):
     def setUp(self):
         print("\nStart mosquitto broker")
         assert os.path.isfile(broker_path) == True
-
-
-        self.p = sp.Popen(broker_path, stdout = sp.PIPE)
-        streamdata = self.p.communicate()[0]
-        assert self.p.returncode == 1
+        self.c = popen_spawn.PopenSpawn(broker_path)
 
     def tearDown(self):
         print("\nKill mosquitto broker")
-        self.p.kill()
-        #streamdata = self.p.communicate()[0]
-        assert self.p.returncode == 1
+        self.c.kill(9)
 
     def test_feature_one(self):
         # Test feature one.
         print("... testing code ...")
+        self.testerPub = PubTestDemo()
+        self.testerSub = SubTestDemo("/maze")
+        time.sleep(1)
+        self.testerPub.sendMessage("/maze","Hallo123")
+        time.sleep(1)
+        print("Message:"+self.testerSub.getlastmessage())
+        self.assertEqual(self.testerSub.getlastmessage(),'Hallo123')
+
 
     def test_feature_two(self):
         # Test feature two.
