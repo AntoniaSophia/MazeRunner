@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import paho.mqtt.client as mqtt
 
+class MQTTSubscriber():
+
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
 
