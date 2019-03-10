@@ -14,22 +14,49 @@ import paho.mqtt.client as mqtt
 contains Code from Nikos Kanargias <nkana@tee.gr>
 """
 
-class client1:
+class MqttClient:
 
     def on_connect(self, master, obj, flags, rc):
-        self.master.subscribe('/maze')
+        self.master.subscribe("/maze")
+        self.master.subscribe("/maze/dimRow")
+        self.master.subscribe("/maze/dimCol")
+        self.master.subscribe("/maze/startCol")
+        self.master.subscribe("/maze/startRow")
+        self.master.subscribe("/maze/endCol")
+        self.master.subscribe("/maze/endRow")
+        self.master.subscribe("/maze/blocked")
         print("Connnect to mqtt-broker")
 
 
-    def on_message(self, master, obj, msg):
-        print(str(msg.payload))
+    def onMessage(self, master, obj, msg):
+        self.last_messages.insert(0,)
+        self.last_topics.insert(0,str(msg.topic))
+        topic = str(msg.payload.decode("utf-8"))
+        payload = str(msg.payload.decode("utf-8"))
+        if topic=="/maze":
+            if payload == "clear":
+            elif payload == "start":
+            elif payload == "end":
+            else:
+                pass
+        elif topic=="/maze/dimRow":
+        elif topic=="/maze/dimCol":
+        elif topic=="/maze/startCol":
+        elif topic=="/maze/startRow":
+        elif topic=="/maze/endCol":
+        elif topic=="/maze/endRow":
+        elif topic=="/maze/blocked":
+        else:
+            pass
 
-    def __init__(self,master):
+
+    def __init__(self,master,app):
         self.master=master
         self.master.on_connect=self.on_connect
         self.master.on_message=self.on_message
         self.master.connect("127.0.0.1",1883,60)
 
+        self.maze = Maze71(app)
 
 class Maze71:
 
@@ -136,11 +163,7 @@ class Maze71:
         self.canvas = Canvas(app, bd=0, highlightthickness=0)
 
         self.initialize_grid(True)
-
-        self.client=mqtt.Client()
-        self.ob1=client1(self.client)
-        self.client.loop_start()
-        
+     
 
     def select_shape(self, shape):
         self.shape = shape
@@ -654,5 +677,8 @@ if __name__ == '__main__':
     app.title("MazeRunner")
     app.geometry("515x545")
     app.resizable(False, False)
-    Maze71(app)
+
+    mqttclient=mqtt.Client()
+    ob1=MqttClient(mqttclient, app)
+    client.loop_start()
     app.mainloop()
