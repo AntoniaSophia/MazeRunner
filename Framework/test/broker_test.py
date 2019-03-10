@@ -14,12 +14,14 @@ class MyTestCase1(unittest.TestCase):
     # Only use setUp() and tearDown() if necessary
 
     def setUp(self):
+        print("\nStart mosquitto broker")
         broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
         print(broker_path)
         self.p = Popen(broker_path, shell=True, stdout = PIPE)
 
     def tearDown(self):
-        print("... code to execute to clean up after tests ...")
+        print("\nKill mosquitto broker")
+        self.p.kill()
 
     def test_feature_one(self):
         # Test feature one.
