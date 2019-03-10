@@ -4,15 +4,35 @@ import array as arr
 
 class Sample_Maze_Generator:
 
-    dimensionX = 5
-    dimensionY = 4
+    dimensionX = 5      # X = columns
+    dimensionY = 4      # Y = rows
     startX = 0
     startY = 0
     endX = 4
     endY = 3
 
-    # definition of maze as rows of zeros and ones (0 = free , 1 = blocked)
-    maze = [[0, 1, 0, 1, 0], [0, 0 , 1, 0 , 1], [0, 1, 1, 1, 1] , [0, 0, 0, 0, 0]]
+    #########################################################################
+    # Definition of maze as rows of zeros and ones (0 = free , 1 = blocked)
+    #########################################################################
+    # 
+    #  Y = rows (4 rows from 0...3)
+    #  |
+    #  v
+    #  
+    #  0   0 0 0 0 0
+    #  1   0 1 1 1 1
+    #  2   0 1 0 0 0
+    #  3   0 0 0 1 0
+
+    #      0 1 2 3 4   <- X = columns (5 columns from 0...4)
+    #
+    #  NOTE:
+    #  - Notation for a Field = (Y,X)
+    #  - (0,0) = is in the upper left corner
+    #########################################################################
+
+    maze = [[0, 0, 0, 0, 0] , [0, 1, 1, 1, 1] , [0, 1 , 0, 0 , 0] , [0, 0, 0, 1, 0]]
+
 
     def onConnect(self, master, obj, flags, rc):
         # do anything if required
