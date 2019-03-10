@@ -17,6 +17,7 @@ pipeline {
             steps {
                 echo 'Hello Setup'
                 dir ("D:\\_Projects\\MazeRunner\\jenkins_build\\${BRANCH_NAME}\\Framework\\Test") {
+                    echo 'Hello Setup'
                     sh(script: "run_broker_test.bat" , returnStdout: true)
                 }
             }
