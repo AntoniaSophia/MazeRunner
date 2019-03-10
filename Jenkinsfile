@@ -3,6 +3,7 @@ pipeline {
         label {
             label ""
             customWorkspace "D:\\_Projects\\MazeRunner\\jenkins_build\\${BRANCH_NAME}"
+            testWorkspace "D:\\_Projects\\MazeRunner\\jenkins_build\\${BRANCH_NAME}\\Framework\\Test"
         }
     }
 
@@ -15,9 +16,10 @@ pipeline {
 
         stage('Stage Setup') {
             steps {
-                dir ('D:\\_Projects\\MazeRunner\\jenkins_build') {
-                }
                 echo 'Hello Setup'
+                dir (testWorkspace) {
+                    sh(python broker_test.py)
+                }
             }
         }
     }
