@@ -18,7 +18,7 @@ pipeline {
             steps {
                 echo 'Hello Setup'
                 dir (testWorkspace) {
-                    sh(python broker_test.py)
+                    sh(script: "python broker_test.py" , returnStdout: true)
                 }
             }
         }
