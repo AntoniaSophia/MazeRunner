@@ -16,7 +16,7 @@ pipeline {
         stage('Stage Setup') {
             steps {
                 echo 'Hello Setup'
-                dir (customWorkspace + "\\Framework\\Test") {
+                dir ("D:\\_Projects\\MazeRunner\\jenkins_build\\${BRANCH_NAME}\\Framework\\Test") {
                     sh(script: "python broker_test.py" , returnStdout: true)
                 }
             }
