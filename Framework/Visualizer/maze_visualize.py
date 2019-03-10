@@ -8,6 +8,7 @@ import webbrowser
 import numpy
 import math
 import os
+import paho.mqtt.client as mqtt
 
 """
 @author Nikos Kanargias
@@ -54,6 +55,22 @@ When 'Real-Time' search is underway the position of obstacles, robot and target 
 
 Drawing of arrows to predecessors, when requested, is performed only at the end of the search.
 """
+
+class client1:
+
+    def on_connect(self, master, obj, flags, rc):
+        self.master.subscribe('/maze')
+        print("Connnect to mqtt-broker")
+
+
+    def on_message(self, master, obj, msg):
+        print(str(msg.payload))
+
+    def __init__(self,master):
+        self.master=master
+        self.master.on_connect=self.on_connect
+        self.master.on_message=self.on_message
+        self.master.connect("127.0.0.1",1883,60)
 
 
 class Maze71:
@@ -175,6 +192,8 @@ class Maze71:
         """
         Constructor
         """
+
+   
         self.center(maze)
 
         self.rows = 0               # the number of rows of the grid
@@ -325,6 +344,11 @@ class Maze71:
         self.canvas.bind("<B1-Motion>", self.drag)
 
         self.initialize_grid(False)
+
+        self.client=mqtt.Client()
+        self.ob1=client1(self.client)
+        self.client.loop_start()
+        
 
     def validate_rows(self, entry):
         """
