@@ -16,7 +16,7 @@ pipeline {
         stage('Stage Setup') {
             steps {
                 echo 'Hello Setup'
-                dir (testWorkspace + "\\Framework\\Test") {
+                dir (customWorkspace + "\\Framework\\Test") {
                     sh(script: "python broker_test.py" , returnStdout: true)
                 }
             }
