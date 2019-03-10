@@ -47,9 +47,7 @@ class MazeGenerator:
         self.publish("/maze/endRow" , self.endRow)
 
         for i in range(len(self.maze)):
-            print()
             for j in range(len(self.maze[i])):
-                print(self.maze[i][j], end='')
                 if (self.maze[i][j] == 1): 
                     blocked = ""
                     blocked += str(i)
