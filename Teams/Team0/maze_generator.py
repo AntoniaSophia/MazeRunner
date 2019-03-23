@@ -17,8 +17,8 @@ class MazeGenerator:
 
     def __init__(self):
         print("Constructor MazeGenerator")
-        self.startCol = 1
-        self.startRow = 1
+        self.startCol = 2
+        self.startRow = 2
         self.endCol = 7
         self.endRow = 7
         self.dimensionRow = 9

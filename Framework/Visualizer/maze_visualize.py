@@ -14,24 +14,11 @@ import paho.mqtt.client as mqtt
 contains Code from Nikos Kanargias <nkana@tee.gr>
 """
 
+
 class MqttClient:
 
-    def on_connect(self, master, obj, flags, rc):
-        self.master.subscribe("/maze")
-        self.master.subscribe("/maze/dimRow")
-        self.master.subscribe("/maze/dimCol")
-        self.master.subscribe("/maze/startCol")
-        self.master.subscribe("/maze/startRow")
-        self.master.subscribe("/maze/endCol")
-        self.master.subscribe("/maze/endRow")
-        self.master.subscribe("/maze/blocked")
-        print("Connnect to mqtt-broker")
-
-
-    def onMessage(self, master, obj, msg):
-        self.last_messages.insert(0,)
-        self.last_topics.insert(0,str(msg.topic))
-        topic = str(msg.payload.decode("utf-8"))
+    def onTestMessage(self, master, obj, msg):
+        topic = str(msg.topic)
         payload = str(msg.payload.decode("utf-8"))
         print("Published message: " , topic , " --> " , payload)
         if topic=="/maze":
@@ -41,6 +28,7 @@ class MqttClient:
                 self.maze.startMaze()
             elif payload == "end":
                 self.maze.endMaze()
+                print(self.maze.grid)
             else:
                 pass
         elif topic=="/maze/dimRow":
@@ -61,14 +49,26 @@ class MqttClient:
         else:
             pass
 
+    def on_connect(self, master, obj, flags, rc):
+        self.master.subscribe("/maze")
+        self.master.subscribe("/maze/dimRow")
+        self.master.subscribe("/maze/dimCol")
+        self.master.subscribe("/maze/startCol")
+        self.master.subscribe("/maze/startRow")
+        self.master.subscribe("/maze/endCol")
+        self.master.subscribe("/maze/endRow")
+        self.master.subscribe("/maze/blocked")
+        print("Connnect to mqtt-broker")
+
 
     def __init__(self,master,app):
         self.master=master
         self.master.on_connect=self.on_connect
-        self.master.on_message=self.onMessage
+        self.master.on_message=self.onTestMessage
         self.master.connect("127.0.0.1",1883,60)
-
-        self.maze = Maze71(app)
+        hugo = Maze71(app) 
+        self.maze = hugo
+        hugo.endMaze()
 
 class Maze71:
 
@@ -90,7 +90,7 @@ class Maze71:
                 return self.row == other.row and self.col == other.col
             else:
                 return False
-
+    
     class Point(object):
         """
         Helper class that represents the point on the grid
@@ -141,10 +141,11 @@ class Maze71:
         self.grid[row][col]=1
 
 
-    def startMaze():
+    def startMaze(self):
         self.grid=[[]]
     
-    def endMaze():
+    def endMaze(self):
+        print(self.grid)
         self.fill_grid()
 
     def __init__(self, maze):
@@ -359,7 +360,6 @@ class Maze71:
         #     else:
         #         self.robotStart = self.Cell(self.rows - 1, 0)
         #         self.targetPos = self.Cell(0, self.columns - 1)
-
         self.grid[self.targetPos.row][self.targetPos.col] = self.TARGET
         self.grid[self.robotStart.row][self.robotStart.col] = self.ROBOT
         self.message.configure(text=self.MSG_DRAW_AND_SELECT)
@@ -371,8 +371,10 @@ class Maze71:
         Repaints the grid
         """
         color = ""
+        print ("repaint")
         for r in range(self.rows):
             for c in range(self.columns):
+                print (self.grid[r][c])
                 if self.grid[r][c] == self.EMPTY:
                     color = "WHITE"
                 elif self.grid[r][c] == self.ROBOT:
@@ -486,7 +488,7 @@ class Maze71:
         """
         Action performed when user clicks "Clear" button
         """
-        self.grid=[[]]
+        self.grid=[]
         self.animation = False
         self.realTime = False
         self.drawArrowsBtn.configure(state="normal")
