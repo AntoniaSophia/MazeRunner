@@ -5,7 +5,7 @@ from functools import partial
 from operator import attrgetter
 from random import shuffle, randrange
 import webbrowser
-import numpy
+import numpy 
 import math
 import os
 import paho.mqtt.client as mqtt
@@ -17,39 +17,41 @@ contains Code from Nikos Kanargias <nkana@tee.gr>
 
 class MqttClient:
 
-    def onTestMessage(self, master, obj, msg):
+    def onMessage(self, master, obj, msg):
         topic = str(msg.topic)
         payload = str(msg.payload.decode("utf-8"))
-        print("Published message: " , topic , " --> " , payload)
+        print("Received message: " , topic , " --> " , payload)
         if topic=="/maze":
             if payload == "clear":
-                self.maze.clearMaze()
+                self.mazeVisualizer.clearMaze()
             elif payload == "start":
-                self.maze.startMaze()
+                self.mazeVisualizer.startMaze()
             elif payload == "end":
-                self.maze.endMaze()
-                print(self.maze.grid)
+                self.mazeVisualizer.endMaze()
             else:
                 pass
         elif topic=="/maze/dimRow":
-            self.maze.setDimRows(int(payload))
+            self.mazeVisualizer.setDimRows(int(payload))
+            self.mazeVisualizer.startMaze(self.mazeVisualizer.columns, self.mazeVisualizer.rows)
         elif topic=="/maze/dimCol":
-            self.maze.setDimCols(int(payload))
+            self.mazeVisualizer.setDimCols(int(payload))
+            self.mazeVisualizer.startMaze(self.mazeVisualizer.columns, self.mazeVisualizer.rows)
         elif topic=="/maze/startCol":
-            self.maze.setStartCol(int(payload))
+            self.mazeVisualizer.setStartCol(int(payload))
         elif topic=="/maze/startRow":
-            self.maze.setStartRow(int(payload))
+            self.mazeVisualizer.setStartRow(int(payload))
         elif topic=="/maze/endCol":
-            self.maze.setEndCol(int(payload))
+            self.mazeVisualizer.setEndCol(int(payload))
         elif topic=="/maze/endRow":
-            self.maze.setEndRow(int(payload))
+            self.mazeVisualizer.setEndRow(int(payload))
+            self.mazeVisualizer.initialize_grid(False)    # initialize the new grid!!!
         elif topic=="/maze/blocked":
             cell = payload.split(",")
-            self.maze.setBlocked(int(cell[0]),int(cell[1]))
+            self.mazeVisualizer.setBlocked(int(cell[0]),int(cell[1]))
         else:
             pass
 
-    def on_connect(self, master, obj, flags, rc):
+    def onConnect(self, master, obj, flags, rc):
         self.master.subscribe("/maze")
         self.master.subscribe("/maze/dimRow")
         self.master.subscribe("/maze/dimCol")
@@ -63,14 +65,12 @@ class MqttClient:
 
     def __init__(self,master,app):
         self.master=master
-        self.master.on_connect=self.on_connect
-        self.master.on_message=self.onTestMessage
+        self.master.on_connect=self.onConnect
+        self.master.on_message=self.onMessage
         self.master.connect("127.0.0.1",1883,60)
-        hugo = Maze71(app) 
-        self.maze = hugo
-        hugo.endMaze()
+        self.mazeVisualizer = MazeVisualizer(app)
 
-class Maze71:
+class MazeVisualizer:
 
     class Cell(object):
         """
@@ -135,18 +135,50 @@ class Maze71:
         self.targetPos_col = col
 
     def setEndRow(self, row):
-        self.targetPos = row
+        self.targetPos_row = row
 
-    def setBlocked(row,col):
-        self.grid[row][col]=1
+    def setBlocked(self,col,row):
+        self.grid[col][row]=1
 
 
     def startMaze(self):
+        self.setDimCols = 0 
+        self.setDimRows = 0 
+        self.setStartCols = 0 
+        self.setStartRows = 0 
+        self.setEndCols = 0 
+        self.setEndRows = 0 
         self.grid=[[]]
     
+    def startMaze(self, columns, rows):
+        #self.initialize_grid(False)
+        self.grid = numpy.empty((rows, columns), dtype=int)
+        for i in range(rows):
+         for j in range(columns):
+             self.grid[i][j]=0
+
+
+
     def endMaze(self):
+        self.grid[self.targetPos_row][self.targetPos_col] = self.TARGET
+        self.grid[self.robotStart_row][self.robotStart_col] = self.ROBOT
+        print("Following Maze received: ")
+        self.printMaze()
+        self.repaint()
+
+    def printMaze(self):
         print(self.grid)
-        self.fill_grid()
+
+
+
+
+
+
+
+
+
+
+
 
     def __init__(self, maze):
         """
@@ -170,10 +202,10 @@ class Maze71:
         self.graph = []             # the set of vertices of the graph to be explored by Dijkstra's algorithm
 
 
-        self.robotStart_col = self.rows - 2
-        self.robotStart_row = 1
-        self.targetPos_col = 1
-        self.targetPos_row = self.columns - 2
+        self.robotStart_col = 0
+        self.robotStart_row = 0
+        self.targetPos_col = self.rows - 5
+        self.targetPos_row = self.columns - 5
 
         self.robotStart = self.Cell(self.robotStart_col,self.robotStart_row)
         self.targetPos = self.Cell(self.targetPos_col,self.targetPos_row)
@@ -210,28 +242,8 @@ class Maze71:
         self.canvas = Canvas(app, bd=0, highlightthickness=0)
 
         self.initialize_grid(True)
+        self.repaint()
      
-
-    def select_shape(self, shape):
-        self.shape = shape
-        self.animation = False
-        self.realTime = False
-        for but in self.buttons:
-            but.configure(state="normal")
-        self.buttons[3].configure(fg="BLACK")  # Real-Time button
-        self.slider.configure(state="normal")
-        for but in self.algo_buttons:
-            but.configure(state="normal")
-        self.initialize_grid(False)
-        self.drawArrowsBtn.configure(state="normal")
-        if self.shape == "Square":
-            self.diagonalBtn.configure(state="normal")
-        else:
-            if self.shape == "Hexagon":
-                self.buttons[1].configure(state="disabled")  # Maze button
-            self.diagonalBtn.deselect()
-            self.diagonalBtn.configure(state="disabled")
-
 
     def initialize_grid(self, make_maze):
         """
@@ -239,75 +251,30 @@ class Maze71:
 
         :param make_maze: flag that indicates the creation of a random maze
         """
-        # the square maze must have an odd number of rows
-        # the rows of the triangular maze must be at least 8 and a multiple of 4
-        if make_maze and (self.rows % 2 != 1 if self.shape == "Square" else self.rows % 4 !=0):
-            if self.shape == "Square":
-                self.rows -= 1
-            else:
-                self.rows = max(int(self.rows/4)*4,8)
-            self.rows_var.set(self.rows)
-        # a hexagonal grid must have an odd number of columns
-        if self.shape == "Hexagon" and self.columns % 2 != 1:
-            self.columns -= 1
-            self.cols_var.set(self.columns)
-        # the columns of the triangular maze must be rows+1
-        if make_maze and self.shape == "Triangle":
-            self.columns = self.rows + 1
-            self.cols_var.set(self.columns)
         # the columns of the square maze must be equal to rows
         if make_maze and self.shape == "Square":
             self.columns = self.rows
             self.cols_var.set(self.columns)
+            self.grid = self.array[:self.rows*self.columns]
+            self.grid = self.grid.reshape(self.rows, self.columns)
 
-        self.grid = self.array[:self.rows*self.columns]
-        self.grid = self.grid.reshape(self.rows, self.columns)
-
-        # Calculation of the edge and the height of the triangular cell
-        if self.shape == "Triangle":
-            self.edge = min(500 / (int(self.columns/2) + 1), 1000 / (self.rows * math.sqrt(3)))
-            self.height = self.edge * math.sqrt(3) / 2
-            self.radius = self.height*2/3
-            self.arrow_size = int(self.edge / 4)
+            for r in range(self.rows):
+                for c in list(range(self.columns)):
+                    self.grid[r][c] = self.EMPTY
 
         # Calculation of the size of the square cell
         if self.shape == "Square":
             self.square_size = int(500 / (self.rows if self.rows > self.columns else self.columns))
             self.arrow_size = int(self.square_size / 2)
 
-        # Calculation of the radius and the half height of the hexagonal cell
-        if self.shape == "Hexagon":
-            self.radius = min(1000 / (3 * self.columns + 1), 500 / (self.rows * math.sqrt(3)))
-            self.height = self.radius * math.sqrt(3) / 2
-            self.arrow_size = int(self.radius / 2)
-
-        # Creation of the canvas' background
-        if self.shape == "Triangle":
-            self.canvas.configure(width=(self.columns/2 + 0.5) * self.edge + 1, height=self.rows * self.height + 1)
-            self.canvas.place(x=10, y=10)
-            self.canvas.create_rectangle(0, 0, (self.columns/2 + 0.5) * self.edge + 1,
-                                         self.rows * self.height + 1, width=0, fill="DARK GREY")
         if self.shape == "Square":
             self.canvas.configure(width=self.columns * self.square_size + 1, height=self.rows * self.square_size + 1)
             self.canvas.place(x=10, y=10)
             self.canvas.create_rectangle(0, 0, self.columns*self.square_size+1,
                                          self.rows*self.square_size+1, width=0, fill="DARK GREY")
-        if self.shape == "Hexagon":
-            self.canvas.configure(width=(self.columns-1)/2*3*self.radius + 2*self.radius,
-                                  height=self.rows*2*self.height + 1)
-            self.canvas.place(x=10, y=10)
-            self.canvas.create_rectangle(0, 0, (self.columns-1)/2*3*self.radius + 2*self.radius,
-                                         self.rows*2*self.height + 1, width=0, fill="DARK GREY")
 
-        for r in range(self.rows):
-            for c in list(range(self.columns)):
-                self.grid[r][c] = self.EMPTY
-        if self.shape == "Square":
-            self.robotStart = self.Cell(self.rows-2, 1)
-            self.targetPos = self.Cell(1, self.columns-2)
-        else:
-            self.robotStart = self.Cell(self.rows-1, 0)
-            self.targetPos = self.Cell(0, self.columns-1)
+
+
 
         # Calculation of the coordinates of the cells' centers
         y = 0
@@ -329,42 +296,9 @@ class Maze71:
                     else:
                         self.centers[r][c] = self.Point(round(self.radius/2+(int(c/2)*3+2)*self.radius),
                                                         round(2*(r+1)*self.height))
-        self.fill_grid()
-        self.repaint()
 
-    def fill_grid(self):
-        """
-        Gives initial values ​​for the cells in the grid.
-        """
-        # With the first click on button 'Clear' clears the data
-        # of any search was performed (Frontier, Closed Set, Route)
-        # and leaves intact the obstacles and the robot and target positions
-        # in order to be able to run another algorithm
-        # with the same data.
-        # With the second click removes any obstacles also.
-        # if self.searching or self.endOfSearch:
-        #     for r in range(self.rows):
-        #         for c in range(self.columns):
-        #             if self.grid[r][c] in [self.FRONTIER, self.CLOSED, self.ROUTE]:
-        #                 self.grid[r][c] = self.EMPTY
-        #             if self.grid[r][c] == self.ROBOT:
-        #                 self.robotStart = self.Cell(r, c)
-        #     self.searching = False
-        # else:
-        #     for r in range(self.rows):
-        #         for c in range(self.columns):
-        #             self.grid[r][c] = self.EMPTY
-        #     if self.shape == "Square":
-        #         self.robotStart = self.Cell(self.rows - 2, 1)
-        #         self.targetPos = self.Cell(1, self.columns - 2)
-        #     else:
-        #         self.robotStart = self.Cell(self.rows - 1, 0)
-        #         self.targetPos = self.Cell(0, self.columns - 1)
-        self.grid[self.targetPos.row][self.targetPos.col] = self.TARGET
-        self.grid[self.robotStart.row][self.robotStart.col] = self.ROBOT
-        self.message.configure(text=self.MSG_DRAW_AND_SELECT)
 
-        self.repaint()
+
 
     def repaint(self):
         """
@@ -374,7 +308,7 @@ class Maze71:
         print ("repaint")
         for r in range(self.rows):
             for c in range(self.columns):
-                print (self.grid[r][c])
+                #print (self.grid[r][c])
                 if self.grid[r][c] == self.EMPTY:
                     color = "WHITE"
                 elif self.grid[r][c] == self.ROBOT:
@@ -399,32 +333,9 @@ class Maze71:
         :param col:   the column of the cell
         :param color: the color of the cell
         """
-        if self.shape == "Triangle":
-            self.canvas.create_polygon(self.calc_triangle(row, col), width=0, fill=color)
         if self.shape == "Square":
             self.canvas.create_polygon(self.calc_square(row, col), width=0, fill=color)
-        if self.shape == "Hexagon":
-            if col % 2 == 0 or (col % 2 != 0 and row < self.rows - 1):
-                self.canvas.create_polygon(self.calc_hexagon(row, col), width=0, fill=color)
 
-    def calc_triangle(self, r, c):
-        """
-        Calculates the coordinates of the vertices of the square corresponding to a particular cell
-
-        :param r:   the row of the cell
-        :param c:   the column of the cell
-        :return :   List of the pairs of coordinates
-        """
-        polygon = []
-        if (c % 2 == 0 and r % 2 == 0) or (c % 2 != 0 and r % 2 != 0):
-            polygon.extend(((c/2 + 0.0) * self.edge + 1,       r * self.height + 1))
-            polygon.extend(((c/2 + 1.0) * self.edge - 1,       r * self.height + 1))
-            polygon.extend(((c/2 + 0.5) * self.edge + 0, (r + 1) * self.height - 0))
-        else:
-            polygon.extend(((c/2 + 0.5) * self.edge + 0,       r * self.height + 2))
-            polygon.extend(((c/2 + 1.0) * self.edge - 1, (r + 1) * self.height - 0))
-            polygon.extend(((c/2 + 0.0) * self.edge + 1, (r + 1) * self.height - 0))
-        return polygon
 
     def calc_square(self, r, c):
         """
@@ -441,30 +352,6 @@ class Maze71:
         polygon.extend((    c*self.square_size + 1, (r+1)*self.square_size + 0))
         return polygon
 
-    def calc_hexagon(self, r, c):
-        """
-        Calculates the coordinates of the vertices of the hexagon corresponding to a particular cell
-
-        :param r:   the row of the cell
-        :param c:   the column of the cell
-        :return :   List of the pairs of coordinates
-        """
-        polygon = []
-        if c % 2 == 0:
-            polygon.extend((                   self.radius/2 + c/2*3*self.radius+0,                 r*2*self.height+1))
-            polygon.extend((     self.radius + self.radius/2 + c/2*3*self.radius+0,                 r*2*self.height+1))
-            polygon.extend(( 2.0*self.radius +                 c/2*3*self.radius-1,   self.height + r*2*self.height+0))
-            polygon.extend((     self.radius + self.radius/2 + c/2*3*self.radius+0, 2*self.height + r*2*self.height+0))
-            polygon.extend((                   self.radius/2 + c/2*3*self.radius+0, 2*self.height + r*2*self.height+0))
-            polygon.extend((                                   c/2*3*self.radius+1,   self.height + r*2*self.height+0))
-        else:
-            polygon.extend(( 0.5*self.radius +                 c/2*3*self.radius+0,   self.height + r*2*self.height+1))
-            polygon.extend(( 1.5*self.radius +                 c/2*3*self.radius+0,   self.height + r*2*self.height+1))
-            polygon.extend(( 1.5*self.radius + self.radius/2 + c/2*3*self.radius-1, 2*self.height + r*2*self.height+0))
-            polygon.extend(( 1.5*self.radius +                 c/2*3*self.radius+0, 3*self.height + r*2*self.height+0))
-            polygon.extend(( 0.5*self.radius +                 c/2*3*self.radius+0, 3*self.height + r*2*self.height+0))
-            polygon.extend((-0.5*self.radius + self.radius/2 + c/2*3*self.radius+1, 2*self.height + r*2*self.height+0))
-        return polygon
 
     def maze_click(self):
         """

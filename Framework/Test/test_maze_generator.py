@@ -1,37 +1,39 @@
 import paho.mqtt.client as mqtt
 import time
 import array as arr
+import paho.mqtt.client as mqtt
 
 class Sample_Maze_Generator:
 
-    dimensionX = 5      # X = columns
-    dimensionY = 4      # Y = rows
-    startX = 0
-    startY = 0
-    endX = 4
-    endY = 3
+    dimensionRow = 5      # X = columns
+    dimensionCol = 5      # Y = rows
+    startRow = 0
+    startCol = 0
+    endCol = 4
+    endRow = 4
 
     #########################################################################
     # Definition of maze as rows of zeros and ones (0 = free , 1 = blocked)
     #########################################################################
     # 
-    #  Y = rows (4 rows from 0...3)
+    #  Rows (4 rows from 0...3)
     #  |
     #  v
     #  
     #  0   0 0 0 0 0
     #  1   0 1 1 1 1
-    #  2   0 1 0 0 0
-    #  3   0 0 0 1 0
+    #  2   0 1 0 1 0
+    #  3   0 1 0 0 0
+    #  4   0 0 0 1 0
 
-    #      0 1 2 3 4   <- X = columns (5 columns from 0...4)
+    #      0 1 2 3 4   <- Columns (5 columns from 0...4)
     #
     #  NOTE:
-    #  - Notation for a Field = (Y,X)
+    #  - Notation for a Field = (col,row)
     #  - (0,0) = is in the upper left corner
     #########################################################################
 
-    maze = [[0, 0, 0, 0, 0] , [0, 1, 1, 1, 1] , [0, 1 , 0, 0 , 0] , [0, 0, 0, 1, 0]]
+    maze = [[0, 0, 0, 0, 0] , [0, 1, 1, 1, 1] , [0, 1, 0, 1, 0] , [0, 1 , 0, 0 , 0] , [0, 0, 0, 1, 0]]
 
 
     def onConnect(self, master, obj, flags, rc):
@@ -54,12 +56,12 @@ class Sample_Maze_Generator:
     def sendMaze(self):
         self.publish("/maze" , "clear")
         self.publish("/maze" , "start")
-        self.publish("/maze/dimX" , self.dimensionX)
-        self.publish("/maze/dimY" , self.dimensionY)
-        self.publish("/maze/startX" , self.startX)
-        self.publish("/maze/startY" , self.startY)
-        self.publish("/maze/endX" , self.endX)
-        self.publish("/maze/endY" , self.endY)
+        self.publish("/maze/dimCol" , self.dimensionCol)
+        self.publish("/maze/dimRow" , self.dimensionRow)
+        self.publish("/maze/startCol" , self.startCol)
+        self.publish("/maze/startRow" , self.startRow)
+        self.publish("/maze/endCol" , self.endCol)
+        self.publish("/maze/endRow" , self.endRow)
 
         for i in range(len(self.maze)):
             for j in range(len(self.maze[i])):
@@ -85,3 +87,15 @@ class Sample_Maze_Generator:
         # TODO: this is you job now :-)
         pass
 
+
+if __name__ == '__main__':
+    client=mqtt.Client()
+
+    ##################################
+    # Create a sample MQTT Publisher
+    ##################################
+    aMazePublisher = Sample_Maze_Generator(client)
+    aMazePublisher.sendMaze()
+
+    # start the mqtt broker
+    client.loop_start()
