@@ -48,6 +48,10 @@ class MqttClient:
         elif topic=="/maze/blocked":
             cell = payload.split(",")
             self.mazeVisualizer.setBlocked(int(cell[0]),int(cell[1]))
+        elif topic=="/maze/go":
+            cell = payload.split(",")
+            self.mazeVisualizer.addSolutionStep(int(cell[0]),int(cell[1]))
+
         else:
             pass
 
@@ -60,6 +64,8 @@ class MqttClient:
         self.master.subscribe("/maze/endCol")
         self.master.subscribe("/maze/endRow")
         self.master.subscribe("/maze/blocked")
+        self.master.subscribe("/maze/go")
+
         print("Connnect to mqtt-broker")
 
 
@@ -162,23 +168,22 @@ class MazeVisualizer:
     def endMaze(self):
         self.grid[self.targetPos_row][self.targetPos_col] = self.TARGET
         self.grid[self.robotStart_row][self.robotStart_col] = self.ROBOT
+        self.targetPos = self.Cell(self.targetPos_col,self.targetPos_row)
+        self.robotStart = self.Cell(self.robotStart_col,self.robotStart_row)
         print("Following Maze received: ")
         self.printMaze()
         self.repaint()
 
     def printMaze(self):
         print(self.grid)
-
-
-
-
-
-
-
-
-
-
-
+    
+    def addSolutionStep(self,col,row):
+        step = self.Cell(row,col)
+        self.closedSet.append(step)
+        print("Step")
+        if step == self.targetPos:
+            print("Finished")
+            self.plot_route()
 
     def __init__(self, maze):
         """
@@ -420,16 +425,12 @@ class MazeVisualizer:
         self.searching = False
         steps = 0
         distance = 0.0
-        index = self.closedSet.index(self.targetPos)
-        cur = self.closedSet[index]
-        self.grid[cur.row][cur.col] = self.TARGET
-        self.paint_cell(cur.row, cur.col, "GREEN")
-        while cur != self.robotStart:
-            steps += 1
-            dx = self.centers[cur.row][cur.col].get_x() - self.centers[cur.prev.row][cur.prev.col].get_x()
-            dy = self.centers[cur.row][cur.col].get_y() - self.centers[cur.prev.row][cur.prev.col].get_y()
-            distance += math.hypot(dx, dy)
-            cur = cur.prev
+        
+        cur = self.closedSet[0]
+        
+        for cur in self.closedSet:
+            if self.targetPos == cur:
+                break
             self.grid[cur.row][cur.col] = self.ROUTE
             self.paint_cell(cur.row, cur.col, "YELLOW")
 

@@ -15,6 +15,10 @@ class MazeSolverClient:
         self.solver = MazeSolverAlgo()
         #pass
 
+    def publish(self, topic, message=None, qos=0, retain=False):
+        print("Published message: " , topic , " --> " , message)
+        self.master.publish(topic,message,qos,retain)
+
 
     def onMessage(self, master, obj, msg):
         topic = str(msg.topic)
@@ -25,6 +29,8 @@ class MazeSolverClient:
                 self.solver.clearMaze()
             elif payload == "start":
                 self.solver.startMaze()
+            elif payload == "solve":
+                self.solveMaze()                
             elif payload == "end":
                 self.solver.endMaze()
                 self.solver.printMaze()
@@ -79,7 +85,13 @@ class MazeSolverClient:
 
     def solveMaze(self):
         # TODO: this is you job now :-)
-        pass
+
+        for step in self.solver.solveMaze():
+            step_str = '{},{}'.format(step[0],step[1])
+           
+            self.publish("/maze/go" , step_str)
+
+    
 
 if __name__ == '__main__':
     mqttclient=mqtt.Client()
