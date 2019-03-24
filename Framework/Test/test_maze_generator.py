@@ -29,12 +29,22 @@ class Sample_Maze_Generator:
     #      0 1 2 3 4   <- Columns (5 columns from 0...4)
     #
     #  NOTE:
-    #  - Notation for a Field = (col,row)
+    #  - Notation for a Field = (row,col)
     #  - (0,0) = is in the upper left corner
+
+    # here: blocked = 
+    #  1,1
+    #  1,2
+    #  1,3
+    #  1,4
+    #  2,1
+    #  2,3
+    #  3,1
+    #  4,3
     #########################################################################
 
+    #maze = [[0, 0, 0, 0, 0] , [0, 1, 1, 1, 1] , [0, 1, 0, 1, 0] , [0, 1 , 0, 0 , 0] , [0, 0, 0, 1, 0]]
     maze = [[0, 0, 0, 0, 0] , [0, 1, 1, 1, 1] , [0, 1, 0, 1, 0] , [0, 1 , 0, 0 , 0] , [0, 0, 0, 1, 0]]
-
 
     def onConnect(self, master, obj, flags, rc):
         # do anything if required
