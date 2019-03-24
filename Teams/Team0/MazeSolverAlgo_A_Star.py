@@ -21,7 +21,7 @@ class Tile:
         if other.reachable:
             return 10
         else:
-            return 1000
+            return 10000
 
 class AStar:
 

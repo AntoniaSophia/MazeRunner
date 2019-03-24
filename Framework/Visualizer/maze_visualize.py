@@ -185,6 +185,7 @@ class MazeVisualizer:
             print("Finished")
             self.plot_route()
 
+
     def __init__(self, maze):
         """
         Constructor
@@ -341,7 +342,6 @@ class MazeVisualizer:
         if self.shape == "Square":
             self.canvas.create_polygon(self.calc_square(row, col), width=0, fill=color)
 
-
     def calc_square(self, r, c):
         """
         Calculates the coordinates of the vertices of the square corresponding to a particular cell
@@ -427,12 +427,15 @@ class MazeVisualizer:
         distance = 0.0
         
         cur = self.closedSet[0]
-        
+        step_pos=1
         for cur in self.closedSet:
             if self.targetPos == cur:
                 break
             self.grid[cur.row][cur.col] = self.ROUTE
             self.paint_cell(cur.row, cur.col, "YELLOW")
+            canvas_id = self.canvas.create_text(cur.col*self.square_size, cur.row*self.square_size, anchor="nw")
+            self.canvas.itemconfig(canvas_id, text=str(step_pos))
+            step_pos+=1
 
         self.grid[self.robotStart.row][self.robotStart.col] = self.ROBOT
         self.paint_cell(self.robotStart.row, self.robotStart.col, "RED")

@@ -83,7 +83,7 @@ class MazeGeneratorAlgo:
 
         :param make_maze: flag that indicates the creation of a random maze
         """
-        self.grid = self.maze(self.columns,self.rows,.9,.2)
+        self.grid = self.maze(self.columns,self.rows,.9,.5)
 
 
 if __name__ == '__main__':
