@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 import time
 import array as arr
-from maze_generator_algo import MazeGeneratorAlgo
+from maze_generator_algo_2 import MazeGeneratorAlgo
 
 class MazeGeneratorClient:
 
@@ -23,8 +23,8 @@ class MazeGeneratorClient:
         self.startRow = 2
         self.endCol = 7
         self.endRow = 7
-        self.dimensionRow = 11
-        self.dimensionCol = 11       
+        self.dimensionRow = 27
+        self.dimensionCol = 27       
         self.master=mqtt.Client()
         self.master.on_connect=self.onConnect
         self.master.connect("127.0.0.1",1883,60)
