@@ -60,19 +60,28 @@ class AStar:
             print ("Could not find tile at position x: {} y: {}".format(x, y))
 
     def search(self, current, end):
+        wholepath=[]
         self.end = end
         openset = set()
         closedset = set()
         openset.add(current)
         while len(openset):
             current = min(openset, key=lambda o:o.g + o.h)
+            # Try to send the whole path
+            wholepath.append(current)
+            if current == end:
+                return wholepath
+
+            # Send only the final path
             if current == end:
                 return self.constructPath(current)
+
             openset.remove(current)
             closedset.add(current)
             for node in self.getAdjacent(current):
                 if node in closedset:
                     continue
+
                 if node in openset:
                     new_g = current.g + current.move_cost(node)
                     if node.g > new_g:
