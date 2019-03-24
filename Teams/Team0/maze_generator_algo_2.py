@@ -59,16 +59,21 @@ class MazeGeneratorAlgo:
                         Z[y_ + (y - y_) // 2, x_ + (x - x_) // 2] = 1
                         x, y = x_, y_
         while 1:
-            startpos_x = random_integers(0,(width-1)/2)
-            startpos_y = random_integers(0,(height-1)/2)
+            startpos_x = rand(0,(self.columns-1)/2)
+            startpos_y = rand(0,(self.rows-1)/2)
             if Z[startpos_x][startpos_y] == 0:
                 Z[startpos_x][startpos_y] = 2
+                self.robotStart_col = startpos_x
+                self.robotStart_row = startpos_y
                 break
         while 1:
-            endpos_x = random_integers((width-1)/2,width-1)
-            endpos_y = random_integers((height-1)/2,height-1)
+            endpos_x = rand((self.columns-1)/2,self.columns-1)
+            endpos_y = rand((self.rows-1)/2,self.rows-1)
             if Z[endpos_x][endpos_y] == 0:
                 Z[endpos_x][endpos_y] = 3
+                self.targetPos_col = endpos_x
+                self.targetPos_row = endpos_y
+                
                 break
         return Z
 

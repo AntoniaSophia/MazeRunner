@@ -96,6 +96,10 @@ class MazeGeneratorClient:
         # TODO: this is you job now :-)
         self.mga = MazeGeneratorAlgo(self.dimensionRow,self.dimensionCol,self.startCol,self.startRow,self.endCol,self.endRow)
         self.mga.createMaze()
+        self.startCol= self.mga.robotStart_col
+        self.startRow= self.mga.robotStart_row
+        self.endCol= self.mga.targetPos_col
+        self.endRow= self.mga.targetPos_row
         self.maze=self.mga.getMaze()
         
         #pass
