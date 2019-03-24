@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2019-03-23 19:35:09" build="190310">
+		<key name=".Vanilla" modified="2019-03-24 08:07:57" build="190310">
 			<value name="StartType" type="hex" data="02"/>
 			<value name="CmdLine" type="string" data=""/>
 			<value name="StartTasksFile" type="string" data=""/>
@@ -342,11 +342,11 @@
 			<value name="Cascaded" type="hex" data="01"/>
 			<value name="IntegralSize" type="hex" data="00"/>
 			<value name="WindowMode" type="dword" data="0000051f"/>
-			<value name="ConWnd X" type="long" data="561"/>
-			<value name="ConWnd Y" type="long" data="271"/>
+			<value name="ConWnd X" type="long" data="473"/>
+			<value name="ConWnd Y" type="long" data="186"/>
 			<value name="LastMonitor" type="string" data="0,0,1920,1040"/>
-			<value name="ConWnd Width" type="dword" data="00000088"/>
-			<value name="ConWnd Height" type="dword" data="00000022"/>
+			<value name="ConWnd Width" type="dword" data="0000008e"/>
+			<value name="ConWnd Height" type="dword" data="00000020"/>
 			<value name="16bit Height" type="ulong" data="0"/>
 			<value name="Restore2ActiveMon" type="hex" data="00"/>
 			<value name="RestoreInactive" type="hex" data="00"/>
@@ -693,18 +693,18 @@
 					<value name="Count" type="long" data="1"/>
 					<value name="Cmd1" type="string" data='*cmd.exe /k Title Chocolatey &amp; "%ConEmuBaseDir%\Addons\ChocolateyAbout.cmd"'/>
 				</key>
-				<key name="Task11" modified="2019-03-23 19:16:52" build="190310">
-					<value name="Name" type="string" data="{Mosquitto}"/>
+				<key name="Task11" modified="2019-03-24 08:07:35" build="190310">
+					<value name="Name" type="string" data="{Test MazeGenerator}"/>
 					<value name="Flags" type="dword" data="00000003"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data=""/>
 					<value name="Count" type="long" data="5"/>
 					<value name="Active" type="long" data="0"/>
-					<value name="Cmd1" type="string" data='cmd /K "echo Start Mosquitto &amp; cd /D %ConEmuBaseDir%\..\..\MQTTBroker &amp; mosquitto.exe"'/>
-					<value name="Cmd2" type="string" data='cmd /K "echo Start Mosquitto &amp; cd /D %ConEmuBaseDir%\..\..\Visualizer &amp; python maze_visualize.py"'/>
-					<value name="Cmd3" type="string" data='cmd /K "echo Start Mosquitto &amp; cd /D %ConEmuBaseDir%\..\..\..\\Teams\Team0 &amp; python MazeSolverClient.py"'/>
-					<value name="Cmd4" type="string" data='cmd /K "echo Start Mosquitto &amp; cd /D %ConEmuBaseDir%\..\..\test &amp; timeout /T 2 &gt; nul &amp; python test_maze_generator.py"'/>
-					<value name="Cmd5" type="string" data='cmd /K "echo Start Mosquitto &amp; cd /D %ConEmuBaseDir%\..\..\MQTTBroker &amp; timeout /T 4 &gt; nul &amp;mosquitto_pub.exe -t /maze -m solve"'/>
+					<value name="Cmd1" type="string" data='cmd /K "echo Start Broker &amp; cd /D %ConEmuBaseDir%\..\..\MQTTBroker &amp; mosquitto.exe"'/>
+					<value name="Cmd2" type="string" data='cmd -new_console:s66H /K "echo Start Visualizer &amp; cd /D %ConEmuBaseDir%\..\..\Visualizer &amp; python maze_visualize.py"'/>
+					<value name="Cmd3" type="string" data='cmd -new_console:s50H /K "echo Start Solver &amp; cd /D %ConEmuBaseDir%\..\..\..\\Teams\Team0 &amp; python MazeSolverClient.py"'/>
+					<value name="Cmd4" type="string" data='cmd -new_console:s2T50V /K "echo Start Generator &amp; cd /D %ConEmuBaseDir%\..\..\test &amp; timeout /T 2 &gt; nul &amp; python test_maze_generator.py"'/>
+					<value name="Cmd5" type="string" data='cmd -new_console:s3T50V /K "echo Control Solver &amp; cd /D %ConEmuBaseDir%\..\..\MQTTBroker &amp; timeout /T 4 &gt; nul &amp;mosquitto_pub.exe -t /maze -m solve"'/>
 				</key>
 			</key>
 			<key name="Apps" modified="2019-03-23 18:42:14" build="190310">
