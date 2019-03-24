@@ -79,9 +79,6 @@ class MazeGeneratorAlgo:
         :param make_maze: flag that indicates the creation of a random maze
         """
         self.grid = self.maze(self.columns,self.rows,.9,.9)
-        numpy.savetxt("c:\\temp\\maze.txt", self.grid, fmt="%d", delimiter=",", newline="\n")
-        newgrid=numpy.loadtxt("c:\\temp\\maze.txt", delimiter=',')
-        print(newgrid)
 
 
 if __name__ == '__main__':
