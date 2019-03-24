@@ -177,7 +177,7 @@ class MazeVisualizer:
     def printMaze(self):
         print(self.grid)
     
-    def addSolutionStep(self,col,row):
+    def addSolutionStep(self,row,col):
         step = self.Cell(row,col)
         self.closedSet.append(step)
         print("Step")
