@@ -143,8 +143,8 @@ class MazeVisualizer:
     def setEndRow(self, row):
         self.targetPos_row = row
 
-    def setBlocked(self,col,row):
-        self.grid[col][row]=1
+    def setBlocked(self,row,col):
+        self.grid[row][col]=1
 
 
     def startMaze(self):
@@ -177,7 +177,7 @@ class MazeVisualizer:
     def printMaze(self):
         print(self.grid)
     
-    def addSolutionStep(self,col,row):
+    def addSolutionStep(self,row,col):
         step = self.Cell(row,col)
         self.closedSet.append(step)
         print("Step")
