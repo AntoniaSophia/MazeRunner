@@ -111,9 +111,11 @@ class MazeSolverAlgo:
 
     def setDimRows(self, rows):
         self.rows = rows
+        self.dimRows = rows
 
     def setDimCols(self, cols):
         self.columns = cols
+        self.dimColumns = cols
 
     def setStartCol(self, col):
         self.robotStart_col = col
