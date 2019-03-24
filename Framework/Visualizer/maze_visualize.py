@@ -143,8 +143,8 @@ class MazeVisualizer:
     def setEndRow(self, row):
         self.targetPos_row = row
 
-    def setBlocked(self,col,row):
-        self.grid[col][row]=1
+    def setBlocked(self,row,col):
+        self.grid[row][col]=1
 
 
     def startMaze(self):
@@ -168,8 +168,8 @@ class MazeVisualizer:
     def endMaze(self):
         self.grid[self.targetPos_row][self.targetPos_col] = self.TARGET
         self.grid[self.robotStart_row][self.robotStart_col] = self.ROBOT
-        self.targetPos = self.Cell(self.targetPos_col,self.targetPos_row)
-        self.robotStart = self.Cell(self.robotStart_col,self.robotStart_row)
+        self.targetPos = self.Cell(self.targetPos_row,self.targetPos_col)
+        self.robotStart = self.Cell(self.robotStart_row,self.robotStart_col)
         print("Following Maze received: ")
         self.printMaze()
         self.repaint()
@@ -212,8 +212,8 @@ class MazeVisualizer:
         self.targetPos_col = self.rows - 5
         self.targetPos_row = self.columns - 5
 
-        self.robotStart = self.Cell(self.robotStart_col,self.robotStart_row)
-        self.targetPos = self.Cell(self.targetPos_col,self.targetPos_row)
+        self.robotStart = self.Cell(self.robotStart_row,self.robotStart_col)
+        self.targetPos = self.Cell(self.targetPos_row,self.targetPos_col)
 
         self.grid = [[]]            # the grid
         self.centers = [[self.Point(0, 0) for c in range(83)] for r in range(83)]  # the centers of the cells

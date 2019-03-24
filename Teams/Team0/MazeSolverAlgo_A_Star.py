@@ -176,7 +176,7 @@ class MazeSolverAlgo:
         result_path=[]
         aStar = AStar(self.convertGrid())
         print("Grid converted for a Star")
-        for tile in aStar.search(aStar.maze[self.robotStart_row][self.robotStart_row], aStar.maze[self.targetPos_col][self.targetPos_row]):
+        for tile in aStar.search(aStar.maze[self.robotStart_col][self.robotStart_row], aStar.maze[self.targetPos_col][self.targetPos_row]):
             step=[tile.y,tile.x]
             result_path.append(step)
         print("aStar Finished")
