@@ -168,8 +168,8 @@ class MazeVisualizer:
     def endMaze(self):
         self.grid[self.targetPos_row][self.targetPos_col] = self.TARGET
         self.grid[self.robotStart_row][self.robotStart_col] = self.ROBOT
-        self.targetPos = self.Cell(self.targetPos_col,self.targetPos_row)
-        self.robotStart = self.Cell(self.robotStart_col,self.robotStart_row)
+        self.targetPos = self.Cell(self.targetPos_row,self.targetPos_col)
+        self.robotStart = self.Cell(self.robotStart_row,self.robotStart_col)
         print("Following Maze received: ")
         self.printMaze()
         self.repaint()
@@ -184,6 +184,7 @@ class MazeVisualizer:
         if step == self.targetPos:
             print("Finished")
             self.plot_route()
+
 
     def __init__(self, maze):
         """
@@ -212,8 +213,8 @@ class MazeVisualizer:
         self.targetPos_col = self.rows - 5
         self.targetPos_row = self.columns - 5
 
-        self.robotStart = self.Cell(self.robotStart_col,self.robotStart_row)
-        self.targetPos = self.Cell(self.targetPos_col,self.targetPos_row)
+        self.robotStart = self.Cell(self.robotStart_row,self.robotStart_col)
+        self.targetPos = self.Cell(self.targetPos_row,self.targetPos_col)
 
         self.grid = [[]]            # the grid
         self.centers = [[self.Point(0, 0) for c in range(83)] for r in range(83)]  # the centers of the cells
@@ -341,7 +342,6 @@ class MazeVisualizer:
         if self.shape == "Square":
             self.canvas.create_polygon(self.calc_square(row, col), width=0, fill=color)
 
-
     def calc_square(self, r, c):
         """
         Calculates the coordinates of the vertices of the square corresponding to a particular cell
@@ -427,12 +427,15 @@ class MazeVisualizer:
         distance = 0.0
         
         cur = self.closedSet[0]
-        
+        step_pos=1
         for cur in self.closedSet:
             if self.targetPos == cur:
                 break
             self.grid[cur.row][cur.col] = self.ROUTE
             self.paint_cell(cur.row, cur.col, "YELLOW")
+            canvas_id = self.canvas.create_text(cur.col*self.square_size, cur.row*self.square_size, anchor="nw")
+            self.canvas.itemconfig(canvas_id, text=str(step_pos))
+            step_pos+=1
 
         self.grid[self.robotStart.row][self.robotStart.col] = self.ROBOT
         self.paint_cell(self.robotStart.row, self.robotStart.col, "RED")

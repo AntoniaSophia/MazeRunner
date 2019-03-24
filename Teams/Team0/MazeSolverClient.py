@@ -1,7 +1,8 @@
 import paho.mqtt.client as mqtt
 import time
 import array as arr
-from MazeSolverAlgo import MazeSolverAlgo
+#from MazeSolverAlgo import MazeSolverAlgo
+from MazeSolverAlgo_A_Star import MazeSolverAlgo
 
 class MazeSolverClient:
 
