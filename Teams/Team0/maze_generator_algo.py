@@ -12,12 +12,12 @@ class MazeGeneratorAlgo:
     def getMaze(self):
         return self.grid
 
-    def __init__(self, dimensionRow, dimensionCol,startCol,startRow,endCol,endRow):
+    def __init__(self, dimensionRow, dimensionCol, complexity, density):
         """
         Constructor
         """
-        self.rows = dimensionRow
-        self.columns = dimensionCol
+        self.rows = int(dimensionRow)
+        self.columns = int(dimensionCol)
         self.robotStart_row = 0  # the initial position of the robot
         self.robotStart_col = 0  # the initial position of the robot        
         self.targetPos_row  = 0  # the position of the target
@@ -26,7 +26,7 @@ class MazeGeneratorAlgo:
         self.grid = [[]]            # the grid
         self.shape = "Square"       # Square is initially selected
 
-        self.array = numpy.array([0] * (dimensionRow * dimensionCol))
+        self.array = numpy.array([0] * (self.rows * self.columns))
 
     @staticmethod
     def make_maze(w, h):
@@ -102,6 +102,7 @@ class MazeGeneratorAlgo:
 
         
         maze = self.make_maze(int(self.rows / 2), int(self.columns / 2))
+        print(maze)
         for r in range(self.rows):
             for c in range(self.columns):
                 if maze[r * self.columns + c : r * self.columns + c + 1] in "|-+":

@@ -69,8 +69,8 @@ class AStar:
             current = min(openset, key=lambda o:o.g + o.h)
             # Try to send the whole path
             wholepath.append(current)
-            if current == end:
-                return wholepath
+            # if current == end:
+            #     return wholepath
 
             # Send only the final path
             if current == end:
