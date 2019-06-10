@@ -1,5 +1,7 @@
 from random import shuffle, randrange
 import numpy
+from numpy.random import randint as rand
+from numpy.random import random_integers
 import math
 
 class MazeGeneratorAlgo:
@@ -12,12 +14,15 @@ class MazeGeneratorAlgo:
     def getMaze(self):
         return self.grid
 
-    def __init__(self, dimensionRow, dimensionCol, complexity, density):
+    def __init__(self, dimensionRow, dimensionCol,complexity, density):
         """
         Constructor
         """
         self.rows = int(dimensionRow)
         self.columns = int(dimensionCol)
+        self.complexity=float(complexity)/100.0
+        self.density=float(density)/100.0
+
         self.robotStart_row = 0  # the initial position of the robot
         self.robotStart_col = 0  # the initial position of the robot        
         self.targetPos_row  = 0  # the position of the target
@@ -28,43 +33,53 @@ class MazeGeneratorAlgo:
 
         self.array = numpy.array([0] * (self.rows * self.columns))
 
-    @staticmethod
-    def make_maze(w, h):
-        """
-        Creates a random, perfect (without cycles) maze
-        From http://rosettacode.org/wiki/Maze_generation
 
-        recursive backtracking algorithm
-
-        :param w:   the width of the maze
-        :param h:   the height of the maze
-
-        :return:    the maze as a string
-        """
-        vis = [[0] * w + [1] for _ in range(h)] + [[1] * (w + 1)]
-        ver = [["| "] * w + ['|'] for _ in range(h)] + [[]]
-        hor = [["+-"] * w + ['+'] for _ in range(h + 1)]
-
-        def walk(x, y):
-            vis[y][x] = 1
-
-            d = [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]
-            shuffle(d)
-            for (xx, yy) in d:
-                if vis[yy][xx]:
-                    continue
-                if xx == x:
-                    hor[max(y, yy)][x] = "+ "
-                if yy == y:
-                    ver[y][max(x, xx)] = "  "
-                walk(xx, yy)
-
-        walk(randrange(w), randrange(h))
-
-        s = ""
-        for (a, b) in zip(hor, ver):
-            s += ''.join(a + b)
-        return s
+    def maze(self, width=21, height=21, complexity=.9, density=.1):
+        print(width,height,complexity,density)
+        # Only odd shapes
+        shape = ((height // 2) * 2 + 1, (width // 2) * 2 + 1)
+        # Adjust complexity and density relative to maze size
+        complexity = int(complexity * (5 * (shape[0] + shape[1]))) # number of components
+        density    = int(density * ((shape[0] // 2) * (shape[1] // 2))) # size of components
+        # Build actual maze
+        Z = numpy.zeros(shape, dtype=int)
+        # Fill borders
+        Z[0, :] = Z[-1, :] = 1
+        Z[:, 0] = Z[:, -1] = 1
+        # Make aisles
+        for i in range(density):
+            x, y = rand(0, shape[1] // 2) * 2, rand(0, shape[0] // 2) * 2 # pick a random position
+            Z[y, x] = 1
+            for j in range(complexity):
+                neighbours = []
+                if x > 1:             neighbours.append((y, x - 2))
+                if x < shape[1] - 2:  neighbours.append((y, x + 2))
+                if y > 1:             neighbours.append((y - 2, x))
+                if y < shape[0] - 2:  neighbours.append((y + 2, x))
+                if len(neighbours):
+                    y_,x_ = neighbours[rand(0, len(neighbours) - 1)]
+                    if Z[y_, x_] == 0:
+                        Z[y_, x_] = 1
+                        Z[y_ + (y - y_) // 2, x_ + (x - x_) // 2] = 1
+                        x, y = x_, y_
+        while 1:
+            startpos_x = rand(0,(self.columns-1)/2)
+            startpos_y = rand(0,(self.rows-1)/2)
+            if Z[startpos_x][startpos_y] == 0:
+                Z[startpos_x][startpos_y] = 2
+                self.robotStart_col = startpos_x
+                self.robotStart_row = startpos_y
+                break
+        while 1:
+            endpos_x = rand((self.columns-1)/2,self.columns-1)
+            endpos_y = rand((self.rows-1)/2,self.rows-1)
+            if Z[endpos_x][endpos_y] == 0:
+                Z[endpos_x][endpos_y] = 3
+                self.targetPos_col = endpos_x
+                self.targetPos_row = endpos_y
+                
+                break
+        return Z
 
     def createMaze(self):
         """
@@ -72,44 +87,10 @@ class MazeGeneratorAlgo:
 
         :param make_maze: flag that indicates the creation of a random maze
         """
-        # the square maze must have an odd number of rows
-        # the rows of the triangular maze must be at least 8 and a multiple of 4
-        if (self.rows % 2 != 1 if self.shape == "Square" else self.rows % 4 !=0):
-            if self.shape == "Square":
-                self.rows -= 1
-            else:
-                self.rows = max(int(self.rows/4)*4,8)
-            
-        # the columns of the square maze must be equal to rows
-        self.columns = self.rows
-        self.grid = self.array[:self.rows*self.columns]
-        self.grid = self.grid.reshape(self.rows, self.columns)
-
-        for r in range(self.rows):
-            for c in list(range(self.columns)):
-                self.grid[r][c] = self.EMPTY
-
-        # start position according to algo
-        self.robotStart_row = self.rows-2
-        self.robotStart_col = 1
-
-        # target position according to algo
-        self.targetPos_row = 1
-        self.targetPos_col = self.columns-2
-
-        self.grid[self.targetPos_row][self.targetPos_col] = self.TARGET
-        self.grid[self.robotStart_row][self.robotStart_col] = self.ROBOT
-
-        
-        maze = self.make_maze(int(self.rows / 2), int(self.columns / 2))
-        print(maze)
-        for r in range(self.rows):
-            for c in range(self.columns):
-                if maze[r * self.columns + c : r * self.columns + c + 1] in "|-+":
-                    self.grid[r][c] = self.OBST
+        self.grid = self.maze(self.columns,self.rows,self.complexity,self.density)
 
 
 if __name__ == '__main__':
-    mg = MazeGeneratorAlgo()
+    mg = MazeGeneratorAlgo(9,9,0,0,8,1)
     mg.createMaze()
-    mg.printMaze()
+
