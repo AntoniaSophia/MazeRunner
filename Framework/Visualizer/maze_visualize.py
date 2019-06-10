@@ -270,7 +270,7 @@ class MazeVisualizer:
 
         # Calculation of the size of the square cell
         if self.shape == "Square":
-            self.square_size = int(500 / (self.rows if self.rows > self.columns else self.columns))
+            self.square_size = int(900 / (self.rows if self.rows > self.columns else self.columns))
             self.arrow_size = int(self.square_size / 2)
 
         if self.shape == "Square":
@@ -613,8 +613,8 @@ if __name__ == '__main__':
     app = Tk()
     app.protocol("WM_DELETE_WINDOW", on_closing)
     app.title("MazeRunner")
-    app.geometry("515x545")
-    app.resizable(False, False)
+    app.geometry("915x945")
+    app.resizable(True, True)
 
     mqttclient=mqtt.Client()
     ob1=MqttClient(mqttclient, app)
