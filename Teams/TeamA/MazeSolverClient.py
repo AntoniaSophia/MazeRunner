@@ -3,7 +3,6 @@ import time
 import array as arr
 from MazeSolverAlgo import MazeSolverAlgo
 
-
 class MazeSolverClient:
 
     def __init__(self,master):
