@@ -25,8 +25,10 @@ class TestMQTTBroker(unittest.TestCase):
 
     def setUp(self):
         print("\nStart mosquitto broker")
-        assert os.path.isfile(broker_path) == True
-        self.c = popen_spawn.PopenSpawn(broker_path)
+        if platform.system() == "Windows":
+            broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
+            assert os.path.isfile(broker_path) == True
+            self.c = popen_spawn.PopenSpawn(broker_path)
 
         # create a new mqtt broker
         client=mqtt.Client()
