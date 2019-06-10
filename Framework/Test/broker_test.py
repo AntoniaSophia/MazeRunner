@@ -7,13 +7,17 @@ from pexpect import popen_spawn
 from test_mqtt_subscriber import Sample_MQTT_Subscriber
 from test_mqtt_publisher import Sample_MQTT_Publisher
 import paho.mqtt.client as mqtt
-
+import platform
 
 import time
 
 pathname = os.path.dirname(sys.argv[0])        
 curpath=os.path.abspath(pathname)
-broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
+
+if platform.system() == "Windows":
+    broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
+else:
+    broker_path=os.path.join("mosquitto")
 
 class TestMQTTBroker(unittest.TestCase):
 
