@@ -8,9 +8,12 @@
 import sys
 from subprocess import Popen
 import os
+import threading
+import time
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
 projectDirectory = os.path.join(scriptDirectory,"..","..")
+os.environ['FOR_IGNORE_EXCEPTIONS'] = '1'
 
 try:
     import Tkinter as tk
@@ -24,16 +27,56 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 class Control:
     def __init__(self):
         self.mqtt_broker_proc = 0
         self.maze_gui_proc = 0
         self.team = ""
         self.generator_action = 0
-        self.solver_action = 0
+        self.running = 1
+        self.mqtt_broker_state = 0
+        self.maze_gui_state = 0
+        self.solver_action_proc = 0
+        self.solver_action_state = 0
+
+        threading.Thread(target=self.monitor).start()
+
+    def checkproc(self,p):
+        state = 0
+        if p != 0:
+            poll = p.poll()
+
+            if poll == None:
+                state = 1
+            else:
+                state = -1
+        return state
+
+
+    def monitor(self):
+        while self.running:
+            self.mqtt_broker_state = self.checkproc(self.mqtt_broker_proc)
+            self.maze_gui_state = self.checkproc(self.maze_gui_proc)
+            self.solver_action_state = self.checkproc(self.solver_action_proc)
+
+            #print("Monitor: {} {} {}".format(self.mqtt_broker_state, self.maze_gui_state, self.solver_action_state))
+            
+            time.sleep(1)
+         
 
 control = Control()
 
+def handler(a,b=None):
+    control.running=0
+    sys.exit(0)
+
+def install_handler():
+    if sys.platform == "win32":
+        import win32api
+        win32api.SetConsoleCtrlHandler(handler, True)
+
+install_handler()
 
 def set_Tk_var():
     global combobox
@@ -55,7 +98,7 @@ def maze_solver_loader():
     else:
         print('Solver Action')
         executeSript=os.path.join(projectDirectory,"Teams",control.team,"MazeSolverClient.py")
-        control.solver_action = Popen(['python',executeSript],shell=True) # something long running
+        control.solver_action_proc = Popen(['python',executeSript],shell=True) # something long running
 
 def maze_solver_action():
     print('Solve Maze!')

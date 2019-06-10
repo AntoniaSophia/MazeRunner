@@ -18,8 +18,10 @@ try:
 except ImportError:
     import tkinter.ttk as ttk
     py3 = True
-
+import threading
 import maze_control_support
+import time
+from maze_control_support import control
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
 projectDirectory = os.path.join(scriptDirectory,"..","..")
@@ -48,13 +50,18 @@ def create_Toplevel1(root, *args, **kwargs):
 
 def destroy_Toplevel1():
     global w
+    maze_control_support.control.running=0
     w.destroy()
     w = None
+    
+
 
 class Toplevel1:
 
     def callback(self,eventObject):
         self.selectedTeam=eventObject.widget.get()
+        if maze_control_support.control.solver_action_proc != 0:
+            maze_control_support.control.solver_action_proc.kill()
         print(self.selectedTeam)
 
     def callbackScaleDim(self,eventObject):
@@ -98,6 +105,7 @@ class Toplevel1:
         self.style.map('.',background=
             [('selected', _compcolor), ('active',_ana2color)])
 
+        self.running=1
 
         self.selectedTeam=""
 
@@ -184,7 +192,7 @@ class Toplevel1:
         self.TLabel2.configure(relief="flat")
         self.TLabel2.configure(text='''Generator''')
 
-        self.ScaleDim = tk.Scale(self.TFrame3, from_=0.0, to=100.0, command=self.callbackScaleDim)
+        self.ScaleDim = tk.Scale(self.TFrame3, from_=0.0, to=63.0, command=self.callbackScaleDim)
         self.ScaleDim.place(relx=0.388, rely=0.057, relwidth=0.418, relheight=0.0
                 , height=42, bordermode='ignore')
         self.ScaleDim.configure(activebackground="#ececec")
@@ -348,7 +356,30 @@ class Toplevel1:
         self.TButton5.place(relx=0.746, rely=0.462, height=25, width=76)
         self.TButton5.configure(takefocus="")
         self.TButton5.configure(text='''Solve Maze''')
-        self.TButton5.configure(command=maze_control_support.maze_solver_action)                
+        self.TButton5.configure(command=maze_control_support.maze_solver_action)     
+        threading.Thread(target=self.monitor).start()           
+
+    def monitor(self):
+        while self.running:
+
+            if maze_control_support.control.mqtt_broker_state==1:
+                self.TButton2.config(state='disabled')
+            else:
+                self.TButton2.config(state='normal')
+
+            if maze_control_support.control.maze_gui_state==1:
+                self.TButton3.config(state='disabled')
+            else:
+                self.TButton3.config(state='normal')
+
+            if maze_control_support.control.solver_action_state==1:
+                self.TButton4.config(state='disabled')
+            else:
+                self.TButton4.config(state='normal')
+
+            print("Monitor: {} {} {}".format(maze_control_support.control.mqtt_broker_state, maze_control_support.control.maze_gui_state, maze_control_support.control.solver_action_state))
+            time.sleep(1)
+
 
 if __name__ == '__main__':
     vp_start_gui()
