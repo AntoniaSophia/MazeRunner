@@ -24,8 +24,8 @@ class TestMQTTBroker(unittest.TestCase):
     # Only use setUp() and tearDown() if necessary
 
     def setUp(self):
-        print("\nStart mosquitto broker")
         if platform.system() == "Windows":
+            print("\nStart mosquitto broker")
             broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
             assert os.path.isfile(broker_path) == True
             self.c = popen_spawn.PopenSpawn(broker_path)
@@ -50,9 +50,10 @@ class TestMQTTBroker(unittest.TestCase):
         
 
     def tearDown(self):
-        print("\nKill mosquitto broker")
-        self.c.kill(9)
-        # TODO: assert for checking whether mosquitto really has been quit
+        if platform.system() == "Windows":        
+            print("\nKill mosquitto broker")
+            self.c.kill(9)
+            # TODO: assert for checking whether mosquitto really has been quit
 
     def test_feature_1(self):
         # Test feature 1
