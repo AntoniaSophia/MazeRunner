@@ -4,11 +4,7 @@ import math
 
 class Cell:
 
-    def __init__(self):
-        self.row = -1
-        self.column = -1
-
-    def __init__(self,row,col):
+    def __init__(self,row=-1,col=-1):
         self.row = row
         self.column = col
 
@@ -60,8 +56,10 @@ class Cell:
     def equals(self, aCell):
         if (self.column == aCell.column) and (self.row == aCell.row):
             return True
-
         return False
+
+    def __eq__(self, other):
+        return self.equals(other)
 
     def distance(self, aCell):
         dX = self.column - aCell.column
