@@ -7,22 +7,27 @@ from pexpect import popen_spawn
 from test_mqtt_subscriber import Sample_MQTT_Subscriber
 from test_maze_generator import Sample_Maze_Generator
 import paho.mqtt.client as mqtt
-
+import platform
 
 import time
 
-pathname = os.path.dirname(sys.argv[0])        
+pathname = os.path.dirname(__file__)        
 curpath=os.path.abspath(pathname)
-broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
+
+if platform.system() == "Windows":
+    broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
+else:
+    broker_path=os.path.join("mosquitto")
 
 class TestMazeGenerator(unittest.TestCase):
 
     # Only use setUp() and tearDown() if necessary
 
     def setUp(self):
-        print("\nStart mosquitto broker")
-        assert os.path.isfile(broker_path) == True
-        self.c = popen_spawn.PopenSpawn(broker_path)
+        if platform.system() == "Windows":
+            print("\nStart mosquitto broker")
+            assert os.path.isfile(broker_path) == True
+            self.c = popen_spawn.PopenSpawn(broker_path)
 
         # create a new mqtt broker
         client=mqtt.Client()
@@ -44,9 +49,10 @@ class TestMazeGenerator(unittest.TestCase):
         
 
     def tearDown(self):
-        print("\nKill mosquitto broker")
-        self.c.kill(9)
-        # TODO: assert for checking whether mosquitto really has been quit
+        if platform.system() == "Windows":            
+            print("\nKill mosquitto broker")
+            self.c.kill(9)
+            # TODO: assert for checking whether mosquitto really has been quit
 
     def test_feature_1(self):
         # Test feature 1
@@ -68,32 +74,32 @@ class TestMazeGenerator(unittest.TestCase):
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
         self.assertEqual(receivedMsg,'5')
-        self.assertEqual(receivedTopic,'/maze/dimX')
+        self.assertEqual(receivedTopic,'/maze/dimCol')
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
-        self.assertEqual(receivedMsg,'4')
-        self.assertEqual(receivedTopic,'/maze/dimY')
-
-        receivedMsg = self.aMazeSubscriber.getLastMessage()
-        receivedTopic = self.aMazeSubscriber.getLastTopic()
-        self.assertEqual(receivedMsg,'0')
-        self.assertEqual(receivedTopic,'/maze/startX')
+        self.assertEqual(receivedMsg,'5')
+        self.assertEqual(receivedTopic,'/maze/dimRow')
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
         self.assertEqual(receivedMsg,'0')
-        self.assertEqual(receivedTopic,'/maze/startY')
+        self.assertEqual(receivedTopic,'/maze/startCol')
+
+        receivedMsg = self.aMazeSubscriber.getLastMessage()
+        receivedTopic = self.aMazeSubscriber.getLastTopic()
+        self.assertEqual(receivedMsg,'0')
+        self.assertEqual(receivedTopic,'/maze/startRow')
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
         self.assertEqual(receivedMsg,'4')
-        self.assertEqual(receivedTopic,'/maze/endX')
+        self.assertEqual(receivedTopic,'/maze/endCol')
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
-        self.assertEqual(receivedMsg,'3')
-        self.assertEqual(receivedTopic,'/maze/endY')
+        self.assertEqual(receivedMsg,'4')
+        self.assertEqual(receivedTopic,'/maze/endRow')
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
@@ -122,7 +128,17 @@ class TestMazeGenerator(unittest.TestCase):
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
         receivedTopic = self.aMazeSubscriber.getLastTopic()
-        self.assertEqual(receivedMsg,'3,3')
+        self.assertEqual(receivedMsg,'2,3')
+        self.assertEqual(receivedTopic,'/maze/blocked')
+
+        receivedMsg = self.aMazeSubscriber.getLastMessage()
+        receivedTopic = self.aMazeSubscriber.getLastTopic()
+        self.assertEqual(receivedMsg,'3,1')
+        self.assertEqual(receivedTopic,'/maze/blocked')
+
+        receivedMsg = self.aMazeSubscriber.getLastMessage()
+        receivedTopic = self.aMazeSubscriber.getLastTopic()
+        self.assertEqual(receivedMsg,'4,3')
         self.assertEqual(receivedTopic,'/maze/blocked')
 
         receivedMsg = self.aMazeSubscriber.getLastMessage()
