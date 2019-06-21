@@ -127,8 +127,6 @@ class MazeSolverAlgo:
 
         return neighbours
 
-    #def alreadyVisited(row,column,checkList):
-
 
     def gridElementToString(self,row,col):
         result = ""
@@ -137,11 +135,22 @@ class MazeSolverAlgo:
         result += str(col)
         return result
     
+    def isSameGridElement(self, aGrid, bGrid):
+        if (aGrid[0] == bGrid[0] and aGrid[1] == bGrid[1]):
+            return True
 
-    def solveMaze(self):
+        return False
+
+    def heuristic(self, aGrid, bGrid):
+        return abs(aGrid[0] - bGrid[0]) + abs(aGrid[1] - bGrid[1])
+
+
+    #############################
+    # Definition of BreadthFirst algorithm
+    #############################
+    def breadthFirst(self):
         result_path=[]
-        print("BreadthFirst Solver1")
-        print("BreadthFirst Solver2")
+        print("Start of BreadthFirst Solver...")
 
         print("Start = " , self.setStartRows , self.setStartCols)
         print("End = " , self.setEndRows , self.setEndCols)
@@ -168,6 +177,13 @@ class MazeSolverAlgo:
                     frontier.put(next)
                     came_from[nextKey] = current
 
+        #############################
+        # Here Breadth First ends
+        #############################
+
+        #############################
+        # Here Creation of Path starts
+        #############################
         currentKey = self.gridElementToString(self.setEndRows , self.setEndCols)
         path = []
         while currentKey != startKey: 
@@ -177,25 +193,110 @@ class MazeSolverAlgo:
 
         path.append(startKey)
         path.reverse()
-
         #############################
-        # Here Breadth First ends
+        # Here Creation of Path ends
         #############################
 
         for next in path:
             nextPath = next .split(",")
             result_path.append([int(nextPath[0]),int(nextPath[1])])
 
-        print("Resulting path = " , result_path)
+        print("Resulting length BreadthFirst Solution: " , len(result_path))
+        print("Resulting BreadthFirst Solution Path = " , result_path)
 
-        print("BreadthFirst Solver finished")
+        print("Finished BreadthFirst Solver....")
 
         return result_path
 
+    #############################
+    # Definition of A* algorithm
+    #############################
+    def aStar(self):
+        result_path=[]
+        print("Start of A* Solver...")
+
+        print("Start = " , self.setStartRows , self.setStartCols)
+        print("End = " , self.setEndRows , self.setEndCols)
+        print("Maze = \n" , self.grid)
+
+#        print("Neighbours [0,4] : " , self.getNeighbours(0,4))
+
+        #############################
+        # Here A* starts
+        #############################
+        start = [self.setStartRows,self.setStartCols]
+        frontier = queue.PriorityQueue()
+        frontier.put((0,start))
+        #frontier.put(start,0)
+
+        startKey = self.gridElementToString(self.setStartRows , self.setStartCols)
+        came_from = {}
+        came_from[startKey] = None
+
+        cost_so_far = {}
+        cost_so_far[startKey] = 0
+
+        goal = [self.setEndRows , self.setEndCols]
+        
+        while not frontier.empty():
+            current = frontier.get()[1]
+            currentKey = self.gridElementToString(current[0] , current[1])
+            #print("First Queue Element = " , currentKey)
+
+            if self.isSameGridElement(current,goal):
+                break
+
+            for next in self.getNeighbours(current[0],current[1]):
+                new_cost =  cost_so_far[currentKey] + 1     # + 1 is extremely important, otherwise you would not punish additional moves!!!
+                                                            # +1 = graph costs
+
+                nextKey = self.gridElementToString(next[0] , next[1])
+                if nextKey not in cost_so_far or new_cost < cost_so_far[nextKey]:
+                    cost_so_far[nextKey] = new_cost
+                    priority = new_cost + self.heuristic(goal, next)
+                    #print("Next = " , nextKey , " - priority = " , priority)
+                    frontier.put((priority,next))
+                    came_from[nextKey] = current            
+        #############################
+        # Here A* ends
+        #############################
+
+
+        #############################
+        # Here Creation of Path starts
+        #############################
+        currentKey = self.gridElementToString(self.setEndRows , self.setEndCols)
+        path = []
+        while currentKey != startKey: 
+            path.append(currentKey)
+            current = came_from[currentKey]
+            currentKey = self.gridElementToString(current[0],current[1])
+
+        path.append(startKey)
+        path.reverse()
+        #############################
+        # Here Creation of Path ends
+        #############################
+        for next in path:
+            nextPath = next .split(",")
+            result_path.append([int(nextPath[0]),int(nextPath[1])])
+
+        print("Resulting length A* Solution: " , len(result_path))
+        print("Resulting A* Solution Path = " , result_path)
+
+        print("Finished A* Solver....")
+
+        return result_path
+
+
+    def solveMaze(self):
+        #return self.breadthFirst()
+        return self.aStar()
+
 if __name__ == '__main__':
     mg = MazeSolverAlgo()
-    mg.loadMaze("c:\\temp\\maze2.txt")
+    mg.loadMaze("c:\\temp\\maze1.txt")
    
     for step in  mg.solveMaze():
         step_str = '{},{}'.format(step[0],step[1])
-        print(step_str)
+        #print(step_str)
