@@ -141,20 +141,11 @@ class MazeSolverAlgo:
         print("BreadthFirst Solver1")
         print("BreadthFirst Solver2")
 
-        print("Neighbours [0,4] : " , self.getNeighbours(0,4))
-        print("Neighbours [1,4] : " , self.getNeighbours(1,4))
-        print("Neighbours [2,4] : " , self.getNeighbours(2,4))
-        print("Neighbours [3,4] : " , self.getNeighbours(3,4))
-        print("Neighbours [4,4] : " , self.getNeighbours(4,4))
-        print("Neighbours [5,4] : " , self.getNeighbours(5,4))
+        print("Start = " , self.setStartRows , self.setStartCols)
+        print("End = " , self.setEndRows , self.setEndCols)
+        print("Maze = \n" , self.grid)
 
-
-        print("Neighbours [0,0] : " , self.getNeighbours(0,0))
-        print("Neighbours [1,0] : " , self.getNeighbours(1,0))
-        print("Neighbours [2,0] : " , self.getNeighbours(2,0))
-        print("Neighbours [3,0] : " , self.getNeighbours(3,0))
-        print("Neighbours [4,0] : " , self.getNeighbours(4,0))
-        print("Neighbours [5,0] : " , self.getNeighbours(5,0))
+#        print("Neighbours [0,4] : " , self.getNeighbours(0,4))
 
         #############################
         # Here Breadth First starts
