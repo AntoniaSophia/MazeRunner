@@ -59,8 +59,8 @@ class MazeSolverAlgo:
              self.grid[i][j]=0
 
     def endMaze(self):
-        self.grid[self.targetPos_row][self.targetPos_col] = self.TARGET
-        self.grid[self.robotStart_row][self.robotStart_col] = self.ROBOT
+        self.grid[self.setEndRows][self.setEndCols] = self.TARGET
+        self.grid[self.setStartRows][self.setStartCols] = self.ROBOT
 
     def printMaze(self):
         print(self.grid)
@@ -77,6 +77,8 @@ class MazeSolverAlgo:
         self.setEndRows=int(end_arr[0][0])
         self.setEndCols=int(end_arr[1][0])
 
+    def clearMaze(self):
+        self.startMaze()
   
  
     def isInGrid(self,row,column):

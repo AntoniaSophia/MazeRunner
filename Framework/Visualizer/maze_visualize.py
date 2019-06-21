@@ -190,10 +190,12 @@ class MazeVisualizer:
         """
         Constructor
         """
-
-   
         self.center(maze)
+        self.initVar()
+        self.initialize_grid(True)
+        self.repaint()
 
+    def initVar(self):
         self.rows = 9               # the number of rows of the grid
         self.columns = 9            # the number of columns of the grid
         self.square_size = 0        # the cell size in pixels
@@ -247,9 +249,7 @@ class MazeVisualizer:
   
         self.canvas = Canvas(app, bd=0, highlightthickness=0)
 
-        self.initialize_grid(True)
-        self.repaint()
-     
+
 
     def initialize_grid(self, make_maze):
         """
@@ -380,11 +380,9 @@ class MazeVisualizer:
         """
         Action performed when user clicks "Clear" button
         """
-        self.grid=[]
-        self.animation = False
-        self.realTime = False
-        self.drawArrowsBtn.configure(state="normal")
-        self.fill_grid()
+        self.initVar()
+        self.initialize_grid(True)
+        self.repaint()       
 
     def check_termination(self):
         """
