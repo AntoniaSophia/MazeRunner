@@ -377,7 +377,7 @@ class Toplevel1:
             else:
                 self.TButton4.config(state='normal')
 
-            print("Monitor: {} {} {}".format(maze_control_support.control.mqtt_broker_state, maze_control_support.control.maze_gui_state, maze_control_support.control.solver_action_state))
+            #print("Monitor: {} {} {}".format(maze_control_support.control.mqtt_broker_state, maze_control_support.control.maze_gui_state, maze_control_support.control.solver_action_state))
             time.sleep(1)
 
 
