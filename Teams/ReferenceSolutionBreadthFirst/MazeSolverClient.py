@@ -3,7 +3,6 @@ import time
 import array as arr
 from MazeSolverAlgo import MazeSolverAlgo
 
-
 class MazeSolverClient:
 
     def __init__(self,master):
@@ -44,13 +43,13 @@ class MazeSolverClient:
             self.solver.setDimCols(int(payload))
             self.solver.startMaze(self.solver.dimRows, self.solver.dimColumns)
         elif topic=="/maze/startCol":
-            self.solver.setStartCol(int(payload))
+            self.solver.setStartColCmd(int(payload))
         elif topic=="/maze/startRow":
-            self.solver.setStartRow(int(payload))
+            self.solver.setStartRowCmd(int(payload))
         elif topic=="/maze/endCol":
-            self.solver.setEndCol(int(payload))
+            self.solver.setEndColCmd(int(payload))
         elif topic=="/maze/endRow":
-            self.solver.setEndRow(int(payload))
+            self.solver.setEndRowCmd(int(payload))
         elif topic=="/maze/blocked":
             cell = payload.split(",")
             self.solver.setBlocked(int(cell[0]),int(cell[1]))

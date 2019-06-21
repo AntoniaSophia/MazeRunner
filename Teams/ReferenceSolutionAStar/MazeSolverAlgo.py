@@ -23,16 +23,16 @@ class MazeSolverAlgo:
         self.columns = cols
         self.dimColumns = cols
 
-    def setStartCol(self, col):
+    def setStartColCmd(self, col):
         self.setStartCol = col
 
-    def setStartRow(self, row):
+    def setStartRowCmd(self, row):
         self.setStartRow = row
 
-    def setEndCol(self, col):
+    def setEndColCmd(self, col):
         self.setEndCol = col
 
-    def setEndRow(self, row):
+    def setEndRowCmd(self, row):
         self.setEndRow = row
 
     def setBlocked(self,row ,col):

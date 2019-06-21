@@ -60,6 +60,8 @@ class Toplevel1:
         if maze_control_support.control.solver_action_proc != 0:
             maze_control_support.control.solver_action_proc.kill()
     
+        time.sleep(1)
+
         maze_control_support.load_team(self.selectedTeam)
         maze_control_support.maze_solver_loader()
 
@@ -380,7 +382,7 @@ class Toplevel1:
         maze_control_support.maze_visualize()
         maze_control_support.control.maze_gui_state=1
 
-        threading.Thread(target=self.monitor).start()      
+        # threading.Thread(target=self.monitor).start()      
 
     def monitor(self):
         while self.running:
@@ -394,11 +396,6 @@ class Toplevel1:
                 self.TButton3.config(state='disabled')
             else:
                 self.TButton3.config(state='normal')
-
-            # if maze_control_support.control.solver_action_state==1:
-            #     self.TButton4.config(state='disabled')
-            # else:
-            #     self.TButton4.config(state='normal')
 
             print("Monitor: {} {} {}".format(maze_control_support.control.mqtt_broker_state, maze_control_support.control.maze_gui_state, maze_control_support.control.solver_action_state))
             time.sleep(1)
