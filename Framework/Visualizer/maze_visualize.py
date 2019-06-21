@@ -170,7 +170,7 @@ class MazeVisualizer:
         self.grid[self.robotStart_row][self.robotStart_col] = self.ROBOT
         self.targetPos = self.Cell(self.targetPos_row,self.targetPos_col)
         self.robotStart = self.Cell(self.robotStart_row,self.robotStart_col)
-        print("Following Maze received: ")
+        # print("Following Maze received: ")
         self.printMaze()
         self.repaint()
 
@@ -191,13 +191,13 @@ class MazeVisualizer:
         Constructor
         """
         self.center(maze)
+        self.rows = 9               # the number of rows of the grid
+        self.columns = 9            # the number of columns of the grid
         self.initVar()
         self.initialize_grid(True)
         self.repaint()
 
     def initVar(self):
-        self.rows = 9               # the number of rows of the grid
-        self.columns = 9            # the number of columns of the grid
         self.square_size = 0        # the cell size in pixels
         self.arrow_size = 0         # the size of the tips of the arrow pointing the predecessor cell
 
@@ -235,9 +235,11 @@ class MazeVisualizer:
         self.cur_row = self.cur_col = self.cur_val = 0
         app_highlight_font = font.Font(app, family='Helvetica', size=9, weight='bold')
 
-        self.message = Label(app, text=self.MSG_DRAW_AND_SELECT, width=55, anchor='w',
-                             font=('Helvetica', 8), fg="black")
-        self.message.place(x=5, y=510)
+        self.message_var = StringVar()
+        self.message = Label(app, width=55, anchor='w',
+                             font=('Helvetica', 8), fg="black",textvariable=self.message_var)
+
+        self.message.place(x=5, y=920)
 
         self.rows_var = StringVar()
         self.rows_var.set(41)
@@ -257,6 +259,9 @@ class MazeVisualizer:
 
         :param make_maze: flag that indicates the creation of a random maze
         """
+
+
+
         # the columns of the square maze must be equal to rows
         if make_maze and self.shape == "Square":
             self.columns = self.rows
@@ -276,9 +281,9 @@ class MazeVisualizer:
         if self.shape == "Square":
             self.canvas.configure(width=self.columns * self.square_size + 1, height=self.rows * self.square_size + 1)
             self.canvas.place(x=10, y=10)
-            self.canvas.create_rectangle(0, 0, self.columns*self.square_size+1,
-                                         self.rows*self.square_size+1, width=0, fill="DARK GREY")
-
+            self.canvas.create_rectangle(0, 0, self.columns*(self.square_size+1),
+                                      self.rows*(self.square_size+1), width=0, fill="DARK GREY")
+            self.canvas.create_rectangle(0,0,950,950,width=0, fill="DARK GREY")
 
 
 
@@ -380,9 +385,10 @@ class MazeVisualizer:
         """
         Action performed when user clicks "Clear" button
         """
+        self.canvas.delete("all")
         self.initVar()
         self.initialize_grid(True)
-        self.repaint()       
+  
 
     def check_termination(self):
         """
@@ -419,12 +425,13 @@ class MazeVisualizer:
         Calculates the path from the target to the initial position of the robot,
         counts the corresponding steps and measures the distance traveled.
         """
-        self.repaint()
+        #self.repaint()
         self.searching = False
         steps = 0
         distance = 0.0
         
         cur = self.closedSet[0]
+        old = cur
         step_pos=1
         for cur in self.closedSet:
             if self.targetPos == cur:
@@ -434,16 +441,15 @@ class MazeVisualizer:
             canvas_id = self.canvas.create_text(cur.col*self.square_size, cur.row*self.square_size, anchor="nw")
             self.canvas.itemconfig(canvas_id, text=str(step_pos))
             step_pos+=1
+            # if cur != old:
+            #     self.draw_arrow(old, cur, self.arrow_size, "GREY", 2 if self.arrow_size >= 10 else 1)
+            old =cur
 
         self.grid[self.robotStart.row][self.robotStart.col] = self.ROBOT
         self.paint_cell(self.robotStart.row, self.robotStart.col, "RED")
 
-        if self.drawArrows.get():
-            self.draw_arrows()
-
-        msg = "Nodes expanded: {0}, Steps: {1}, Distance: {2:.1f}".format(self.expanded, steps, distance)
-        self.message.configure(text=msg)
-
+        msg = "Nodes Steps: {1}".format(steps)
+        self.message_var.set(msg)
     def find_connected_component(self, v):
         """
         Appends to the list containing the nodes of the graph only
@@ -472,7 +478,7 @@ class MazeVisualizer:
                 tail = head = cell = self.Cell(r, c)
                 # If the current cell is an open state, or is a closed state
                 # but not the initial position of the robot
-                if self.grid[r][c] in [self.FRONTIER, self.CLOSED] and not cell == self.robotStart:
+                if self.grid[r][c] in [self.FRONTIER, self.CLOSED, self.ROUTE] and not cell == self.robotStart:
                     # The tail of the arrow is the current cell, while
                     # the arrowhead is the predecessor cell.
                     if self.grid[r][c] == self.FRONTIER:
@@ -482,7 +488,7 @@ class MazeVisualizer:
                         else:
                             tail = self.openSet[self.openSet.index(cell)]
                             head = tail.prev
-                    elif self.grid[r][c] == self.CLOSED:
+                    elif self.grid[r][c] == self.ROUTE:
                         tail = self.closedSet[self.closedSet.index(cell)]
                         head = tail.prev
 

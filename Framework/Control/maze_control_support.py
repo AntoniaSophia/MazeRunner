@@ -120,13 +120,10 @@ def load_team(team):
 def generator_action(width,height,complexity,density):
     print("w: {} | h: {} | c: {} | d: {}".format(width, height, complexity, density))
     
-    if control.team == "":
-        print("Load Team please!")
-    else:
-        print('Generator Action')
-        executeSript=os.path.join(projectDirectory,"Teams",control.team,"MazeGeneratorClient.py")
-        print(['python',executeSript,'-w', width,'-h',height,'-c',complexity,'-d',density])
-        control.generator_action = Popen(['python',executeSript,"--width="+str(width),"--height="+str(height),"--complexity="+str(complexity),"--density="+str(density)],shell=True) # something long running
+    print('Generator Action')
+    executeSript=os.path.join(projectDirectory,"Framework","Generator","MazeGeneratorClient.py")
+    print(['python',executeSript,'-w', width,'-h',height,'-c',complexity,'-d',density])
+    control.generator_action = Popen(['python',executeSript,"--width="+str(width),"--height="+str(height),"--complexity="+str(complexity),"--density="+str(density)],shell=True) # something long running
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
