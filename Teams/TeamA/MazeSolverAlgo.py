@@ -28,16 +28,16 @@ class MazeSolverAlgo:
         self.dimColumns = cols
 
     def setStartCol(self, col):
-        self.robotStart_col = col
+        self.setStartCols = col
 
     def setStartRow(self, row):
-        self.robotStart_row = row
+        self.setStartRows = row
 
     def setEndCol(self, col):
-        self.targetPos_col = col
+        self.setEndCols = col
 
     def setEndRow(self, row):
-        self.targetPos_row = row
+        self.setEndRows = row
 
     def setBlocked(self,row ,col):
         self.grid[row][col]=1
