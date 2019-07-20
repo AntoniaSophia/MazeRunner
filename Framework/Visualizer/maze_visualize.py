@@ -10,6 +10,12 @@ import math
 import os
 import paho.mqtt.client as mqtt
 
+
+if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
+    mqtt_server = os.environ['MQTTSERVER']
+else:
+    mqtt_server = "127.0.0.1"
+
 """
 contains Code from Nikos Kanargias <nkana@tee.gr>
 """
@@ -31,10 +37,10 @@ class MqttClient:
             else:
                 pass
         elif topic=="/maze/dimRow":
-            self.mazeVisualizer.setDimRows(int(payload))
+            self.mazeVisualizer.setDimRowsCmd(int(payload))
             self.mazeVisualizer.startMaze(self.mazeVisualizer.columns, self.mazeVisualizer.rows)
         elif topic=="/maze/dimCol":
-            self.mazeVisualizer.setDimCols(int(payload))
+            self.mazeVisualizer.setDimColsCmd(int(payload))
             self.mazeVisualizer.startMaze(self.mazeVisualizer.columns, self.mazeVisualizer.rows)
         elif topic=="/maze/startCol":
             self.mazeVisualizer.setStartCol(int(payload))
@@ -56,15 +62,15 @@ class MqttClient:
             pass
 
     def onConnect(self, master, obj, flags, rc):
-        self.master.subscribe("/maze")
-        self.master.subscribe("/maze/dimRow")
-        self.master.subscribe("/maze/dimCol")
-        self.master.subscribe("/maze/startCol")
-        self.master.subscribe("/maze/startRow")
-        self.master.subscribe("/maze/endCol")
-        self.master.subscribe("/maze/endRow")
-        self.master.subscribe("/maze/blocked")
-        self.master.subscribe("/maze/go")
+        self.master.subscribe("/maze" )
+        self.master.subscribe("/maze/dimRow" )
+        self.master.subscribe("/maze/dimCol" )
+        self.master.subscribe("/maze/startCol" )
+        self.master.subscribe("/maze/startRow" )
+        self.master.subscribe("/maze/endCol" )
+        self.master.subscribe("/maze/endRow" )
+        self.master.subscribe("/maze/blocked" )
+        self.master.subscribe("/maze/go" )
 
         print("Connnect to mqtt-broker")
 
@@ -73,7 +79,7 @@ class MqttClient:
         self.master=master
         self.master.on_connect=self.onConnect
         self.master.on_message=self.onMessage
-        self.master.connect("127.0.0.1",1883,60)
+        self.master.connect(mqtt_server,1883,60)
         self.mazeVisualizer = MazeVisualizer(app)
 
 class MazeVisualizer:
@@ -125,10 +131,10 @@ class MazeVisualizer:
     MSG_SELECT_STEP_BY_STEP_ETC = "Click 'Step-by-Step' or 'Animation' or 'Clear'"
     MSG_NO_SOLUTION = "There is no path to the target !!!"
 
-    def setDimRows(self, rows):
+    def setDimRowsCmd(self, rows):
         self.rows = rows
 
-    def setDimCols(self, cols):
+    def setDimColsCmd(self, cols):
         self.columns = cols
 
     def setStartCol(self, col):
@@ -147,21 +153,21 @@ class MazeVisualizer:
         self.grid[row][col]=1
 
 
-    def startMaze(self):
+   
+    def startMaze(self, columns=0, rows=0):
         self.setDimCols = 0 
         self.setDimRows = 0 
         self.setStartCols = 0 
         self.setStartRows = 0 
         self.setEndCols = 0 
         self.setEndRows = 0 
-        self.grid=[[]]
-    
-    def startMaze(self, columns, rows):
-        #self.initialize_grid(False)
-        self.grid = numpy.empty((rows, columns), dtype=int)
-        for i in range(rows):
-         for j in range(columns):
-             self.grid[i][j]=0
+        self.grid=[[]]        
+
+        if columns>0 and rows>0:
+            self.grid = numpy.empty((rows, columns), dtype=int)
+            for i in range(rows):
+                for j in range(columns):
+                    self.grid[i][j]=0
 
 
 
@@ -275,7 +281,7 @@ class MazeVisualizer:
 
         # Calculation of the size of the square cell
         if self.shape == "Square":
-            self.square_size = int(900 / (self.rows if self.rows > self.columns else self.columns))
+            self.square_size = int(700 / (self.rows if self.rows > self.columns else self.columns))
             self.arrow_size = int(self.square_size / 2)
 
         if self.shape == "Square":
@@ -448,7 +454,7 @@ class MazeVisualizer:
         self.grid[self.robotStart.row][self.robotStart.col] = self.ROBOT
         self.paint_cell(self.robotStart.row, self.robotStart.col, "RED")
 
-        msg = "Nodes Steps: {1}".format(steps)
+        msg = "Nodes Steps: {}".format(steps)
         self.message_var.set(msg)
     def find_connected_component(self, v):
         """
@@ -617,7 +623,7 @@ if __name__ == '__main__':
     app = Tk()
     app.protocol("WM_DELETE_WINDOW", on_closing)
     app.title("MazeRunner")
-    app.geometry("915x945")
+    app.geometry("700x700")
     app.resizable(True, True)
 
     mqttclient=mqtt.Client()

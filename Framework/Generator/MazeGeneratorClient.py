@@ -4,6 +4,15 @@ import array as arr
 from maze_generator_algo import MazeGeneratorAlgo
 import sys, getopt
 import numpy
+import os
+import time
+
+
+if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
+    mqtt_server = os.environ['MQTTSERVER']
+else:
+    mqtt_server = "127.0.0.1"
+
 
 class MazeGeneratorClient:
 
@@ -12,7 +21,7 @@ class MazeGeneratorClient:
         #print("test_mqtt_publisher connected to mqtt-broker")
         pass
 
-    def publish(self, topic, message=None, qos=0, retain=False):
+    def publish(self, topic, message=None , qos=0, retain=False):
         print("Published message: " , topic , " --> " , message)
         self.master.publish(topic,message,qos,retain)
 
@@ -29,7 +38,7 @@ class MazeGeneratorClient:
         self.dimensionCol = 27       
         self.master=mqtt.Client()
         self.master.on_connect=self.onConnect
-        self.master.connect("127.0.0.1",1883,60)
+        self.master.connect(mqtt_server,1883,60)
 
     def printMaze(self):
         # TODO: this is you job now :-)
@@ -42,14 +51,14 @@ class MazeGeneratorClient:
     def sendMaze(self):
         # TODO: this is you job now :-)
         
-        self.publish("/maze" , "clear")
-        self.publish("/maze" , "start")
-        self.publish("/maze/dimCol" , self.dimensionCol)
-        self.publish("/maze/dimRow" , self.dimensionRow)
-        self.publish("/maze/startCol" , self.startCol)
-        self.publish("/maze/startRow" , self.startRow)
-        self.publish("/maze/endCol" , self.endCol)
-        self.publish("/maze/endRow" , self.endRow)
+        self.publish("/maze" , "clear" )
+        self.publish("/maze" , "start" )
+        self.publish("/maze/dimCol" , self.dimensionCol )
+        self.publish("/maze/dimRow" , self.dimensionRow )
+        self.publish("/maze/startCol" , self.startCol )
+        self.publish("/maze/startRow" , self.startRow )
+        self.publish("/maze/endCol" , self.endCol )
+        self.publish("/maze/endRow" , self.endRow )
 
         for i in range(len(self.maze)):
             for j in range(len(self.maze[i])):
@@ -58,12 +67,13 @@ class MazeGeneratorClient:
                     blocked += str(i)
                     blocked += ","
                     blocked += str(j)
-                    self.publish("/maze/blocked" , blocked)
+                    self.publish("/maze/blocked" , blocked )
+                    time.sleep(0.05)
                 else:
                     # do nothing because this field is not blocked
                     pass 
 
-        self.publish("/maze" , "end")        
+        self.publish("/maze" , "end" )        
 
         #pass
 

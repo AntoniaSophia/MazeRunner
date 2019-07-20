@@ -15,11 +15,11 @@ class MazeSolverAlgo:
         self.columns = 0
         print("Initialize a Maze Solver")
 
-    def setDimRows(self, rows):
+    def setDimRowsCmd(self, rows):
         self.rows = rows
         self.dimRows = rows
 
-    def setDimCols(self, cols):
+    def setDimColsCmd(self, cols):
         self.columns = cols
         self.dimColumns = cols
 
@@ -38,21 +38,20 @@ class MazeSolverAlgo:
     def setBlocked(self,row ,col):
         self.grid[row][col] = self.OBSTACLE
 
-    def startMaze(self):
-        self.setDimCols = 0 
-        self.setDimRows = 0 
-        self.setStartCol = 0 
-        self.setStartRow = 0 
-        self.setEndCol = 0 
-        self.setEndRow = 0 
-        self.grid=[[]]
-    
-    def startMaze(self, columns, rows):
-        #populate grid with zeros
-        self.grid = numpy.empty((rows, columns), dtype=int)
-        for i in range(rows):
-         for j in range(columns):
-             self.grid[i][j]=0
+    def startMaze(self, columns=0, rows=0):
+        self.dimCols = 0 
+        self.dimRows = 0 
+        self.setStartCols = 0 
+        self.setStartRows = 0 
+        self.setEndCols = 0 
+        self.setEndRows = 0 
+        self.grid=[[]]        
+
+        if columns>0 and rows>0:
+            self.grid = numpy.empty((rows, columns), dtype=int)
+            for i in range(rows):
+                for j in range(columns):
+                    self.grid[i][j]=0
 
     def endMaze(self):
         self.grid[self.setStartRow][self.setStartCol] = self.START

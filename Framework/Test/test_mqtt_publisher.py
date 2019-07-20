@@ -1,5 +1,11 @@
 import paho.mqtt.client as mqtt
 import time
+import os
+
+if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
+    mqtt_server = os.environ['MQTTSERVER']
+else:
+    mqtt_server = "127.0.0.1"
 
 class Sample_MQTT_Publisher:
 
@@ -17,5 +23,5 @@ class Sample_MQTT_Publisher:
         print("Constructor Sample_MQTT_Publisher")
         self.master=master
         self.master.on_connect=self.onConnect
-        self.master.connect("127.0.0.1",1883,60)
+        self.master.connect(mqtt_server,1883,60)
 

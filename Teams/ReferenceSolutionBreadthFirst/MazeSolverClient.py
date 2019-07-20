@@ -2,7 +2,13 @@ import paho.mqtt.client as mqtt
 import time
 import array as arr
 from MazeSolverAlgo import MazeSolverAlgo
+import os
 
+if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
+    mqtt_server = os.environ['MQTTSERVER']
+else:
+    mqtt_server = "127.0.0.1"
+    
 class MazeSolverClient:
 
     def __init__(self,master):
@@ -10,12 +16,12 @@ class MazeSolverClient:
         self.master=master
         self.master.on_connect=self.onConnect
         self.master.on_message=self.onMessage
-        self.master.connect("127.0.0.1",1883,60)
+        self.master.connect(mqtt_server,1883,60)
 
         self.solver = MazeSolverAlgo()
         #pass
 
-    def publish(self, topic, message=None, qos=0, retain=False):
+    def publish(self, topic, message=None , qos=1, retain=False):
         print("Published message: " , topic , " --> " , message)
         self.master.publish(topic,message,qos,retain)
 
@@ -37,10 +43,10 @@ class MazeSolverClient:
             else:
                 pass
         elif topic=="/maze/dimRow":
-            self.solver.setDimRows(int(payload))
+            self.solver.setDimRowsCmd(int(payload))
             self.solver.startMaze(self.solver.dimRows, self.solver.dimColumns)
         elif topic=="/maze/dimCol":
-            self.solver.setDimCols(int(payload))
+            self.solver.setDimColsCmd(int(payload))
             self.solver.startMaze(self.solver.dimRows, self.solver.dimColumns)
         elif topic=="/maze/startCol":
             self.solver.setStartColCmd(int(payload))
@@ -57,14 +63,14 @@ class MazeSolverClient:
             pass
 
     def onConnect(self, master, obj, flags, rc):
-        self.master.subscribe("/maze")
-        self.master.subscribe("/maze/dimRow")
-        self.master.subscribe("/maze/dimCol")
-        self.master.subscribe("/maze/startCol")
-        self.master.subscribe("/maze/startRow")
-        self.master.subscribe("/maze/endCol")
-        self.master.subscribe("/maze/endRow")
-        self.master.subscribe("/maze/blocked")
+        self.master.subscribe("/maze" )
+        self.master.subscribe("/maze/dimRow" )
+        self.master.subscribe("/maze/dimCol" )
+        self.master.subscribe("/maze/startCol" )
+        self.master.subscribe("/maze/startRow" )
+        self.master.subscribe("/maze/endCol" )
+        self.master.subscribe("/maze/endRow" )
+        self.master.subscribe("/maze/blocked" )
         print("Connnect to mqtt-broker")
 
     def publish(self, topic, message=None, qos=0, retain=False):
