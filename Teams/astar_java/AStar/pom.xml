@@ -4,6 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <repositories>
+        <repository>
+            <id>Eclipse Paho Repo</id>
+            <url>https://repo.eclipse.org/content/repositories/paho-releases/</url>
+        </repository>
+    </repositories>
     <groupId>com.github.AlmasB</groupId>
     <artifactId>AStar</artifactId>
     <version>1.0.1</version>
@@ -34,6 +40,12 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+       <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+            <version>1.2.1</version>
+        </dependency>        
     </dependencies>
 
     <build>
@@ -46,7 +58,22 @@
                     <target>${source.version}</target>
                 </configuration>
             </plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+				  <!-- DO NOT include log4j.properties file in your Jar -->
+				  <excludes>
+					<exclude>**/log4j.properties</exclude>
+				  </excludes>
+				  <archive>
+					<manifest>
+						<!-- Jar file entry point -->
+						<mainClass>com.almasb.astar.maze.MazeMain</mainClass>
+					</manifest>
+				  </archive>
+				</configuration>
+			</plugin>
             <plugin>    <!-- force check on compiler -->
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <version>${maven.enforcer.version}</version>
@@ -70,7 +97,7 @@
 
             <plugin>  <!-- Create sources.jar -->
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
+                <artifactId>maven-jar-plugin</artifactId>
                 <version>${maven.source.version}</version>
                 <executions>
                     <execution>
@@ -82,35 +109,6 @@
                 </executions>
             </plugin>
 
-            <plugin>  <!-- Create javadoc.jar -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven.javadoc.version}</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration> <!-- add this to disable checking -->
-                            <additionalparam>-Xdoclint:none</additionalparam>
-
-                            <tags>
-                                <tag>
-                                    <name>defaultValue</name>
-                                    <placement>a</placement>
-                                    <head>Default Value:</head>
-                                </tag>
-                                <tag>
-                                    <name>implNote</name>
-                                    <placement>a</placement>
-                                    <head>Implementation Note:</head>
-                                </tag>
-                            </tags>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 

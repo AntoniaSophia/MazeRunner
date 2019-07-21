@@ -64,15 +64,15 @@ public class AStarGridTest {
         }
     }
 
-    @Test
-    public void testRandomNode() {
-        Optional<AStarNode> maybe = grid.getRandomNode(node -> node.getX() < 3 && node.getY() > 15);
-        assertThat(maybe.isPresent(), is(true));
+    // @Test
+    // public void testRandomNode() {
+    //     Optional<AStarNode> maybe = grid.getRandomNode(node -> node.getX() < 3 && node.getY() > 15);
+    //     assertThat(maybe.isPresent(), is(true));
 
-        AStarNode node = maybe.get();
-        assertThat(node.getX(), anyOf(is(1), is(2)));
-        assertThat(node.getY(), anyOf(is(16), is(17), is(18), is(19)));
-    }
+    //     AStarNode node = maybe.get();
+    //     assertThat(node.getX(), anyOf(is(1), is(2)));
+    //     assertThat(node.getY(), anyOf(is(16), is(17), is(18), is(19)));
+    // }
 
     @Test
     public void testGetPath() throws Exception {

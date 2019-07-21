@@ -14,15 +14,3 @@ set(PAHO_CPP_LIB paho-mqttpp3 paho-mqtt3c
 
 add_subdirectory(samples)
 
-# #For the shared library:
-# set ( PROJECT_LINK_LIBS libtestStudent.so )
-# link_directories( ~/exploringBB/extras/cmake/studentlib_shared/build )
- 
-# #For the static library:
-# #set ( PROJECT_LINK_LIBS libtestStudent.a )
-# #link_directories( ~/exploringBB/extras/cmake/studentlib_static/build )
- 
-# include_directories(~/exploringBB/extras/cmake/studentlib_shared/include)
- 
-# add_executable(libtest libtest.cpp)
-# target_link_libraries(libtest ${PROJECT_LINK_LIBS} )
