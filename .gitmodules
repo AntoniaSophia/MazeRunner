@@ -1,3 +1,0 @@
-[submodule "Framework/Logger"]
-	path = Framework/Logger
-	url = https://github.com/pgollor/simpleMQTTlogger.git
