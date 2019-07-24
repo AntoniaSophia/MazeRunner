@@ -48,11 +48,19 @@ class MqttClient:
 			cell = payload.split(",")
 			
 			if int(cell[0]) < 16 and int(cell[1]) < 16:
-				self.mazeVisualizer.setBlocked(int(cell[0]),int(cell[1]))
+				self.mazeVisualizer.setBlocked(int(cell[1]),int(cell[0]))
 		elif topic=="/maze/go":
 			cell = payload.split(",")
-			if int(cell[0]) < 16 and int(cell[1]) < 16:
-				self.mazeVisualizer.addSolutionStep(int(cell[0]),int(cell[1]))
+			col=int(cell[1])
+			row=int(cell[0])
+
+			if col < 16 and row < 16:
+				if col == self.mazeVisualizer.start_col and row == self.mazeVisualizer.start_row:
+						print("Start")
+				elif col == self.mazeVisualizer.end_col and row == self.mazeVisualizer.end_row:
+						print("End")
+				else:
+					self.mazeVisualizer.addSolutionStep(col,row)
 		else:
 			pass
 
@@ -83,6 +91,10 @@ class MazeDotMatrix:
 		self.columns=16
 		self.rows=16
 		self.client = opc.Client('192.168.17.64:7890')
+		self.start_col=-1
+		self.start_row=-1
+		self.end_col=-1
+		self.end_row=-1		
 		self.clearMaze()
 
 	def getPixelNum(self,col,row):

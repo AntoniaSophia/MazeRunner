@@ -13,6 +13,13 @@ class MazeSolverAlgo:
     def __init__(self):
         self.rows = 0
         self.columns = 0
+        self.dimCols = 0 
+        self.dimRows = 0 
+        self.setStartCol = 0 
+        self.setStartRow = 0 
+        self.setEndCol = 0 
+        self.setEndRow = 0 
+        self.grid=[[]]    
         print("Initialize a Maze Solver")
 
     def setDimRowsCmd(self, rows):
@@ -42,10 +49,10 @@ class MazeSolverAlgo:
     def startMaze(self, columns=0, rows=0):
         self.dimCols = 0 
         self.dimRows = 0 
-        self.setStartCols = 0 
-        self.setStartRows = 0 
-        self.setEndCols = 0 
-        self.setEndRows = 0 
+        self.setStartCol = 0 
+        self.setStartRow = 0 
+        self.setEndCol = 0 
+        self.setEndRow = 0 
         self.grid=[[]]        
 
         if columns>0 and rows>0:
