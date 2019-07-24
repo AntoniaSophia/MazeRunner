@@ -1,4 +1,7 @@
 
+"""
+This class is the template class for the Maze solver
+"""
 
 import sys
 from math import sqrt
