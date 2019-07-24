@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 import time
 import array as arr
-from MazeSolverAlgo import MazeSolverAlgo
+from MazeSolverAlgoBreadthFirst import MazeSolverAlgoBreadthFirst
 import os
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
@@ -12,19 +12,12 @@ else:
 class MazeSolverClient:
 
     def __init__(self,master):
-        # TODO: this is you job now :-)
         self.master=master
         self.master.on_connect=self.onConnect
         self.master.on_message=self.onMessage
         self.master.connect(mqtt_server,1883,60)
 
-        self.solver = MazeSolverAlgo()
-        #pass
-
-    def publish(self, topic, message=None , qos=1, retain=False):
-        print("Published message: " , topic , " --> " , message)
-        self.master.publish(topic,message,qos,retain)
-
+        self.solver = MazeSolverAlgoBreadthFirst()
 
     def onMessage(self, master, obj, msg):
         topic = str(msg.topic)
@@ -77,27 +70,11 @@ class MazeSolverClient:
         print("Published message: " , topic , " --> " , message)
         self.master.publish(topic,message,qos,retain)
 
-
-    def printMaze(self):
-        # TODO: this is you job now :-)
-        self.solver.printMaze()
-        #pass
-
-
-    def loadMaze(self,pathToConfigFile):
-        # TODO: this is you job now :-)
-        pass
-        
-
     def solveMaze(self):
-        # TODO: this is you job now :-)
-
         for step in self.solver.solveMaze():
             step_str = '{},{}'.format(step[0],step[1])
            
             self.publish("/maze/go" , step_str)
-
-    
 
 if __name__ == '__main__':
     mqttclient=mqtt.Client()

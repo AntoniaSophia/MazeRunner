@@ -68,7 +68,9 @@ class MazeGeneratorClient:
                     blocked += ","
                     blocked += str(j)
                     self.publish("/maze/blocked" , blocked )
-                    time.sleep(0.05)
+
+                    if mqtt_server != "127.0.0.1":
+                        time.sleep(0.05)
                 else:
                     # do nothing because this field is not blocked
                     pass 

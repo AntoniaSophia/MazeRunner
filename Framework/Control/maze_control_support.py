@@ -9,6 +9,8 @@ import paho.mqtt.client as paho
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
 projectDirectory = os.path.join(scriptDirectory,"..","..")
 os.environ['FOR_IGNORE_EXCEPTIONS'] = '1'
+pythonVar = "python"
+
 
 try:
     import Tkinter as tk
@@ -87,7 +89,7 @@ def maze_visualize():
     sys.stdout.flush()
 
     executeSript=os.path.join(projectDirectory,"Framework","Visualizer","maze_visualize.py")
-    control.maze_gui_proc = Popen(['python3',executeSript],shell=False) # something long running
+    control.maze_gui_proc = Popen([pythonVar,executeSript],shell=False) # something long running
 
 
 def maze_solver_loader():
@@ -97,7 +99,7 @@ def maze_solver_loader():
     else:
         print('Solver Action')
         executeSript=os.path.join(projectDirectory,"Teams",control.team,"MazeSolverClient.py")
-        control.solver_action_proc = Popen(['python',executeSript],shell=False,stdout=sys.stdout,stderr=sys.stderr) # something long running
+        control.solver_action_proc = Popen([pythonVar,executeSript],shell=False,stdout=sys.stdout,stderr=sys.stderr) # something long running
 
 def maze_solver_action():
     print('Solve Maze!')

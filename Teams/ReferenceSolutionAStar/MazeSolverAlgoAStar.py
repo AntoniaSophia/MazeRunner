@@ -3,7 +3,7 @@ from math import sqrt
 import numpy
 import queue
 
-class MazeSolverAlgo:
+class MazeSolverAlgoAStar:
 
     EMPTY = 0       # empty cell
     OBSTACLE = 1    # cell with obstacle
@@ -19,7 +19,7 @@ class MazeSolverAlgo:
         self.setStartRow = 0 
         self.setEndCol = 0 
         self.setEndRow = 0 
-        self.grid=[[]]    
+        self.grid=[[]]            
         print("Initialize a Maze Solver")
 
     def setDimRowsCmd(self, rows):
@@ -45,14 +45,13 @@ class MazeSolverAlgo:
     def setBlocked(self,row ,col):
         self.grid[row][col] = self.OBSTACLE
 
-
     def startMaze(self, columns=0, rows=0):
         self.dimCols = 0 
         self.dimRows = 0 
-        self.setStartCol = 0 
-        self.setStartRow = 0 
-        self.setEndCol = 0 
-        self.setEndRow = 0 
+        self.setStartCols = 0 
+        self.setStartRows = 0 
+        self.setEndCols = 0 
+        self.setEndRows = 0 
         self.grid=[[]]        
 
         if columns>0 and rows>0:
@@ -178,53 +177,6 @@ class MazeSolverAlgo:
 
 
     #############################
-    # Definition of BreadthFirst algorithm
-    #
-    # implementation taken from https://www.redblobgames.com/pathfinding/a-star/introduction.html
-    #############################
-    def breadthFirst(self):
-        result_path=[]
-        print("Start of BreadthFirst Solver...")
-
-        print("Start = " , self.setStartRow , self.setStartCol)
-        print("End = " , self.setEndRow , self.setEndCol)
-        print("Maze = \n" , self.grid)
-
-#        print("Neighbours [0,4] : " , self.getNeighbours(0,4))
-
-        #############################
-        # Here Breadth First starts
-        #############################
-        start = [self.setStartRow,self.setStartCol]
-        frontier = queue.Queue()
-        frontier.put(start)
-        startKey = self.gridElementToString(self.setStartRow , self.setStartCol)
-
-        came_from = {}
-        came_from[startKey] = None
-        while not frontier.empty():
-            current = frontier.get()
-
-            for next in self.getNeighbours(current[0],current[1]):
-                nextKey = self.gridElementToString(next[0] , next[1])
-                if nextKey not in came_from:
-                    frontier.put(next)
-                    came_from[nextKey] = current
-
-        #############################
-        # Here Breadth First ends
-        #############################
-
-        result_path = self.generateResultPath(came_from)
-
-        print("Resulting length BreadthFirst Solution: " , len(result_path))
-        print("Resulting BreadthFirst Solution Path = " , result_path)
-
-        print("Finished BreadthFirst Solver....")
-
-        return result_path
-
-    #############################
     # Definition of A* algorithm
     #
     # implementation taken from https://www.redblobgames.com/pathfinding/a-star/introduction.html
@@ -290,12 +242,11 @@ class MazeSolverAlgo:
 
 
     def solveMaze(self):
-        return self.breadthFirst()
-        #return self.aStar()
+        return self.aStar()
 
 if __name__ == '__main__':
-    mg = MazeSolverAlgo()
-    mg.loadMaze("c:\\temp\\maze1.txt")
+    mg = MazeSolverAlgoAStar()
+    mg.loadMaze("..\\..\\MazeExamples\\Maze1.txt")
    
     for step in  mg.solveMaze():
         step_str = '{},{}'.format(step[0],step[1])
