@@ -143,7 +143,7 @@ class MazeSolverAlgoTemplate:
 
 
 if __name__ == '__main__':
-    mg = MazeSolverAlgo()
+    mg = MazeSolverAlgoTemplate()
 
 
     # HINT: in case you want to develop the solver without MQTT messages and without always
