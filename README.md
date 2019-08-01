@@ -1,7 +1,10 @@
 # MazeRunner
 
 ## Maze Runner with MQTT
-This project is for educational purpose. MQTT stands for Message Queuing Telemetry Transport. It is a lightweight publish and subscribe system where you can publish and receive messages as a client. 
+This project is for educational purpose. Mazerunner is a collection of applications to introduce Service orientation, IoT Technologies and collaborative Development using state of the systems like github and jenkins. 
+
+**MQTT** stands for Message Queuing Telemetry Transport. It is a lightweight publish and subscribe system where you can publish and receive messages as a client. For almost every language and devcies, libraries are available to implement Publisher and Subscriber communicating in heterogenes networks e.g. https://www.mysensors.org/build/mqtt_gateway
+
 
 ![maze](doc/3D-monster-maze.png "maze")
 ## Maze
