@@ -2,14 +2,16 @@ import paho.mqtt.client as mqtt
 import time
 import array as arr
 import paho.mqtt.client as mqtt
-
-
+import platform
 import os
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
     mqtt_server = os.environ['MQTTSERVER']
 else:
     mqtt_server = "127.0.0.1"
+    
+if platform.system() != "Windows":
+    mqtt_server = "mqtt.eclipse.org"
     
 class Sample_Maze_Generator:
 
@@ -114,6 +116,5 @@ if __name__ == '__main__':
     ##################################
     aMazePublisher = Sample_Maze_Generator(client)
     aMazePublisher.sendMaze()
-
     # start the mqtt broker
     client.loop_start()
