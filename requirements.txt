@@ -1,5 +1,5 @@
 paho-mqtt
 pexpect
 numpy
-test
+pytest
 nose
