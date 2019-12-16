@@ -2,3 +2,5 @@
 nosetests\.xml
 **/.pytest_cache
 .vscode/.ropeproject/config.py
+
+.vscode/

@@ -29,8 +29,10 @@ class TestMazeGenerator(unittest.TestCase):
             assert os.path.isfile(broker_path) == True
             self.c = popen_spawn.PopenSpawn(broker_path)
 
-        # create a new mqtt broker
-        client=mqtt.Client()
+            # create a new mqtt broker
+            client=mqtt.Client()
+        else:
+            client.connect("mqtt.eclipse.org", 1883, 60)
 
         ##################################
         # Create a sample MQTT Publisher
