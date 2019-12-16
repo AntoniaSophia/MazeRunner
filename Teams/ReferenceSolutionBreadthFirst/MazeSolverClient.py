@@ -3,6 +3,7 @@ import time
 import array as arr
 from MazeSolverAlgoBreadthFirst import MazeSolverAlgoBreadthFirst
 import os
+import logging
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
     mqtt_server = os.environ['MQTTSERVER']
@@ -36,19 +37,19 @@ class MazeSolverClient:
             else:
                 pass
         elif topic=="/maze/dimRow":
-            self.solver.setDimRowsCmd(int(payload))
+            self.solver.setDimRows(int(payload))
             self.solver.startMaze(self.solver.dimRows, self.solver.dimColumns)
         elif topic=="/maze/dimCol":
-            self.solver.setDimColsCmd(int(payload))
+            self.solver.setDimCols(int(payload))
             self.solver.startMaze(self.solver.dimRows, self.solver.dimColumns)
         elif topic=="/maze/startCol":
-            self.solver.setStartColCmd(int(payload))
+            self.solver.setStartCol(int(payload))
         elif topic=="/maze/startRow":
-            self.solver.setStartRowCmd(int(payload))
+            self.solver.setStartRow(int(payload))
         elif topic=="/maze/endCol":
-            self.solver.setEndColCmd(int(payload))
+            self.solver.setEndCol(int(payload))
         elif topic=="/maze/endRow":
-            self.solver.setEndRowCmd(int(payload))
+            self.solver.setEndRow(int(payload))
         elif topic=="/maze/blocked":
             cell = payload.split(",")
             self.solver.setBlocked(int(cell[0]),int(cell[1]))
@@ -79,4 +80,7 @@ class MazeSolverClient:
 if __name__ == '__main__':
     mqttclient=mqtt.Client()
     solverClient = MazeSolverClient(mqttclient)
+    logging.basicConfig(level=logging.ERROR)
+    logger = logging.getLogger("BreadthFirst")
+    mqttclient.enable_logger(logger)    
     solverClient.master.loop_forever()
