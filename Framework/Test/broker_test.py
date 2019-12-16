@@ -17,7 +17,7 @@ curpath=os.path.abspath(pathname)
 if platform.system() == "Windows":
     broker_path=os.path.join(curpath,"..\\MQTTBroker\\mosquitto.exe")
 else:
-    broker_path=os.path.join("mosquitto")
+    os.environ['MQTTSERVER']="mqtt.eclipse.org"
 
 class TestMQTTBroker(unittest.TestCase):
 
@@ -33,9 +33,6 @@ class TestMQTTBroker(unittest.TestCase):
             # create a new mqtt broker
         
         client=mqtt.Client()
-
-        if platform.system() != "Windows":
-            client.connect("mqtt.eclipse.org", 1883, 60)
 
         ##################################
         # Create a sample MQTT Publisher
