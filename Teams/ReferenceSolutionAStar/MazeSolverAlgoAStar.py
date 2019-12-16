@@ -50,8 +50,8 @@ class MazeSolverAlgoAStar:
         self.grid[row][col] = self.OBSTACLE
 
     def startMaze(self, columns=0, rows=0):
-        self.dimCols = 0 
-        self.dimRows = 0 
+        self.dimCols = columns 
+        self.dimRows = rows 
         self.startCols = 0 
         self.startRows = 0 
         self.endCols = 0 
