@@ -30,8 +30,9 @@ class TestMazeGenerator(unittest.TestCase):
             self.c = popen_spawn.PopenSpawn(broker_path)
 
             # create a new mqtt broker
-            client=mqtt.Client()
-        else:
+        client=mqtt.Client()
+
+        if platform.system() != "Windows":
             client.connect("mqtt.eclipse.org", 1883, 60)
 
         ##################################
