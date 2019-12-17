@@ -3,3 +3,4 @@ pexpect
 numpy
 pytest
 nose
+coverage
