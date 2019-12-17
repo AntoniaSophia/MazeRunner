@@ -40,7 +40,7 @@ class FillMazeTest(unittest.TestCase):
     def testRefMaze1(self):
         mg = MazeSolverAlgoAStar()
 
-        maze = "Maze1.txt"
+        maze = "maze1.txt"
         refResult = [[0, 4], [0, 3], [0, 2], [0, 1], [0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [4, 1], [4, 2], [3, 2], [3, 3], [3, 4], [2, 4]]
 
         mg.loadMaze(os.path.join(currentdir, "..","..","..","MazeExamples", maze))
@@ -50,7 +50,7 @@ class FillMazeTest(unittest.TestCase):
     def testRefMaze2(self):
         mg = MazeSolverAlgoAStar()
 
-        maze = "Maze2.txt"
+        maze = "maze2.txt"
         refResult = [[3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [8, 1], [9, 1], [9, 2], [9, 3], [9, 4], [9, 5], [8, 5], [8, 6], [8, 7], [8, 8]]
 
         mg.loadMaze(os.path.join(currentdir, "..","..","..","MazeExamples", maze))
