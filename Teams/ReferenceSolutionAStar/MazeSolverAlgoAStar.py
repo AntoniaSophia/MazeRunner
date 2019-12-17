@@ -35,7 +35,10 @@ class MazeSolverAlgoAStar:
             self.dimRows = 0
 
     def setDimCols(self, cols):
-        self.dimColumns = cols
+        if cols > 0:
+            self.dimCols = cols
+        else:
+            self.dimCols = 0
 
     def setStartCol(self, col):
         self.startCol = col
@@ -78,8 +81,8 @@ class MazeSolverAlgoAStar:
 
     def loadMaze(self,pathToConfigFile):
         self.grid=numpy.loadtxt(pathToConfigFile, delimiter=',',dtype=int)
-        self.setDimCols=self.grid.shape[0]
-        self.setDimRows=self.grid.shape[1]
+        self.setDimCols(self.grid.shape[0])
+        self.setDimRows(self.grid.shape[1])
 
         start_arr = numpy.where(self.grid == 2)
         self.startRow=int(start_arr[0][0])

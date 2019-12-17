@@ -36,6 +36,27 @@ class FillMazeTest(unittest.TestCase):
 
         astar.setDimRows(15)
         self.assertTrue(astar.dimRows == 15)
+    
+    def testSetDimCols(self):
+        astar = MazeSolverAlgoAStar()
+        astar.setDimCols(5)
+        self.assertTrue(astar.dimCols == 5)
+
+        astar.setDimCols(0)
+        self.assertTrue(astar.dimCols == 0)
+
+        astar.setDimCols(0)
+        self.assertTrue(astar.dimCols == 0)
+
+        astar.setDimCols(-5)
+        self.assertTrue(astar.dimCols == 0)
+
+        astar.setDimCols(0)
+        self.assertTrue(astar.dimCols == 0)
+
+        astar.setDimCols(15)
+        self.assertTrue(astar.dimCols == 15)
+
 
     def testRefMaze1(self):
         mg = MazeSolverAlgoAStar()
