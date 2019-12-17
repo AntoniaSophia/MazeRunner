@@ -1,11 +1,11 @@
 import unittest
-from test import support
+import pytest
 from subprocess import Popen, PIPE
 import sys, os
 #http://www.bx.psu.edu/~nate/pexpect/pexpect.html
 from pexpect import popen_spawn
-from test_mqtt_subscriber import Sample_MQTT_Subscriber
-from test_maze_generator import Sample_Maze_Generator
+from . test_mqtt_subscriber import Sample_MQTT_Subscriber
+from . test_maze_generator import Sample_Maze_Generator
 import paho.mqtt.client as mqtt
 import platform
 
@@ -15,9 +15,9 @@ pathname = os.path.dirname(__file__)
 curpath=os.path.abspath(pathname)
 
 if platform.system() == "Windows":
-    broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
+    broker_path=os.path.join(curpath,"..\\MQTTBroker\\mosquitto.exe")
 else:
-    broker_path=os.path.join("mosquitto")
+    os.environ['MQTTSERVER']="mqtt.eclipse.org"
 
 class TestMazeGenerator(unittest.TestCase):
 
@@ -29,7 +29,7 @@ class TestMazeGenerator(unittest.TestCase):
             assert os.path.isfile(broker_path) == True
             self.c = popen_spawn.PopenSpawn(broker_path)
 
-        # create a new mqtt broker
+            # create a new mqtt broker
         client=mqtt.Client()
 
         ##################################
@@ -145,9 +145,3 @@ class TestMazeGenerator(unittest.TestCase):
         receivedTopic = self.aMazeSubscriber.getLastTopic()
         self.assertEqual(receivedMsg,'end')
         self.assertEqual(receivedTopic,'/maze')
-
-def test_main():
-    support.run_unittest(TestMazeGenerator)
-
-if __name__ == '__main__':
-    test_main()

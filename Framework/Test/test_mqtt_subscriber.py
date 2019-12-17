@@ -1,12 +1,15 @@
 import paho.mqtt.client as mqtt
 import time
-
+import platform
 import os
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
     mqtt_server = os.environ['MQTTSERVER']
 else:
     mqtt_server = "127.0.0.1"
+
+if platform.system() != "Windows":
+    mqtt_server = "mqtt.eclipse.org"
 
 class Sample_MQTT_Subscriber:
 

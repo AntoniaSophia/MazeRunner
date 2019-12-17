@@ -1,11 +1,11 @@
+import pytest
 import unittest
-from test import support
 from subprocess import Popen, PIPE
 import sys, os
 #http://www.bx.psu.edu/~nate/pexpect/pexpect.html
 from pexpect import popen_spawn
-from test_mqtt_subscriber import Sample_MQTT_Subscriber
-from test_mqtt_publisher import Sample_MQTT_Publisher
+from . test_mqtt_subscriber import Sample_MQTT_Subscriber
+from . test_mqtt_publisher import Sample_MQTT_Publisher
 import paho.mqtt.client as mqtt
 import platform
 
@@ -15,9 +15,15 @@ pathname = os.path.dirname(__file__)
 curpath=os.path.abspath(pathname)
 
 if platform.system() == "Windows":
-    broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
+    broker_path=os.path.join(curpath,"..\\MQTTBroker\\mosquitto.exe")
+
+if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
+    mqtt_server = os.environ['MQTTSERVER']
 else:
-    broker_path=os.path.join("mosquitto")
+    mqtt_server = "127.0.0.1"
+
+if platform.system() != "Windows":
+    mqtt_server = "mqtt.eclipse.org"
 
 class TestMQTTBroker(unittest.TestCase):
 
@@ -26,12 +32,12 @@ class TestMQTTBroker(unittest.TestCase):
     def setUp(self):
         if platform.system() == "Windows":
             print("\nStart mosquitto broker")
-            broker_path=os.path.join(curpath,"..\MQTTBroker\mosquitto.exe")
+            broker_path=os.path.join(curpath,"..\\MQTTBroker\\mosquitto.exe")
             print(broker_path)
             assert os.path.isfile(broker_path) == True
             self.c = popen_spawn.PopenSpawn(broker_path)
-
-        # create a new mqtt broker
+            # create a new mqtt broker
+        
         client=mqtt.Client()
 
         ##################################
@@ -135,9 +141,3 @@ class TestMQTTBroker(unittest.TestCase):
         receivedTopic = self.aMazeSubscriber.getLastTopic()
         self.assertEqual(receivedMsg,'1,1')
         self.assertEqual(receivedTopic,'/maze/teamc/nextmove')
-
-def test_main():
-    support.run_unittest(TestMQTTBroker)
-
-if __name__ == '__main__':
-    test_main()

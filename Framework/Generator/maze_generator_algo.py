@@ -33,7 +33,6 @@ class MazeGeneratorAlgo:
 
         self.array = numpy.array([0] * (self.rows * self.columns))
 
-
     def maze(self, width=21, height=21, complexity=.9, density=.1):
         print(width,height,complexity,density)
         # Only odd shapes
@@ -62,23 +61,31 @@ class MazeGeneratorAlgo:
                         Z[y_, x_] = 1
                         Z[y_ + (y - y_) // 2, x_ + (x - x_) // 2] = 1
                         x, y = x_, y_
-        while 1:
-            startpos_x = rand(0,(self.columns-1)/4)
-            startpos_y = rand(0,(self.rows-1)/4)
-            if Z[startpos_x][startpos_y] == 0:
-                Z[startpos_x][startpos_y] = 2
-                self.robotStart_col = startpos_x
-                self.robotStart_row = startpos_y
+        
+        for c in range(self.columns):
+            bfound=False
+            for r in range(self.rows):
+                if Z[c][r] == 0:
+                    self.robotStart_col = c
+                    self.robotStart_row = r
+                    Z[c][r]=2
+                    bfound=True
+                    break
+            if bfound:
                 break
-        while 1:
-            endpos_x = rand((self.columns-1)/2,self.columns-1)
-            endpos_y = rand((self.rows-1)/2,self.rows-1)
-            if Z[endpos_x][endpos_y] == 0:
-                Z[endpos_x][endpos_y] = 3
-                self.targetPos_col = endpos_x
-                self.targetPos_row = endpos_y
-                
+
+        for c in range(self.columns-1,0,-1):
+            bfound=False
+            for r in range(self.rows-1,0,-1):
+                if Z[c][r] == 0:
+                    self.targetPos_col = c
+                    self.targetPos_row = r
+                    Z[c][r]=3
+                    bfound=True
+                    break
+            if bfound:
                 break
+
         return Z
 
     def createMaze(self):
@@ -91,6 +98,7 @@ class MazeGeneratorAlgo:
 
 
 if __name__ == '__main__':
-    mg = MazeGeneratorAlgo(9,9,0,0,8,1)
+    mg = MazeGeneratorAlgo(9,9,50,50)
     mg.createMaze()
+    print(mg.grid)
 

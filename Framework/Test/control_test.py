@@ -1,5 +1,5 @@
 import unittest
-from test import support
+import pytest
 
 class TestFrameworkControl(unittest.TestCase):
     def setUp(self):
@@ -12,9 +12,4 @@ class TestFrameworkControl(unittest.TestCase):
         # Test feature 1
         pass
 
-def test_main():
-    support.run_unittest(TestFrameworkControl)
-
-if __name__ == '__main__':
-    test_main()
 

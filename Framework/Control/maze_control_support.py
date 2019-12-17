@@ -99,7 +99,7 @@ def maze_solver_loader():
     else:
         print('Solver Action')
         executeSript=os.path.join(projectDirectory,"Teams",control.team,"MazeSolverClient.py")
-        control.solver_action_proc = Popen([pythonVar,executeSript],shell=False,stdout=sys.stdout,stderr=sys.stderr) # something long running
+        control.solver_action_proc = Popen([pythonVar,executeSript],shell=True,stdout=sys.stdout,stderr=sys.stderr) # something long running
 
 def maze_solver_action():
     print('Solve Maze!')

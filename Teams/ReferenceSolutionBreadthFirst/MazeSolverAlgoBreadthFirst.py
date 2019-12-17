@@ -15,32 +15,32 @@ class MazeSolverAlgoBreadthFirst:
         self.columns = 0
         self.dimCols = 0 
         self.dimRows = 0 
-        self.setStartCol = 0 
-        self.setStartRow = 0 
-        self.setEndCol = 0 
-        self.setEndRow = 0 
+        self.startCol = 0 
+        self.startRow = 0 
+        self.endCol = 0 
+        self.endRow = 0 
         self.grid=[[]]    
         print("Initialize a Maze Solver")
 
-    def setDimRowsCmd(self, rows):
+    def setDimRows(self, rows):
         self.rows = rows
         self.dimRows = rows
 
-    def setDimColsCmd(self, cols):
+    def setDimCols(self, cols):
         self.columns = cols
         self.dimColumns = cols
 
-    def setStartColCmd(self, col):
-        self.setStartCol = col
+    def setStartCol(self, col):
+        self.startCol = col
 
-    def setStartRowCmd(self, row):
-        self.setStartRow = row
+    def setStartRow(self, row):
+        self.startRow = row
 
-    def setEndColCmd(self, col):
-        self.setEndCol = col
+    def setEndCol(self, col):
+        self.endCol = col
 
-    def setEndRowCmd(self, row):
-        self.setEndRow = row
+    def setEndRow(self, row):
+        self.endRow = row
 
     def setBlocked(self,row ,col):
         self.grid[row][col] = self.OBSTACLE
@@ -49,10 +49,10 @@ class MazeSolverAlgoBreadthFirst:
     def startMaze(self, columns=0, rows=0):
         self.dimCols = 0 
         self.dimRows = 0 
-        self.setStartCol = 0 
-        self.setStartRow = 0 
-        self.setEndCol = 0 
-        self.setEndRow = 0 
+        self.startCol = 0 
+        self.startRow = 0 
+        self.endCol = 0 
+        self.endRow = 0 
         self.grid=[[]]        
 
         if columns>0 and rows>0:
@@ -60,26 +60,28 @@ class MazeSolverAlgoBreadthFirst:
             for i in range(rows):
                 for j in range(columns):
                     self.grid[i][j]=0
+        
+        print(self.grid)
 
     def endMaze(self):
-        self.grid[self.setStartRow][self.setStartCol] = self.START
-        self.grid[self.setEndRow][self.setEndCol] = self.TARGET
+        self.grid[self.startRow][self.startCol] = self.START
+        self.grid[self.endRow][self.endCol] = self.TARGET
 
     def printMaze(self):
         print(self.grid)
 
     def loadMaze(self,pathToConfigFile):
         self.grid=numpy.loadtxt(pathToConfigFile, delimiter=',',dtype=int)
-        self.setDimCols=self.grid.shape[0]
-        self.setDimRows=self.grid.shape[1]
+        self.dimCols=self.grid.shape[0]
+        self.dimRows=self.grid.shape[1]
 
         start_arr = numpy.where(self.grid == 2)
-        self.setStartRow=int(start_arr[0][0])
-        self.setStartCol=int(start_arr[1][0])
+        self.startRow=int(start_arr[0][0])
+        self.startCol=int(start_arr[1][0])
 
         end_arr = numpy.where(self.grid == 3)
-        self.setEndRow=int(end_arr[0][0])
-        self.setEndCol=int(end_arr[1][0])
+        self.endRow=int(end_arr[0][0])
+        self.endCol=int(end_arr[1][0])
 
     def clearMaze(self):
         self.startMaze()
@@ -155,8 +157,8 @@ class MazeSolverAlgoBreadthFirst:
         #############################
         # Here Creation of Path starts
         #############################
-        startKey = self.gridElementToString(self.setStartRow , self.setStartCol)
-        currentKey = self.gridElementToString(self.setEndRow , self.setEndCol)
+        startKey = self.gridElementToString(self.startRow , self.startCol)
+        currentKey = self.gridElementToString(self.endRow , self.endCol)
         path = []
         while currentKey != startKey: 
             path.append(currentKey)
@@ -186,8 +188,8 @@ class MazeSolverAlgoBreadthFirst:
         result_path=[]
         print("Start of BreadthFirst Solver...")
 
-        print("Start = " , self.setStartRow , self.setStartCol)
-        print("End = " , self.setEndRow , self.setEndCol)
+        print("Start = " , self.startRow , self.startCol)
+        print("End = " , self.endRow , self.endCol)
         print("Maze = \n" , self.grid)
 
 #        print("Neighbours [0,4] : " , self.getNeighbours(0,4))
@@ -195,10 +197,10 @@ class MazeSolverAlgoBreadthFirst:
         #############################
         # Here Breadth First starts
         #############################
-        start = [self.setStartRow,self.setStartCol]
+        start = [self.startRow,self.startCol]
         frontier = queue.Queue()
         frontier.put(start)
-        startKey = self.gridElementToString(self.setStartRow , self.setStartCol)
+        startKey = self.gridElementToString(self.startRow , self.startCol)
 
         came_from = {}
         came_from[startKey] = None
