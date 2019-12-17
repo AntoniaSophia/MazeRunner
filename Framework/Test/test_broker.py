@@ -59,7 +59,7 @@ class TestMQTTBroker(unittest.TestCase):
     def tearDown(self):
         if platform.system() == "Windows":        
             print("\nKill mosquitto broker")
-            self.c.kill(9)
+            os.system("taskkill /f /im mosquitto.exe")
             # TODO: assert for checking whether mosquitto really has been quit
 
     def test_feature_1(self):

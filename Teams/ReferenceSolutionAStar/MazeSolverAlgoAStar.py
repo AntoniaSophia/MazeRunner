@@ -40,23 +40,25 @@ class MazeSolverAlgoAStar:
         
         if rows > 0:
             self.dimRows = rows
-        else:
-            self.dimRows = 0
+
         if columns > 0:
             self.dimCols = columns
-        else:
+       
+        if columns == 0 and rows == 0:
+            self.dimRows = 0
             self.dimCols = 0
-        
+
         self.startCols = 0 
         self.startRows = 0 
         self.endCols = 0 
         self.endRows = 0 
         self.grid=[[]]        
 
-        if columns>0 and rows>0:
-            self.grid = numpy.empty((rows, columns), dtype=int)
-            for i in range(rows):
-                for j in range(columns):
+
+        if self.dimCols>0 and self.dimRows>0:
+            self.grid = numpy.empty((self.dimCols, self.dimRows), dtype=int)
+            for i in range(self.dimRows):
+                for j in range(self.dimCols):
                     self.grid[i][j]=0
 
     def endMaze(self):
@@ -70,9 +72,8 @@ class MazeSolverAlgoAStar:
 
     def loadMaze(self,pathToConfigFile):
         self.grid=numpy.loadtxt(pathToConfigFile, delimiter=',',dtype=int)
-        self.setDimCols(self.grid.shape[0])
-        self.setDimRows(self.grid.shape[1])
-
+        self.startMaze(self.grid.shape[0], self.grid.shape[1])
+        self.grid=numpy.loadtxt(pathToConfigFile, delimiter=',',dtype=int)
         start_arr = numpy.where(self.grid == 2)
         self.startRow=int(start_arr[0][0])
         self.startCol=int(start_arr[1][0])
