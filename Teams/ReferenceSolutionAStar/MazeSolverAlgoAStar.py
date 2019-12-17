@@ -29,10 +29,16 @@ class MazeSolverAlgoAStar:
     #     self.master.publish(topic,message,qos,retain)
 
     def setDimRows(self, rows):
-        self.dimRows = rows
+        if rows > 0:
+            self.dimRows = rows
+        else:
+            self.dimRows = 0
 
     def setDimCols(self, cols):
-        self.dimColumns = cols
+        if cols > 0:
+            self.dimCols = cols
+        else:
+            self.dimCols = 0
 
     def setStartCol(self, col):
         self.startCol = col
@@ -75,8 +81,8 @@ class MazeSolverAlgoAStar:
 
     def loadMaze(self,pathToConfigFile):
         self.grid=numpy.loadtxt(pathToConfigFile, delimiter=',',dtype=int)
-        self.setDimCols=self.grid.shape[0]
-        self.setDimRows=self.grid.shape[1]
+        self.setDimCols(self.grid.shape[0])
+        self.setDimRows(self.grid.shape[1])
 
         start_arr = numpy.where(self.grid == 2)
         self.startRow=int(start_arr[0][0])
@@ -106,7 +112,6 @@ class MazeSolverAlgoAStar:
         return True
 
 
-    # TODO: Add a Unit Test Case --> Very good example for boundary tests and condition coverage
     def getNeighbours(self,row,column):
         neighbours = []
 

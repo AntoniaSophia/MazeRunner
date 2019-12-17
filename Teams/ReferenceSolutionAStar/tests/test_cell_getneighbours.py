@@ -16,7 +16,7 @@ from MazeSolverAlgoAStar import MazeSolverAlgoAStar
 # Condition covera
 # Boundarycheck
 
-class CellTest(unittest.TestCase):
+class CellGetNeighboursTest(unittest.TestCase):
     def testCellGetNeighbours(self):
         astar = MazeSolverAlgoAStar()
         astar.startMaze(5,5)
@@ -24,7 +24,33 @@ class CellTest(unittest.TestCase):
         result = [[3, 2], [1, 2], [2, 3], [2, 1]]
         self.assertTrue(neighbors == result)
 
-     
+    def testCellGetNeighboursBordersRB(self):
+        astar = MazeSolverAlgoAStar()
+        astar.startMaze(5,5)
+        neighbors = astar.getNeighbours(4,4)
+        result = [[3, 4], [4, 3]]
+        self.assertTrue(neighbors == result)
+
+    def testCellGetNeighboursBordersLT(self):
+        astar = MazeSolverAlgoAStar()
+        astar.startMaze(5,5)
+        neighbors = astar.getNeighbours(0,0)
+        result = [[1, 0], [0, 1]]
+        self.assertTrue(neighbors == result)
+
+    def testCellGetNeighboursBordersLB(self):
+        astar = MazeSolverAlgoAStar()
+        astar.startMaze(5,5)
+        neighbors = astar.getNeighbours(0,4)
+        result = [[1, 4], [0, 3]]
+        self.assertTrue(neighbors == result)
+
+    def testCellGetNeighboursBordersRT(self):
+        astar = MazeSolverAlgoAStar()
+        astar.startMaze(5,5)
+        neighbors = astar.getNeighbours(4,0)
+        result = [[3, 0], [4, 1]]
+        self.assertTrue(neighbors == result)
 
     # def testCellMovementUp(self):
     #     cell = MazeSolverAlgoAStar.Cell(1,0)

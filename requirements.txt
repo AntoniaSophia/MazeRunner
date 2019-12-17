@@ -3,3 +3,5 @@ pexpect
 numpy
 pytest
 nose
+coverage
+#pywin32

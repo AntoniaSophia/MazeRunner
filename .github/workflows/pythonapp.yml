@@ -24,7 +24,25 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+    - name: Test with pytest / coverage
       run: |
-        pip install pytest
-        pytest
+        pip install pytest coverage
+        coverage run -m pytest
+        coverage report -m 
+        coverage xml
+
+    - name: Codecov
+      uses: codecov/codecov-action@v1.0.5
+      with:
+        # User defined upload name. Visible in Codecov UI
+        name: # optional
+        # Repository upload token - get it from codecov.io
+        token: bc7d6bbd-ff24-4930-948f-4dc1d87be465
+        # Path to coverage file to upload
+        file: # optional
+        # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
+        flags: # optional
+        # Specify the location of the .codecov.yml config file
+        yml: # optional
+        # Specify whether or not CI build should fail if Codecov runs into an error during upload
+        fail_ci_if_error: # optional
