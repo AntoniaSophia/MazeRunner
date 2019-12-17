@@ -29,7 +29,10 @@ class MazeSolverAlgoAStar:
     #     self.master.publish(topic,message,qos,retain)
 
     def setDimRows(self, rows):
-        self.dimRows = rows
+        if rows > 0:
+            self.dimRows = rows
+        else:
+            self.dimRows = 0
 
     def setDimCols(self, cols):
         self.dimColumns = cols
