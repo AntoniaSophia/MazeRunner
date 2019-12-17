@@ -21,25 +21,6 @@ class MazeSolverAlgoAStar:
         self.grid=[[]]            
         print("Initialize a Maze Solver")
 
-    # def logMsg(self, msg):
-    #     self.publish(self,"/logging/Solver",msg)
-
-    # def publish(self, topic, message=None , qos=1, retain=False):
-    #     print("Published message: " , topic , " --> " , message)
-    #     self.master.publish(topic,message,qos,retain)
-
-    def setDimRows(self, rows):
-        if rows > 0:
-            self.dimRows = rows
-        else:
-            self.dimRows = 0
-
-    def setDimCols(self, cols):
-        if cols > 0:
-            self.dimCols = cols
-        else:
-            self.dimCols = 0
-
     def setStartCol(self, col):
         self.startCol = col
 
@@ -56,8 +37,16 @@ class MazeSolverAlgoAStar:
         self.grid[row][col] = self.OBSTACLE
 
     def startMaze(self, columns=0, rows=0):
-        self.dimCols = columns 
-        self.dimRows = rows 
+        
+        if rows > 0:
+            self.dimRows = rows
+        else:
+            self.dimRows = 0
+        if cols > 0:
+            self.dimCols = cols
+        else:
+            self.dimCols = 0
+        
         self.startCols = 0 
         self.startRows = 0 
         self.endCols = 0 

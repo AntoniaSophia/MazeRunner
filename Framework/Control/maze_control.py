@@ -26,6 +26,7 @@ def vp_start_gui():
     root = tk.Tk()
     maze_control_support.set_Tk_var()
     top = Toplevel1 (root)
+    top.init_final()
     maze_control_support.init(root, top)
     root.mainloop()
 
@@ -368,6 +369,7 @@ class Toplevel1:
         self.Text1.configure(width=334)
         self.Text1.configure(wrap="word")
         
+    def init_final(self):
         maze_control_support.mqtt_broker()
         maze_control_support.control.mqtt_broker_state=1
         time.sleep(2)

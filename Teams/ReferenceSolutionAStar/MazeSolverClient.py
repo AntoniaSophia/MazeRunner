@@ -39,11 +39,9 @@ class MazeSolverClient:
             else:
                 pass
         elif topic=="/maze/dimRow":
-            self.solver.setDimRows(int(payload))
-            self.solver.startMaze(self.solver.dimRows, self.solver.dimColumns)
+            self.solver.startMaze(int(payload), self.solver.dimCols)
         elif topic=="/maze/dimCol":
-            self.solver.setDimCols(int(payload))
-            self.solver.startMaze(self.solver.dimRows, self.solver.dimColumns)
+            self.solver.startMaze(self.solver.dimRows, int(payload))
         elif topic=="/maze/startCol":
             self.solver.setStartCol(int(payload))
         elif topic=="/maze/startRow":
