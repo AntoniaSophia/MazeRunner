@@ -4,4 +4,4 @@ numpy
 pytest
 nose
 coverage
-pywin32
+#pywin32
