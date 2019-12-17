@@ -42,8 +42,8 @@ class MazeSolverAlgoAStar:
             self.dimRows = rows
         else:
             self.dimRows = 0
-        if cols > 0:
-            self.dimCols = cols
+        if columns > 0:
+            self.dimCols = columns
         else:
             self.dimCols = 0
         
