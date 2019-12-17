@@ -5,3 +5,4 @@ pytest
 nose
 coverage
 pywin32; sys_platform == 'win32'
+autopep8
