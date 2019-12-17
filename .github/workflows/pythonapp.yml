@@ -29,9 +29,12 @@ jobs:
         pip install pytest coverage
         coverage run -m pytest
         coverage report -m 
+        coverage xml
 
     - name: Codecov
       uses: codecov/codecov-action@v1.0.5
+      run:
+        pip install pytest coverage
       with:
         # User defined upload name. Visible in Codecov UI
         name: # optional
