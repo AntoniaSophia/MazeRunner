@@ -106,7 +106,6 @@ class MazeSolverAlgoAStar:
         return True
 
 
-    # TODO: Add a Unit Test Case --> Very good example for boundary tests and condition coverage
     def getNeighbours(self,row,column):
         neighbours = []
 
