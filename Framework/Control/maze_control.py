@@ -16,70 +16,77 @@ import maze_control_support
 import time
 from maze_control_support import control
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
-projectDirectory = os.path.join(scriptDirectory,"..","..")
+projectDirectory = os.path.join(scriptDirectory, "..", "..")
 
-teamDirecory = os.path.join(projectDirectory,"Teams")
+teamDirecory = os.path.join(projectDirectory, "Teams")
+
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = tk.Tk()
     maze_control_support.set_Tk_var()
-    top = Toplevel1 (root)
+    top = Toplevel1(root)
+    top.init_final()
     maze_control_support.init(root, top)
     root.mainloop()
 
+
 w = None
+
+
 def create_Toplevel1(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
+    w = tk.Toplevel(root)
     maze_control_support.set_Tk_var()
-    top = Toplevel1 (w)
+    top = Toplevel1(w)
     maze_control_support.init(w, top, *args, **kwargs)
     return (w, top)
 
+
 def destroy_Toplevel1():
     global w
-    maze_control_support.control.running=0
+    maze_control_support.control.running = 0
     w.destroy()
     w = None
 
+
 class Toplevel1:
 
-    def callback(self,eventObject):
-        self.selectedTeam=eventObject.widget.get()
+    def callback(self, eventObject):
+        self.selectedTeam = eventObject.widget.get()
         if maze_control_support.control.solver_action_proc != 0:
             maze_control_support.control.solver_action_proc.kill()
-    
+
         time.sleep(1)
 
         maze_control_support.load_team(self.selectedTeam)
         maze_control_support.maze_solver_loader()
 
-    def callbackScaleDim(self,eventObject):
-        self.EntryDim.delete(0,tk.END)
-        self.EntryDim.insert(0,eventObject)
+    def callbackScaleDim(self, eventObject):
+        self.EntryDim.delete(0, tk.END)
+        self.EntryDim.insert(0, eventObject)
 
-    def callbackScaleEntryDim(self,eventObject):
-        if not eventObject.get()=="":
+    def callbackScaleEntryDim(self, eventObject):
+        if not eventObject.get() == "":
             self.ScaleDim.set(eventObject.get())
 
-    def callbackScaleComplexity(self,eventObject):
-        self.EntryComplexity.delete(0,tk.END)
-        self.EntryComplexity.insert(0,eventObject)
+    def callbackScaleComplexity(self, eventObject):
+        self.EntryComplexity.delete(0, tk.END)
+        self.EntryComplexity.insert(0, eventObject)
 
-    def callbackScaleEntryComplexity(self,eventObject):
-        if not eventObject.get()=="":
+    def callbackScaleEntryComplexity(self, eventObject):
+        if not eventObject.get() == "":
             self.ScaleComplexity.set(eventObject.get())
 
-    def callbackScaleDensity(self,eventObject):
-        self.EntryDensity.delete(0,tk.END)
-        self.EntryDensity.insert(0,eventObject)
+    def callbackScaleDensity(self, eventObject):
+        self.EntryDensity.delete(0, tk.END)
+        self.EntryDensity.insert(0, eventObject)
 
-    def callbackScaleEntryDensity(self,eventObject):
-        if not eventObject.get()=="":
+    def callbackScaleEntryDensity(self, eventObject):
+        if not eventObject.get() == "":
             self.ScaleDensity.set(eventObject.get())
 
     def __init__(self, top=None):
@@ -87,19 +94,19 @@ class Toplevel1:
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
         _fgcolor = '#000000'  # X11 color: 'black'
-        _compcolor = '#d9d9d9' # X11 color: 'gray85'
-        _ana1color = '#d9d9d9' # X11 color: 'gray85'
-        _ana2color = '#ececec' # Closest X11 color: 'gray92'
+        _compcolor = '#d9d9d9'  # X11 color: 'gray85'
+        _ana1color = '#d9d9d9'  # X11 color: 'gray85'
+        _ana2color = '#ececec'  # Closest X11 color: 'gray92'
         self.style = ttk.Style()
         if sys.platform == "win32":
             self.style.theme_use('winnative')
-        self.style.configure('.',background=_bgcolor)
-        self.style.configure('.',foreground=_fgcolor)
-        self.style.configure('.',font="TkDefaultFont")
-        self.style.map('.',background=
-            [('selected', _compcolor), ('active',_ana2color)])
-        self.running=1
-        self.selectedTeam=""
+        self.style.configure('.', background=_bgcolor)
+        self.style.configure('.', foreground=_fgcolor)
+        self.style.configure('.', font="TkDefaultFont")
+        self.style.map('.', background=[
+                       ('selected', _compcolor), ('active', _ana2color)])
+        self.running = 1
+        self.selectedTeam = ""
         top.geometry("396x651+520+214")
         top.title("New Toplevel")
         top.configure(background="#d9d9d9")
@@ -107,8 +114,8 @@ class Toplevel1:
         top.configure(highlightcolor="black")
 
         self.TFrame2 = ttk.Frame(top)
-        self.TFrame2.place(relx=0.076, rely=0.031, relheight=0.146
-                , relwidth=0.846)
+        self.TFrame2.place(relx=0.076, rely=0.031,
+                           relheight=0.146, relwidth=0.846)
         self.TFrame2.configure(relief='groove')
         self.TFrame2.configure(borderwidth="2")
         self.TFrame2.configure(relief="groove")
@@ -136,7 +143,8 @@ class Toplevel1:
         self.TLabel1.configure(text='''Framework''')
 
         self.TFrame3 = ttk.Frame(top)
-        self.TFrame3.place(relx=0.076, rely=0.2, relheight=0.269, relwidth=0.846)
+        self.TFrame3.place(relx=0.076, rely=0.2,
+                           relheight=0.269, relwidth=0.846)
 
         self.TFrame3.configure(relief='groove')
         self.TFrame3.configure(borderwidth="2")
@@ -151,8 +159,10 @@ class Toplevel1:
         self.TLabel2.configure(relief="flat")
         self.TLabel2.configure(text='''Generator''')
 
-        self.ScaleDim = tk.Scale(self.TFrame3, from_=0.0, to=101.0, command=self.callbackScaleDim)
-        self.ScaleDim.place(relx=0.388, rely=0.057, relwidth=0.316, relheight=0.0, height=42, bordermode='ignore')
+        self.ScaleDim = tk.Scale(
+            self.TFrame3, from_=0.0, to=101.0, command=self.callbackScaleDim)
+        self.ScaleDim.place(relx=0.388, rely=0.057, relwidth=0.316,
+                            relheight=0.0, height=42, bordermode='ignore')
         self.ScaleDim.configure(activebackground="#ececec")
         self.ScaleDim.configure(background="#d9d9d9")
         self.ScaleDim.configure(font="TkTextFont")
@@ -164,10 +174,10 @@ class Toplevel1:
 
         self.ScaleDim.set(11)
 
-
-        self.ScaleComplexity = tk.Scale(self.TFrame3, from_=0.0, to=100.0,command=self.callbackScaleComplexity)
-        self.ScaleComplexity.place(relx=0.388, rely=0.286, relwidth=0.316
-                , relheight=0.0, height=42, bordermode='ignore')
+        self.ScaleComplexity = tk.Scale(
+            self.TFrame3, from_=0.0, to=100.0, command=self.callbackScaleComplexity)
+        self.ScaleComplexity.place(
+            relx=0.388, rely=0.286, relwidth=0.316, relheight=0.0, height=42, bordermode='ignore')
         self.ScaleComplexity.configure(activebackground="#ececec")
         self.ScaleComplexity.configure(background="#d9d9d9")
         self.ScaleComplexity.configure(font="TkTextFont")
@@ -201,9 +211,10 @@ class Toplevel1:
         self.Label2.configure(highlightcolor="black")
         self.Label2.configure(text='''Density''')
 
-        self.ScaleDensity = tk.Scale(self.TFrame3, from_=0.0, to=100.0,command=self.callbackScaleDensity)
-        self.ScaleDensity.place(relx=0.388, rely=0.514, relwidth=0.316
-                , relheight=0.0, height=42, bordermode='ignore')
+        self.ScaleDensity = tk.Scale(
+            self.TFrame3, from_=0.0, to=100.0, command=self.callbackScaleDensity)
+        self.ScaleDensity.place(relx=0.388, rely=0.514, relwidth=0.316,
+                                relheight=0.0, height=42, bordermode='ignore')
         self.ScaleDensity.configure(activebackground="#ececec")
         self.ScaleDensity.configure(background="#d9d9d9")
         self.ScaleDensity.configure(font="TkTextFont")
@@ -213,7 +224,7 @@ class Toplevel1:
         self.ScaleDensity.configure(orient="horizontal")
         self.ScaleDensity.configure(troughcolor="#d9d9d9")
 
-        self.ScaleDensity.set(11)        
+        self.ScaleDensity.set(11)
 
         self.Label3 = tk.Label(self.TFrame3)
         self.Label3.place(relx=0.0, rely=0.143, height=21, width=76)
@@ -228,17 +239,17 @@ class Toplevel1:
 
         self.GeneratorAction = ttk.Button(self.TFrame3)
         self.GeneratorAction.place(relx=0.806, rely=0.143, height=25, width=56)
-        self.GeneratorAction.configure(command=maze_control_support.generator_action)
+        self.GeneratorAction.configure(
+            command=maze_control_support.generator_action)
         self.GeneratorAction.configure(takefocus="")
         self.GeneratorAction.configure(text='''generate''')
-        
-        
+
         self.sv_dim = tk.StringVar(value='11')
-        self.sv_dim.trace("w", lambda name, index, mode, sv=self.sv_dim: self.callbackScaleEntryDim(self.sv_dim))
+        self.sv_dim.trace("w", lambda name, index, mode,
+                          sv=self.sv_dim: self.callbackScaleEntryDim(self.sv_dim))
 
-
-        self.EntryDim = tk.Entry(self.TFrame3,textvariable=self.sv_dim)
-        self.EntryDim.place(relx=0.269, rely=0.171,height=20, relwidth=0.101)
+        self.EntryDim = tk.Entry(self.TFrame3, textvariable=self.sv_dim)
+        self.EntryDim.place(relx=0.269, rely=0.171, height=20, relwidth=0.101)
         self.EntryDim.configure(background="white")
         self.EntryDim.configure(disabledforeground="#a3a3a3")
         self.EntryDim.configure(font="TkFixedFont")
@@ -250,11 +261,13 @@ class Toplevel1:
         self.EntryDim.configure(selectforeground="black")
 
         self.sv_complexity = tk.StringVar(value='11')
-        self.sv_complexity.trace("w", lambda name, index, mode, sv=self.sv_complexity: self.callbackScaleEntryComplexity(self.sv_complexity))
+        self.sv_complexity.trace("w", lambda name, index, mode,
+                                 sv=self.sv_complexity: self.callbackScaleEntryComplexity(self.sv_complexity))
 
-        self.EntryComplexity = tk.Entry(self.TFrame3,textvariable=self.sv_complexity)
-        self.EntryComplexity.place(relx=0.269, rely=0.4, height=20
-                , relwidth=0.101)
+        self.EntryComplexity = tk.Entry(
+            self.TFrame3, textvariable=self.sv_complexity)
+        self.EntryComplexity.place(
+            relx=0.269, rely=0.4, height=20, relwidth=0.101)
         self.EntryComplexity.configure(background="white")
         self.EntryComplexity.configure(disabledforeground="#a3a3a3")
         self.EntryComplexity.configure(font="TkFixedFont")
@@ -266,10 +279,12 @@ class Toplevel1:
         self.EntryComplexity.configure(selectforeground="black")
 
         self.sv_density = tk.StringVar(value='11')
-        self.sv_density.trace("w", lambda name, index, mode, sv=self.sv_density: self.callbackScaleEntryDensity(self.sv_density))
-        self.EntryDensity = tk.Entry(self.TFrame3,textvariable=self.sv_density)
-        self.EntryDensity.place(relx=0.269, rely=0.629, height=20
-                , relwidth=0.101)
+        self.sv_density.trace("w", lambda name, index, mode,
+                              sv=self.sv_density: self.callbackScaleEntryDensity(self.sv_density))
+        self.EntryDensity = tk.Entry(
+            self.TFrame3, textvariable=self.sv_density)
+        self.EntryDensity.place(relx=0.269, rely=0.629,
+                                height=20, relwidth=0.101)
         self.EntryDensity.configure(background="white")
         self.EntryDensity.configure(disabledforeground="#a3a3a3")
         self.EntryDensity.configure(font="TkFixedFont")
@@ -293,7 +308,8 @@ class Toplevel1:
         self.SaveAction.configure(width=56)
 
         self.TEntry1 = ttk.Entry(self.TFrame3)
-        self.TEntry1.place(relx=0.269, rely=0.8, relheight=0.12, relwidth=0.316)
+        self.TEntry1.place(relx=0.269, rely=0.8,
+                           relheight=0.12, relwidth=0.316)
         self.TEntry1.configure(width=106)
         self.TEntry1.configure(takefocus="")
 
@@ -305,23 +321,24 @@ class Toplevel1:
         self.TLabel3.configure(relief="flat")
         self.TLabel3.configure(text='''File''')
 
+        self.GeneratorAction.configure(command=lambda: maze_control_support.generator_action(
+            self.EntryDim.get(), self.EntryDim.get(), self.EntryComplexity.get(), self.EntryDensity.get()))
 
-        self.GeneratorAction.configure(command=lambda: maze_control_support.generator_action(self.EntryDim.get(),self.EntryDim.get(),self.EntryComplexity.get(),self.EntryDensity.get()))
-
-        self.menubar = tk.Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
-        top.configure(menu = self.menubar)
+        self.menubar = tk.Menu(top, font="TkMenuFont",
+                               bg=_bgcolor, fg=_fgcolor)
+        top.configure(menu=self.menubar)
 
         self.menubar.add_command(
-                activebackground="#ececec",
-                activeforeground="#000000",
-                background="#d9d9d9",
-                font="TkMenuFont",
-                foreground="#000000",
-                label="NewCommand")
+            activebackground="#ececec",
+            activeforeground="#000000",
+            background="#d9d9d9",
+            font="TkMenuFont",
+            foreground="#000000",
+            label="NewCommand")
 
         self.TFrame4 = ttk.Frame(top)
-        self.TFrame4.place(relx=0.076, rely=0.492, relheight=0.161
-                , relwidth=0.846)
+        self.TFrame4.place(relx=0.076, rely=0.492,
+                           relheight=0.161, relwidth=0.846)
         self.TFrame4.configure(relief='groove')
         self.TFrame4.configure(borderwidth="2")
         self.TFrame4.configure(relief="groove")
@@ -343,19 +360,21 @@ class Toplevel1:
         self.SolverAction.configure(takefocus="")
         self.SolverAction.configure(text='''Solve Maze''')
 
-        self.SolverAction.configure(command=maze_control_support.maze_solver_action)    
+        self.SolverAction.configure(
+            command=maze_control_support.maze_solver_action)
 
         self.TCombobox1 = ttk.Combobox(self.TFrame4)
-        self.TCombobox1.place(relx=0.06, rely=0.286, relheight=0.2
-                , relwidth=0.427)
+        self.TCombobox1.place(relx=0.06, rely=0.286,
+                              relheight=0.2, relwidth=0.427)
         self.value_list = next(os.walk(teamDirecory))[1]
         self.TCombobox1.configure(values=self.value_list)
         self.TCombobox1.configure(textvariable=maze_control_support.combobox)
         self.TCombobox1.configure(takefocus="")
-        self.TCombobox1.bind("<<ComboboxSelected>>", self.callback)        
+        self.TCombobox1.bind("<<ComboboxSelected>>", self.callback)
 
         self.Text1 = tk.Text(top)
-        self.Text1.place(relx=0.076, rely=0.661, relheight=0.313, relwidth=0.843)
+        self.Text1.place(relx=0.076, rely=0.661,
+                         relheight=0.313, relwidth=0.843)
 
         self.Text1.configure(background="white")
         self.Text1.configure(font="TkTextFont")
@@ -367,35 +386,33 @@ class Toplevel1:
         self.Text1.configure(selectforeground="black")
         self.Text1.configure(width=334)
         self.Text1.configure(wrap="word")
-        
+
+    def init_final(self):
         maze_control_support.mqtt_broker()
-        maze_control_support.control.mqtt_broker_state=1
+        maze_control_support.control.mqtt_broker_state = 1
         time.sleep(2)
         maze_control_support.maze_visualize()
-        maze_control_support.control.maze_gui_state=1
+        maze_control_support.control.maze_gui_state = 1
 
-        # threading.Thread(target=self.monitor).start()      
+        # threading.Thread(target=self.monitor).start()
 
     def monitor(self):
         while self.running:
 
-            if maze_control_support.control.mqtt_broker_state==1:
+            if maze_control_support.control.mqtt_broker_state == 1:
                 self.TButton2.config(state='disabled')
             else:
                 self.TButton2.config(state='normal')
 
-            if maze_control_support.control.maze_gui_state==1:
+            if maze_control_support.control.maze_gui_state == 1:
                 self.TButton3.config(state='disabled')
             else:
                 self.TButton3.config(state='normal')
 
-            print("Monitor: {} {} {}".format(maze_control_support.control.mqtt_broker_state, maze_control_support.control.maze_gui_state, maze_control_support.control.solver_action_state))
+            print("Monitor: {} {} {}".format(maze_control_support.control.mqtt_broker_state,
+                                             maze_control_support.control.maze_gui_state, maze_control_support.control.solver_action_state))
             time.sleep(1)
+
 
 if __name__ == '__main__':
     vp_start_gui()
-
-
-
-
-
