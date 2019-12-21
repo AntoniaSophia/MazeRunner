@@ -6,3 +6,9 @@ nosetests\.xml
 .vscode/
 
 .coverage
+
+robotframework/log.html
+
+robotframework/output.xml
+
+robotframework/report.html
