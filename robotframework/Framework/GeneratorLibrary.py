@@ -7,10 +7,9 @@ import platform
 import paho.mqtt.client as paho
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
-projectDirectory = os.path.join(scriptDirectory, "..")
-pythonVar = "python"
+projectDirectory = os.path.join(scriptDirectory, "../..")
 
-class AStarSolverLibrary(object):
+class GeneratorLibrary(object):
     """Test library for testing *Calculator* business logic.
 
     Interacts with the calculator directly using its ``push`` method.
@@ -18,15 +17,23 @@ class AStarSolverLibrary(object):
 
     def __init__(self):
         self._result = ''
-        self.astarpid = 0
+        self.generatorpid = 0
 
-    def astar_start(self):
-        executeSript = os.path.join(projectDirectory, "Teams", "ReferenceSolutionAStar", "MazeSolverClient.py")
-        self.astarpid = Popen([pythonVar, executeSript], shell=False)
+    def generator_action(self, width, height, complexity, density):
+        executeSript = os.path.join(
+            projectDirectory, "Framework", "GeneratorAlternative", "MazeGeneratorClient.py")
+        self.generatorpid = Popen(['python', executeSript, "--width="+str(width), "--height="+str(
+            height), "--complexity="+str(complexity), "--density="+str(density)], shell=False)
+        self.generatorpid.communicate()
+        print("Generator run")
+            
 
-    def astar_stop(self):
-        self.astarpid.kill()
-
+    def generator_load(self, filename):
+        executeSript = os.path.join(
+            projectDirectory, "Framework", "GeneratorAlternative", "MazeGeneratorClient.py")
+        self.generatorpid = Popen(['python', executeSript, "--ifile="+str(filename)], shell=False)
+        self.generatorpid.communicate()
+        print("Generator run")
 
     # def push_button(self, button):
     #     """Pushes the specified ``button``.

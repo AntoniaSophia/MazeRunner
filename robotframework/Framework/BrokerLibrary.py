@@ -7,9 +7,9 @@ import platform
 import paho.mqtt.client as paho
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
-projectDirectory = os.path.join(scriptDirectory, "..")
+projectDirectory = os.path.join(scriptDirectory, "../..")
 
-class GeneratorLibrary(object):
+class BrokerLibrary(object):
     """Test library for testing *Calculator* business logic.
 
     Interacts with the calculator directly using its ``push`` method.
@@ -17,16 +17,18 @@ class GeneratorLibrary(object):
 
     def __init__(self):
         self._result = ''
-        self.generatorpid = 0
 
-    def generator_action(self, width, height, complexity, density):
-        executeSript = os.path.join(
-            projectDirectory, "Framework", "GeneratorAlternative", "MazeGeneratorClient.py")
-        self.generatorpid = Popen(['python', executeSript, "--width="+str(width), "--height="+str(
-            height), "--complexity="+str(complexity), "--density="+str(density)], shell=False)
-        self.generatorpid.communicate()
-        print("Generator run")
-            
+    def broker_start(self):
+        if sys.platform == "win32":
+            executeSript = os.path.join(
+                projectDirectory, "Framework", "MQTTBroker", "mosquitto.exe")
+            Popen([executeSript], shell=False) 
+
+    def broker_stop(self):
+        if sys.platform == "win32":        
+            os.system("taskkill /f /im mosquitto.exe")
+
+
     # def push_button(self, button):
     #     """Pushes the specified ``button``.
 

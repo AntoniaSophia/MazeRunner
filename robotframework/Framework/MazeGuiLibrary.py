@@ -7,7 +7,7 @@ import platform
 import paho.mqtt.client as paho
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
-projectDirectory = os.path.join(scriptDirectory, "..")
+projectDirectory = os.path.join(scriptDirectory, "../..")
 pythonVar = "python"
 
 class MazeGuiLibrary(object):

@@ -7,9 +7,10 @@ import platform
 import paho.mqtt.client as paho
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
-projectDirectory = os.path.join(scriptDirectory, "..")
+projectDirectory = os.path.join(scriptDirectory, "../../..")
+pythonVar = "python"
 
-class BrokerLibrary(object):
+class AStarReferenceSolverLibrary(object):
     """Test library for testing *Calculator* business logic.
 
     Interacts with the calculator directly using its ``push`` method.
@@ -17,16 +18,14 @@ class BrokerLibrary(object):
 
     def __init__(self):
         self._result = ''
+        self.astarpid = 0
 
-    def broker_start(self):
-        if sys.platform == "win32":
-            executeSript = os.path.join(
-                projectDirectory, "Framework", "MQTTBroker", "mosquitto.exe")
-            Popen([executeSript], shell=False) 
+    def astarreference_start(self):
+        executeSript = os.path.join(projectDirectory, "Teams", "ReferenceSolutionAStar", "MazeSolverClient.py")
+        self.astarpid = Popen([pythonVar, executeSript], shell=False)
 
-    def broker_stop(self):
-        if sys.platform == "win32":        
-            os.system("taskkill /f /im mosquitto.exe")
+    def astarreference_stop(self):
+        self.astarpid.kill()
 
 
     # def push_button(self, button):

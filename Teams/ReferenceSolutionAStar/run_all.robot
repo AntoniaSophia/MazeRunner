@@ -10,31 +10,27 @@ Documentation     Example test cases using the keyword-driven testing approach.
 ...               if also business people need to understand tests. If the
 ...               same workflow needs to repeated multiple times, it is best
 ...               to use to the _data-driven_ approach.
-Library           Framework/BrokerLibrary.py
-Library           Framework/MazeGuiLibrary.py
-Library           Framework/GeneratorLibrary.py
-Library           Teams/ReferenceSolutionAStar/AStarReferenceSolverLibrary.py
+...     	      Start command: robot <robotfile> , e.g. robot keyword_driven.robot
+...               dtrhreth
+Library           ../../robotframework/Framework/BrokerLibrary.py
+Library           ../../robotframework/Framework/MazeGuiLibrary.py
+Library           ../../robotframework/Framework/GeneratorLibrary.py
+Library           ../../robotframework/Teams/ReferenceSolutionAStar/AStarReferenceSolverLibrary.py
 Library           MQTTLibrary
+Library           Process
+Library           OperatingSystem
 
 *** Test Cases ***
-End2End Maze
+#Start command: robot <robotfile> , 
+#               example: robot run.robot
+RunMaze
     Broker start
     Gui start
     AStarReference start
     Connect     127.0.0.1
-    sleep  1s
-    Generator action  11  11  0  0
+    sleep  2s
+    #Generator action  11  11  0  0
+    Generator load  ../../MazeExamples/maze2.txt
     sleep  5s
     Publish     topic=/maze    message=solve
-    sleep  5s
-    Generator action  21  21  0  0
-    sleep  5s
-    Publish     topic=/maze    message=solve    
-    sleep  5s
-    Generator action  99  99  0  0
-    sleep  10s
-    Publish     topic=/maze    message=solve    
-    sleep  10s
-    AStarReference stop    
-    Gui stop
-    Broker stop
+    sleep  200s

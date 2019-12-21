@@ -19,10 +19,10 @@ Library           OperatingSystem
 ExecuteUnitTest
     Create Directory  ${CURDIR}/result
     Empty Directory  ${CURDIR}/result
-    Run Process  pytest  cwd=${CURDIR}/../Teams/ReferenceSolutionAStar  stdout=${CURDIR}/result/UnitTestResult.txt 
+    Run Process  pytest  cwd=${CURDIR}  stdout=${CURDIR}/result/UnitTestResult.txt 
 
-    Run Process  coverage  run  -m  pytest  cwd=${CURDIR}/../Teams
-    Run Process  coverage  report  -m  cwd=${CURDIR}/../Teams  stdout=${CURDIR}/result/UnitTestResult.txt
+    Run Process  coverage  run  -m  pytest  cwd=${CURDIR}
+    Run Process  coverage  report  -m  cwd=${CURDIR}  stdout=${CURDIR}/result/UnitTestResult.txt
     ${result} =    Get File  ${CURDIR}/result/UnitTestResult.txt
     Log  \n ${result}   console=${True}
     Run Process  coverage  erase

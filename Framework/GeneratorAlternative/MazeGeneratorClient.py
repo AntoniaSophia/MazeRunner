@@ -84,14 +84,14 @@ class MazeGeneratorClient:
         self.dimensionCol=self.maze.shape[0]
         self.dimensionRow=self.maze.shape[1]
         start_arr = numpy.where(self.maze == 2)
-        self.startCol=int(start_arr[0][0])
-        self.startRow=int(start_arr[1][0])
+        self.startRow=int(start_arr[0][0])
+        self.startCol=int(start_arr[1][0])
         end_arr = numpy.where(self.maze == 3)
-        self.endCol=int(end_arr[0][0])
-        self.endRow=int(end_arr[1][0])
+        self.endRow=int(end_arr[0][0])
+        self.endCol=int(end_arr[1][0])
 
-        print(self.startCol,"#",self.startRow)
-        print(self.endCol,"#",self.endRow)
+        print(self.startCol,"#",self.startCol)
+        print(self.endCol,"#",self.endCol)
 
     def saveMaze(self,pathToConfigFile):        
         numpy.savetxt(pathToConfigFile, self.mga.getMaze(), fmt="%d", delimiter=",", newline="\n")
