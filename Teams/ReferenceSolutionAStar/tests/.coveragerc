@@ -4,5 +4,7 @@ omit =
     */test_*
     */__init__.py
 include = 
-    ./*
+    ../*
 
+[html]
+directory = ../result
