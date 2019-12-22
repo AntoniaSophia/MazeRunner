@@ -1,0 +1,3 @@
+Name                                                                                                                   Stmts   Miss  Cover   Missing
+----------------------------------------------------------------------------------------------------------------------------------------------------
+D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\MazeSolverAlgoBreadthFirst.py     153     23    85%   26, 29, 32, 35, 38, 49-50, 65-67, 70, 85, 107, 111, 139-142, 145, 226-231

@@ -13,16 +13,19 @@ Documentation     Example test cases using the keyword-driven testing approach.
 Library           Framework/BrokerLibrary.py
 Library           Framework/MazeGuiLibrary.py
 Library           Framework/GeneratorLibrary.py
-Library           Teams/ReferenceSolutionAStar/AStarReferenceSolverLibrary.py
+Library           Teams/ReferenceSolutionBreadthFirst/BreadthFirstReferenceSolverLibrary.py
 Library           MQTTLibrary
 
 *** Test Cases ***
-End2End Maze
+End2End BreadthFirst
     Broker start
     Gui start
-    AStarReference start
+    BreadthFirstReference start
     Connect     127.0.0.1
     sleep  1s
+    Generator load  ../MazeExamples/maze1.txt
+    sleep  5s
+    Publish     topic=/maze    message=solve
     Generator action  11  11  0  0
     sleep  5s
     Publish     topic=/maze    message=solve
@@ -35,6 +38,6 @@ End2End Maze
     sleep  10s
     Publish     topic=/maze    message=solve    
     sleep  10s
-    AStarReference stop    
+    BreadthFirstReference stop    
     Gui stop
     Broker stop

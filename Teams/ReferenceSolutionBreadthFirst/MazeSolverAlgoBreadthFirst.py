@@ -12,8 +12,7 @@ class MazeSolverAlgoBreadthFirst:
     TARGET = 3      # the position of the target
 
     def __init__(self):
-        self.rows = 0
-        self.columns = 0
+        self.master = 0
         self.dimCols = 0
         self.dimRows = 0
         self.startCol = 0
@@ -21,15 +20,7 @@ class MazeSolverAlgoBreadthFirst:
         self.endCol = 0
         self.endRow = 0
         self.grid = [[]]
-        print("Initialize a Maze Solver")
-
-    def setDimRows(self, rows):
-        self.rows = rows
-        self.dimRows = rows
-
-    def setDimCols(self, cols):
-        self.columns = cols
-        self.dimColumns = cols
+        print("Initialize a Maze Solver: MazeSolverBreadthFirst")
 
     def setStartCol(self, col):
         self.startCol = col
@@ -47,23 +38,31 @@ class MazeSolverAlgoBreadthFirst:
         self.grid[row][col] = self.OBSTACLE
 
     def startMaze(self, columns=0, rows=0):
-        self.dimCols = 0
-        self.dimRows = 0
-        self.startCol = 0
-        self.startRow = 0
-        self.endCol = 0
-        self.endRow = 0
+
+        if rows > 0:
+            self.dimRows = rows
+
+        if columns > 0:
+            self.dimCols = columns
+
+        if columns == 0 and rows == 0:
+            self.dimRows = 0
+            self.dimCols = 0
+
+        self.startCols = 0
+        self.startRows = 0
+        self.endCols = 0
+        self.endRows = 0
         self.grid = [[]]
 
-        if columns > 0 and rows > 0:
-            self.grid = numpy.empty((rows, columns), dtype=int)
-            for i in range(rows):
-                for j in range(columns):
+        if self.dimCols > 0 and self.dimRows > 0:
+            self.grid = numpy.empty((self.dimCols, self.dimRows), dtype=int)
+            for i in range(self.dimRows):
+                for j in range(self.dimCols):
                     self.grid[i][j] = 0
 
-        print(self.grid)
-
     def endMaze(self):
+        print("kdjslfsjlsjf")
         self.grid[self.startRow][self.startCol] = self.START
         self.grid[self.endRow][self.endCol] = self.TARGET
 
@@ -72,9 +71,8 @@ class MazeSolverAlgoBreadthFirst:
 
     def loadMaze(self, pathToConfigFile):
         self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',', dtype=int)
-        self.dimCols = self.grid.shape[0]
-        self.dimRows = self.grid.shape[1]
-
+        self.startMaze(self.grid.shape[0], self.grid.shape[1])
+        self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',', dtype=int)
         start_arr = numpy.where(self.grid == 2)
         self.startRow = int(start_arr[0][0])
         self.startCol = int(start_arr[1][0])
@@ -101,7 +99,6 @@ class MazeSolverAlgoBreadthFirst:
 
         return True
 
-    # TODO: Add a Unit Test Case --> Very good example for boundary tests and condition coverage
     def getNeighbours(self, row, column):
         neighbours = []
 
@@ -223,7 +220,6 @@ class MazeSolverAlgoBreadthFirst:
 
     def solveMaze(self):
         return self.breadthFirst()
-        # return self.aStar()
 
 
 if __name__ == '__main__':
@@ -232,4 +228,4 @@ if __name__ == '__main__':
 
     for step in mg.solveMaze():
         step_str = '{},{}'.format(step[0], step[1])
-        # print(step_str)
+        print("Go: ", step_str)
