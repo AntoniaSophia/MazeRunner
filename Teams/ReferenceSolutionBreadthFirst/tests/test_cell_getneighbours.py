@@ -39,7 +39,7 @@ class CellGetNeighboursTest(unittest.TestCase):
         self.assertTrue(neighbors == result)
 
     def testCellGetNeighboursBordersLB(self):
-        astar = MazeSolvMazeSolverAlgoBreadthFirsterAlgoAStar()
+        astar = MazeSolverAlgoBreadthFirst()
         astar.startMaze(5,5)
         neighbors = astar.getNeighbours(0,4)
         result = [[1, 4], [0, 3]]
