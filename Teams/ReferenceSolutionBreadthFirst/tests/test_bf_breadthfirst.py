@@ -16,7 +16,7 @@ from MazeSolverAlgoBreadthFirst import MazeSolverAlgoBreadthFirst
 # Condition covera
 # Boundarycheck
 
-class BF_FillMazeTest(unittest.TestCase):
+class test_bf_breadthfirst(unittest.TestCase):
 
     def testRefMaze1(self):
         mg = MazeSolverAlgoBreadthFirst()
