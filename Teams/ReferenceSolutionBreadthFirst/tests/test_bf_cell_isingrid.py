@@ -34,7 +34,7 @@ class BF_CellisInGridTest(unittest.TestCase):
 
     def testCellonborderRBGrid(self):
         bf = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
+        bf.startMaze(5,5)
         self.assertTrue(bf.isInGrid(4,4))
 
     def testCellonborderTLGrid(self):
