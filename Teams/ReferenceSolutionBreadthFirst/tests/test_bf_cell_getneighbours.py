@@ -16,39 +16,39 @@ from MazeSolverAlgoBreadthFirst import MazeSolverAlgoBreadthFirst
 # Condition covera
 # Boundarycheck
 
-class CellGetNeighboursTest(unittest.TestCase):
+class BF_CellGetNeighboursTest(unittest.TestCase):
     def testCellGetNeighbours(self):
-        astar = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
-        neighbors = astar.getNeighbours(2,2)
+        bf = MazeSolverAlgoBreadthFirst()
+        bf.startMaze(5,5)
+        neighbors = bf.getNeighbours(2,2)
         result = [[3, 2], [1, 2], [2, 3], [2, 1]]
         self.assertTrue(neighbors == result)
 
     def testCellGetNeighboursBordersRB(self):
-        astar = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
-        neighbors = astar.getNeighbours(4,4)
+        bf = MazeSolverAlgoBreadthFirst()
+        bf.startMaze(5,5)
+        neighbors = bf.getNeighbours(4,4)
         result = [[3, 4], [4, 3]]
         self.assertTrue(neighbors == result)
 
     def testCellGetNeighboursBordersLT(self):
-        astar = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
-        neighbors = astar.getNeighbours(0,0)
+        bf = MazeSolverAlgoBreadthFirst()
+        bf.startMaze(5,5)
+        neighbors = bf.getNeighbours(0,0)
         result = [[1, 0], [0, 1]]
         self.assertTrue(neighbors == result)
 
     def testCellGetNeighboursBordersLB(self):
-        astar = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
-        neighbors = astar.getNeighbours(0,4)
+        bf = MazeSolverAlgoBreadthFirst()
+        bf.startMaze(5,5)
+        neighbors = bf.getNeighbours(0,4)
         result = [[1, 4], [0, 3]]
         self.assertTrue(neighbors == result)
 
     def testCellGetNeighboursBordersRT(self):
-        astar = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
-        neighbors = astar.getNeighbours(4,0)
+        bf = MazeSolverAlgoBreadthFirst()
+        bf.startMaze(5,5)
+        neighbors = bf.getNeighbours(4,0)
         result = [[3, 0], [4, 1]]
         self.assertTrue(neighbors == result)
 

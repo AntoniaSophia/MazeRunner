@@ -16,28 +16,28 @@ from MazeSolverAlgoBreadthFirst import MazeSolverAlgoBreadthFirst
 # Condition covera
 # Boundarycheck
 
-class CellisInGridTest(unittest.TestCase):
+class BF_CellisInGridTest(unittest.TestCase):
     def testCelloutsideGrid(self):
-        astar = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
-        self.assertFalse(astar.isInGrid(10,10))
+        bf = MazeSolverAlgoBreadthFirst()
+        bf.startMaze(5,5)
+        self.assertFalse(bf.isInGrid(10,10))
 
     def testCellNegoutsideGrid(self):
-        astar = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
-        self.assertFalse(astar.isInGrid(-2,2))
+        bf = MazeSolverAlgoBreadthFirst()
+        bf.startMaze(5,5)
+        self.assertFalse(bf.isInGrid(-2,2))
 
     def testCellinsideGrid(self):
-        astar = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
-        self.assertTrue(astar.isInGrid(2,2))
+        bf = MazeSolverAlgoBreadthFirst()
+        bf.startMaze(5,5)
+        self.assertTrue(bf.isInGrid(2,2))
 
     def testCellonborderRBGrid(self):
-        astar = MazeSolverAlgoBreadthFirst()
+        bf = MazeSolverAlgoBreadthFirst()
         astar.startMaze(5,5)
-        self.assertTrue(astar.isInGrid(4,4))
+        self.assertTrue(bf.isInGrid(4,4))
 
     def testCellonborderTLGrid(self):
-        astar = MazeSolverAlgoBreadthFirst()
-        astar.startMaze(5,5)
-        self.assertTrue(astar.isInGrid(0,0))        
+        bf = MazeSolverAlgoBreadthFirst()
+        bf.startMaze(5,5)
+        self.assertTrue(bf.isInGrid(0,0))        
