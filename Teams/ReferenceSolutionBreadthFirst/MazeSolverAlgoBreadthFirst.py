@@ -62,7 +62,6 @@ class MazeSolverAlgoBreadthFirst:
                     self.grid[i][j] = 0
 
     def endMaze(self):
-        print("kdjslfsjlsjf")
         self.grid[self.startRow][self.startCol] = self.START
         self.grid[self.endRow][self.endCol] = self.TARGET
 

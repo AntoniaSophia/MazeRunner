@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 3.1.2 (Python 3.7.6rc1 on win32)" generated="20191222 21:05:29.491" rpa="false">
+<robot generator="Robot 3.1.2 (Python 3.7.6rc1 on win32)" generated="20191223 15:06:09.836" rpa="false">
 <suite id="s1" name="Run Unit Test" source="D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\run_unit_test.robot">
 <test id="s1-t1" name="ExecuteUnitTest">
 <kw name="Create Directory" library="OperatingSystem">
@@ -7,62 +7,35 @@
 <arguments>
 <arg>D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/_tmp_unit_test_result</arg>
 </arguments>
-<msg timestamp="20191222 21:05:29.541" level="INFO" html="yes">Directory '&lt;a href="file://D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result"&gt;D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result&lt;/a&gt;' already exists.</msg>
-<status status="PASS" starttime="20191222 21:05:29.541" endtime="20191222 21:05:29.541"></status>
+<msg timestamp="20191223 15:06:09.867" level="INFO" html="yes">Directory '&lt;a href="file://D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result"&gt;D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result&lt;/a&gt;' already exists.</msg>
+<status status="PASS" starttime="20191223 15:06:09.867" endtime="20191223 15:06:09.867"></status>
 </kw>
 <kw name="Empty Directory" library="OperatingSystem">
 <doc>Deletes all the content from the given directory.</doc>
 <arguments>
 <arg>D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/_tmp_unit_test_result</arg>
 </arguments>
-<msg timestamp="20191222 21:05:29.541" level="INFO" html="yes">Listing contents of directory '&lt;a href="file://D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result"&gt;D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result&lt;/a&gt;'.</msg>
-<msg timestamp="20191222 21:05:29.541" level="INFO" html="yes">Emptied directory '&lt;a href="file://D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result"&gt;D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result&lt;/a&gt;'.</msg>
-<status status="PASS" starttime="20191222 21:05:29.541" endtime="20191222 21:05:29.541"></status>
+<msg timestamp="20191223 15:06:09.883" level="INFO" html="yes">Listing contents of directory '&lt;a href="file://D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result"&gt;D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result&lt;/a&gt;'.</msg>
+<msg timestamp="20191223 15:06:09.883" level="INFO" html="yes">Emptied directory '&lt;a href="file://D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result"&gt;D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result&lt;/a&gt;'.</msg>
+<status status="PASS" starttime="20191223 15:06:09.883" endtime="20191223 15:06:09.883"></status>
 </kw>
 <kw name="Run Process" library="Process">
 <doc>Runs a process and waits for it to complete.</doc>
 <arguments>
 <arg>pytest</arg>
 <arg>cwd=D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/tests</arg>
+<arg>stderr=STDOUT</arg>
 <arg>stdout=D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/_tmp_unit_test_result/UnitTestResult.txt</arg>
 </arguments>
-<msg timestamp="20191222 21:05:29.541" level="INFO">Starting process:
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20191223 15:06:09.883" level="INFO">Starting process:
 pytest</msg>
-<msg timestamp="20191222 21:05:29.551" level="INFO">Waiting for process to complete.</msg>
-<msg timestamp="20191222 21:05:32.086" level="INFO">Process completed.</msg>
-<status status="PASS" starttime="20191222 21:05:29.541" endtime="20191222 21:05:32.086"></status>
-</kw>
-<kw name="Run Process" library="Process">
-<doc>Runs a process and waits for it to complete.</doc>
-<arguments>
-<arg>coverage</arg>
-<arg>run</arg>
-<arg>-m</arg>
-<arg>pytest</arg>
-<arg>cwd=D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/tests</arg>
-<arg>env:COVERAGE_FILE=D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/tests/.coverage</arg>
-</arguments>
-<msg timestamp="20191222 21:05:32.090" level="INFO">Starting process:
-coverage run -m pytest</msg>
-<msg timestamp="20191222 21:05:32.111" level="INFO">Waiting for process to complete.</msg>
-<msg timestamp="20191222 21:05:33.051" level="INFO">Process completed.</msg>
-<status status="PASS" starttime="20191222 21:05:32.086" endtime="20191222 21:05:33.051"></status>
-</kw>
-<kw name="Run Process" library="Process">
-<doc>Runs a process and waits for it to complete.</doc>
-<arguments>
-<arg>coverage</arg>
-<arg>report</arg>
-<arg>-m</arg>
-<arg>cwd=D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/tests</arg>
-<arg>env:COVERAGE_FILE=D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/tests/.coverage</arg>
-<arg>stdout=D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/_tmp_unit_test_result/UnitTestResult.txt</arg>
-</arguments>
-<msg timestamp="20191222 21:05:33.061" level="INFO">Starting process:
-coverage report -m</msg>
-<msg timestamp="20191222 21:05:33.061" level="INFO">Waiting for process to complete.</msg>
-<msg timestamp="20191222 21:05:33.311" level="INFO">Process completed.</msg>
-<status status="PASS" starttime="20191222 21:05:33.051" endtime="20191222 21:05:33.311"></status>
+<msg timestamp="20191223 15:06:09.883" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20191223 15:06:10.474" level="INFO">Process completed.</msg>
+<msg timestamp="20191223 15:06:10.474" level="INFO">${result} = &lt;result object with rc 2&gt;</msg>
+<status status="PASS" starttime="20191223 15:06:09.883" endtime="20191223 15:06:10.474"></status>
 </kw>
 <kw name="Get File" library="OperatingSystem">
 <doc>Returns the contents of a specified file.</doc>
@@ -70,35 +43,85 @@ coverage report -m</msg>
 <arg>D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/_tmp_unit_test_result/UnitTestResult.txt</arg>
 </arguments>
 <assign>
-<var>${result}</var>
+<var>${logtext}</var>
 </assign>
-<msg timestamp="20191222 21:05:33.311" level="INFO" html="yes">Getting file '&lt;a href="file://D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result\UnitTestResult.txt"&gt;D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result\UnitTestResult.txt&lt;/a&gt;'.</msg>
-<msg timestamp="20191222 21:05:33.311" level="INFO">${result} = Name                                                                                                                   Stmts   Miss  Cover   Missing
----------------------------------------------------...</msg>
-<status status="PASS" starttime="20191222 21:05:33.311" endtime="20191222 21:05:33.311"></status>
+<msg timestamp="20191223 15:06:10.474" level="INFO" html="yes">Getting file '&lt;a href="file://D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result\UnitTestResult.txt"&gt;D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\_tmp_unit_test_result\UnitTestResult.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20191223 15:06:10.474" level="INFO">${logtext} = ============================= test session starts =============================
+platform win32 -- Python 3.7.6rc1, pytest-5.3.2, py-1.8.0, pluggy-0.13.1
+rootdir: D:\_Projects\MazeRunner_2020\MazeRunne...</msg>
+<status status="PASS" starttime="20191223 15:06:10.474" endtime="20191223 15:06:10.474"></status>
 </kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${result.rc} is not 0</arg>
+<arg>Log</arg>
+<arg>\n ${logtext}</arg>
+<arg>console=${True}</arg>
+</arguments>
 <kw name="Log" library="BuiltIn">
 <doc>Logs the given message with the given level.</doc>
 <arguments>
-<arg>\n ${result}</arg>
+<arg>\n ${logtext}</arg>
 <arg>console=${True}</arg>
 </arguments>
-<msg timestamp="20191222 21:05:33.311" level="INFO">
-Name                                                                                                                   Stmts   Miss  Cover   Missing
-----------------------------------------------------------------------------------------------------------------------------------------------------
-D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\MazeSolverAlgoBreadthFirst.py     153     91    41%   26, 29, 32, 35, 38, 49-50, 65-67, 70, 85, 88-100, 103-129, 132-136, 139-142, 145, 148-171, 180-219, 222, 226-231
+<msg timestamp="20191223 15:06:10.474" level="INFO">
+============================= test session starts =============================
+platform win32 -- Python 3.7.6rc1, pytest-5.3.2, py-1.8.0, pluggy-0.13.1
+rootdir: D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\tests
+collected 11 items / 1 error / 10 selected
+
+=================================== ERRORS ====================================
+__________________ ERROR collecting test_rbf_breadthfirst.py __________________
+c:\users\antonia\appdata\local\programs\python\python37\lib\site-packages\_pytest\python.py:492: in _importtestmodule
+    mod = self.fspath.pyimport(ensuresyspath=importmode)
+c:\users\antonia\appdata\local\programs\python\python37\lib\site-packages\py\_path\local.py:701: in pyimport
+    __import__(modname)
+&lt;frozen importlib._bootstrap&gt;:983: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:967: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:677: in _load_unlocked
+    ???
+c:\users\antonia\appdata\local\programs\python\python37\lib\site-packages\_pytest\assertion\rewrite.py:134: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+c:\users\antonia\appdata\local\programs\python\python37\lib\site-packages\_pytest\assertion\rewrite.py:317: in _rewrite_test
+    tree = ast.parse(source, filename=fn)
+c:\users\antonia\appdata\local\programs\python\python37\lib\ast.py:35: in parse
+    return compile(source, filename, mode, PyCF_ONLY_AST)
+E     File "D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\tests\test_rbf_breadthfirst.py", line 19
+E       class BF_FillMazeTest(unittest.TestCase)
+E                                              ^
+E   SyntaxError: invalid syntax
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+============================== 1 error in 0.26s ===============================
 </msg>
-<status status="PASS" starttime="20191222 21:05:33.311" endtime="20191222 21:05:33.311"></status>
+<status status="PASS" starttime="20191223 15:06:10.474" endtime="20191223 15:06:10.474"></status>
 </kw>
-<kw name="Remove Files" library="OperatingSystem">
-<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<status status="PASS" starttime="20191223 15:06:10.474" endtime="20191223 15:06:10.474"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
 <arguments>
-<arg>D:\\_Projects\\MazeRunner_2020\\MazeRunner\\MazeRunner\\Teams\\ReferenceSolutionBreadthFirst/tests/.coverage</arg>
+<arg>${result.rc} is not 0</arg>
+<arg>Fatal Error</arg>
+<arg>\nPytest exist with error! Please check the unittest!\n</arg>
 </arguments>
-<msg timestamp="20191222 21:05:33.311" level="INFO" html="yes">Removed file '&lt;a href="file://D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\tests\.coverage"&gt;D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\tests\.coverage&lt;/a&gt;'.</msg>
-<status status="PASS" starttime="20191222 21:05:33.311" endtime="20191222 21:05:33.311"></status>
+<kw name="Fatal Error" library="BuiltIn">
+<doc>Stops the whole test execution.</doc>
+<arguments>
+<arg>\nPytest exist with error! Please check the unittest!\n</arg>
+</arguments>
+<msg timestamp="20191223 15:06:10.474" level="FAIL">
+Pytest exist with error! Please check the unittest!
+</msg>
+<status status="FAIL" starttime="20191223 15:06:10.474" endtime="20191223 15:06:10.474"></status>
 </kw>
-<status status="PASS" starttime="20191222 21:05:29.541" endtime="20191222 21:05:33.311" critical="yes"></status>
+<status status="FAIL" starttime="20191223 15:06:10.474" endtime="20191223 15:06:10.474"></status>
+</kw>
+<status status="FAIL" starttime="20191223 15:06:09.867" endtime="20191223 15:06:10.474" critical="yes">
+Pytest exist with error! Please check the unittest!
+</status>
 </test>
 <doc>Example test cases using the keyword-driven testing approach.
 
@@ -112,17 +135,17 @@ if also business people need to understand tests. If the
 same workflow needs to repeated multiple times, it is best
 to use to the _data-driven_ approach.
 Start command: robot &lt;robotfile&gt; , e.g. robot keyword_driven.robot</doc>
-<status status="PASS" starttime="20191222 21:05:29.491" endtime="20191222 21:05:33.311"></status>
+<status status="FAIL" starttime="20191223 15:06:09.836" endtime="20191223 15:06:10.474"></status>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0">Critical Tests</stat>
-<stat pass="1" fail="0">All Tests</stat>
+<stat pass="0" fail="1">Critical Tests</stat>
+<stat pass="0" fail="1">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="1" fail="0" id="s1" name="Run Unit Test">Run Unit Test</stat>
+<stat pass="0" fail="1" id="s1" name="Run Unit Test">Run Unit Test</stat>
 </suite>
 </statistics>
 <errors>

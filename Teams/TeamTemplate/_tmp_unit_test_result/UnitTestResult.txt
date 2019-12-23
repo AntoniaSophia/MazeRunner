@@ -1,0 +1,8 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.6rc1, pytest-5.3.2, py-1.8.0, pluggy-0.13.1
+rootdir: D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\TeamTemplate\tests
+collected 2 items
+
+test_teamtemplate_helloworld.py ..                                       [100%]
+
+============================== 2 passed in 0.79s ==============================

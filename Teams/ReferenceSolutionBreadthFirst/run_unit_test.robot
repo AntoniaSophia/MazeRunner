@@ -20,13 +20,15 @@ ExecuteUnitTest
     Create Directory  ${CURDIR}/_tmp_unit_test_result
     Empty Directory  ${CURDIR}/_tmp_unit_test_result
 
-    Run Process  pytest  cwd=${CURDIR}/tests  stdout=${CURDIR}/_tmp_unit_test_result/UnitTestResult.txt 
+    ${result} =    RunProcess  pytest  cwd=${CURDIR}/tests  stderr=STDOUT  stdout=${CURDIR}/_tmp_unit_test_result/UnitTestResult.txt 
+    ${logtext} =    Get File  ${CURDIR}/_tmp_unit_test_result/UnitTestResult.txt
+    
+    Run keyword if   ${result.rc} is not 0   Log  \n ${logtext}   console=${True}    
+    Run keyword if   ${result.rc} is not 0   Fatal Error     \nPytest exist with error! Please check the unittest!\n
 
     Run Process  coverage  run  -m  pytest  cwd=${CURDIR}/tests  env:COVERAGE_FILE=${CURDIR}/tests/.coverage
-    Run Process  coverage  report  -m  cwd=${CURDIR}/tests  env:COVERAGE_FILE=${CURDIR}/tests/.coverage  stdout=${CURDIR}/_tmp_unit_test_result/UnitTestResult.txt
-    ${result} =    Get File  ${CURDIR}/_tmp_unit_test_result/UnitTestResult.txt
+    Run Process  coverage  report  -m  cwd=${CURDIR}/tests  env:COVERAGE_FILE=${CURDIR}/tests/.coverage  stdout=${CURDIR}/_tmp_unit_test_result/CoverageUnitTestResult.txt
+    ${result} =    Get File  ${CURDIR}/_tmp_unit_test_result/CoverageUnitTestResult.txt
     Log  \n ${result}   console=${True}
-    # # Run Process  coverage  erase
-    Remove Files  ${CURDIR}/tests/.coverage
 
-    #Remove Directory  ${CURDIR}/result
+    Remove Files  ${CURDIR}/tests/.coverage
