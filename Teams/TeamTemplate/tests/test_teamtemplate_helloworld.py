@@ -1,4 +1,3 @@
-from TeamTemplateClient import TeamTemplateClient
 import unittest
 import os
 import sys
@@ -8,7 +7,7 @@ import paho.mqtt.client as mqtt
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
-
+from TeamTemplateClient import TeamTemplateClient  # noqa: E402
 
 # Line Coverage
 # branch Coverage
