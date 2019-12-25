@@ -37,3 +37,29 @@ class FillMazeTest(unittest.TestCase):
         mg.loadMaze(os.path.join(currentdir, "..","..","..","MazeExamples", maze))
         result = mg.solveMaze()
         self.assertTrue(result == refResult)
+
+    def testSetStartEndCol(self):
+        mg = MazeSolverAlgoAStar()
+        maze = "maze2.txt"
+        mg.loadMaze(os.path.join(currentdir, "..","..","..","MazeExamples", maze))
+
+        mg.setStartCol(-1)
+        self.assertTrue(mg.startCol == -1)
+
+        mg.setStartRow(-1)
+        self.assertTrue(mg.startRow == -1)
+
+        mg.setEndCol(-1)
+        self.assertTrue(mg.endCol == -1)
+
+        mg.setEndRow(-1)
+        self.assertTrue(mg.endRow == -1)
+
+    def testSetBlocked(self):
+        mg = MazeSolverAlgoAStar()
+        maze = "maze2.txt"
+        mg.loadMaze(os.path.join(currentdir, "..","..","..","MazeExamples", maze))
+
+        mg.setBlocked(0, 0)
+
+        self.assertTrue(mg.grid[0][0] == mg.OBSTACLE)
