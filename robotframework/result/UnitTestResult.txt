@@ -1,0 +1,10 @@
+Name                                                      Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------------------------
+ReferenceSolutionAStar\MazeSolverAlgoAStar.py               162     19    88%   26, 29, 32, 35, 38, 49-50, 65-67, 70, 85, 107, 111, 243-248
+ReferenceSolutionAStar\tests\__init__.py                      0      0   100%
+ReferenceSolutionAStar\tests\test_AStar.py                   26      0   100%
+ReferenceSolutionAStar\tests\test_cell_getneighbours.py      42      0   100%
+ReferenceSolutionAStar\tests\test_cell_isingrid.py           32      0   100%
+ReferenceSolutionAStar\tests\test_load_maze.py               20      1    95%   29
+---------------------------------------------------------------------------------------
+TOTAL                                                       282     20    93%

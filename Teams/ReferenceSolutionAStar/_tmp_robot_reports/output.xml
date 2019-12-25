@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.7.6rc1 on win32)" generated="20191222 19:01:44.455" rpa="false">
+<suite id="s1" name="Run All" source="D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\teams\ReferenceSolutionAStar\run_all.robot">
+<test id="s1-t1" name="RunMaze">
+<kw name="Broker Start" library="BrokerLibrary">
+<status status="PASS" starttime="20191222 19:01:44.631" endtime="20191222 19:01:44.997"></status>
+</kw>
+<kw name="Gui Start" library="MazeGuiLibrary">
+<status status="PASS" starttime="20191222 19:01:44.999" endtime="20191222 19:01:45.021"></status>
+</kw>
+<kw name="Astarreference Start" library="AStarReferenceSolverLibrary">
+<status status="PASS" starttime="20191222 19:01:45.022" endtime="20191222 19:01:45.029"></status>
+</kw>
+<kw name="Connect" library="MQTTLibrary">
+<doc>Connect to an MQTT broker. This is a pre-requisite step for publish
+and subscribe keywords.</doc>
+<arguments>
+<arg>127.0.0.1</arg>
+</arguments>
+<msg timestamp="20191222 19:01:45.030" level="INFO">Connecting to 127.0.0.1 at port 1883</msg>
+<status status="PASS" starttime="20191222 19:01:45.030" endtime="20191222 19:01:45.051"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2s</arg>
+</arguments>
+<msg timestamp="20191222 19:01:47.053" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" starttime="20191222 19:01:45.052" endtime="20191222 19:01:47.053"></status>
+</kw>
+<kw name="Generator Load" library="GeneratorLibrary">
+<arguments>
+<arg>../../MazeExamples/maze2.txt</arg>
+</arguments>
+<msg timestamp="20191222 19:01:48.270" level="INFO">Generator run</msg>
+<status status="PASS" starttime="20191222 19:01:47.055" endtime="20191222 19:01:48.270"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>5s</arg>
+</arguments>
+<msg timestamp="20191222 19:01:53.271" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" starttime="20191222 19:01:48.271" endtime="20191222 19:01:53.272"></status>
+</kw>
+<kw name="Publish" library="MQTTLibrary">
+<doc>Publish a message to a topic with specified qos and retained flag.
+It is required that a connection has been established using `Connect`
+keyword before using this keyword.</doc>
+<arguments>
+<arg>topic=/maze</arg>
+<arg>message=solve</arg>
+</arguments>
+<msg timestamp="20191222 19:01:53.274" level="INFO">Publish topic: /maze, message: solve, qos: 0, retain: False</msg>
+<status status="PASS" starttime="20191222 19:01:53.274" endtime="20191222 19:01:53.275"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>200s</arg>
+</arguments>
+<status status="FAIL" starttime="20191222 19:01:53.277" endtime="20191222 19:02:01.987"></status>
+</kw>
+<status status="FAIL" starttime="20191222 19:01:44.630" endtime="20191222 19:02:01.993" critical="yes">Execution terminated by signal</status>
+</test>
+<doc>Example test cases using the keyword-driven testing approach.
+
+All tests contain a workflow constructed from keywords in
+``CalculatorLibrary.py``. Creating new tests or editing
+existing is easy even for people without programming skills.
+
+The _keyword-driven_ appoach works well for normal test
+automation, but the _gherkin_ style might be even better
+if also business people need to understand tests. If the
+same workflow needs to repeated multiple times, it is best
+to use to the _data-driven_ approach.
+Start command: robot &lt;robotfile&gt; , e.g. robot keyword_driven.robot
+dtrhreth</doc>
+<status status="FAIL" starttime="20191222 19:01:44.460" endtime="20191222 19:02:01.997"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1">Critical Tests</stat>
+<stat pass="0" fail="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" id="s1" name="Run All">Run All</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

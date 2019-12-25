@@ -245,4 +245,4 @@ if __name__ == '__main__':
 
     for step in mg.solveMaze():
         step_str = '{},{}'.format(step[0], step[1])
-        # print(step_str)
+        print("Go: ", step_str)

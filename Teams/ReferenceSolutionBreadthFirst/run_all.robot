@@ -12,19 +12,25 @@ Documentation     Example test cases using the keyword-driven testing approach.
 ...               to use to the _data-driven_ approach.
 ...     	      Start command: robot <robotfile> , e.g. robot keyword_driven.robot
 ...               dtrhreth
+Library           ../../robotframework/Framework/BrokerLibrary.py
+Library           ../../robotframework/Framework/MazeGuiLibrary.py
+Library           ../../robotframework/Framework/GeneratorLibrary.py
+Library           ../../robotframework/Teams/ReferenceSolutionBreadthFirst/BreadthFirstReferenceSolverLibrary.py
+Library           MQTTLibrary
 Library           Process
 Library           OperatingSystem
 
 *** Test Cases ***
-ExecuteUnitTest
-    Create Directory  ${CURDIR}/result
-    Empty Directory  ${CURDIR}/result
-    Run Process  pytest  cwd=${CURDIR}/../Teams/ReferenceSolutionAStar  stdout=${CURDIR}/result/UnitTestResult.txt 
-
-    Run Process  coverage  run  -m  pytest  cwd=${CURDIR}/../Teams
-    Run Process  coverage  report  -m  cwd=${CURDIR}/../Teams  stdout=${CURDIR}/result/UnitTestResult.txt
-    ${result} =    Get File  ${CURDIR}/result/UnitTestResult.txt
-    Log  \n ${result}   console=${True}
-    Run Process  coverage  erase
-    #Remove Files  ${CURDIR}/result/UnitTestResult.txt
-    #Remove Directory  ${CURDIR}/result
+#Start command: robot <robotfile> , 
+#               example: robot -d _tmp_robot_reports run_all.robot
+RunMaze
+    Broker start
+    Gui start
+    BreadthFirstReference start
+    Connect     127.0.0.1
+    sleep  2s
+    #Generator action  11  11  0  0
+    Generator load  ../../MazeExamples/maze1.txt
+    sleep  5s
+    Publish     topic=/maze    message=solve
+    sleep  200s

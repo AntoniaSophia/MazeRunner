@@ -3,6 +3,7 @@ import time
 import array as arr
 from MazeSolverAlgoBreadthFirst import MazeSolverAlgoBreadthFirst
 import os
+import sys
 import logging
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
@@ -20,6 +21,7 @@ class MazeSolverClient:
         self.master.connect(mqtt_server, 1883, 60)
 
         self.solver = MazeSolverAlgoBreadthFirst()
+        self.solver.master = self.master
 
     def onMessage(self, master, obj, msg):
         topic = str(msg.topic)
@@ -38,11 +40,9 @@ class MazeSolverClient:
             else:
                 pass
         elif topic == "/maze/dimRow":
-            self.solver.setDimRows(int(payload))
-            self.solver.startMaze(self.solver.dimRows, self.solver.dimColumns)
+            self.solver.startMaze(int(payload), self.solver.dimCols)
         elif topic == "/maze/dimCol":
-            self.solver.setDimCols(int(payload))
-            self.solver.startMaze(self.solver.dimRows, self.solver.dimColumns)
+            self.solver.startMaze(self.solver.dimRows, int(payload))
         elif topic == "/maze/startCol":
             self.solver.setStartCol(int(payload))
         elif topic == "/maze/startRow":
@@ -66,9 +66,11 @@ class MazeSolverClient:
         self.master.subscribe("/maze/endCol")
         self.master.subscribe("/maze/endRow")
         self.master.subscribe("/maze/blocked")
-        print("Connnect to mqtt-broker")
 
-    def publish(self, topic, message=None, qos=0, retain=False):
+    def logMsg(self, msg):
+        self.publish("/logging/Solver", msg)
+
+    def publish(self, topic, message=None, qos=1, retain=False):
         print("Published message: ", topic, " --> ", message)
         self.master.publish(topic, message, qos, retain)
 
@@ -83,6 +85,6 @@ if __name__ == '__main__':
     mqttclient = mqtt.Client()
     solverClient = MazeSolverClient(mqttclient)
     logging.basicConfig(level=logging.ERROR)
-    logger = logging.getLogger("BreadthFirst")
+    logger = logging.getLogger(__name__)
     mqttclient.enable_logger(logger)
     solverClient.master.loop_forever()

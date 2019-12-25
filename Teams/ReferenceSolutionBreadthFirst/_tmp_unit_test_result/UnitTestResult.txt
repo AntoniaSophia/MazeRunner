@@ -1,0 +1,29 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.6rc1, pytest-5.3.2, py-1.8.0, pluggy-0.13.1
+rootdir: D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\tests
+collected 11 items / 1 error / 10 selected
+
+=================================== ERRORS ====================================
+__________________ ERROR collecting test_rbf_breadthfirst.py __________________
+c:\users\antonia\appdata\local\programs\python\python37\lib\site-packages\_pytest\python.py:492: in _importtestmodule
+    mod = self.fspath.pyimport(ensuresyspath=importmode)
+c:\users\antonia\appdata\local\programs\python\python37\lib\site-packages\py\_path\local.py:701: in pyimport
+    __import__(modname)
+<frozen importlib._bootstrap>:983: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:967: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:677: in _load_unlocked
+    ???
+c:\users\antonia\appdata\local\programs\python\python37\lib\site-packages\_pytest\assertion\rewrite.py:134: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+c:\users\antonia\appdata\local\programs\python\python37\lib\site-packages\_pytest\assertion\rewrite.py:317: in _rewrite_test
+    tree = ast.parse(source, filename=fn)
+c:\users\antonia\appdata\local\programs\python\python37\lib\ast.py:35: in parse
+    return compile(source, filename, mode, PyCF_ONLY_AST)
+E     File "D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionBreadthFirst\tests\test_rbf_breadthfirst.py", line 19
+E       class BF_FillMazeTest(unittest.TestCase)
+E                                              ^
+E   SyntaxError: invalid syntax
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+============================== 1 error in 0.26s ===============================

@@ -22,14 +22,13 @@ class MazeGeneratorClient:
         pass
 
     def publish(self, topic, message=None , qos=0, retain=False):
-        print("Published message: " , topic , " --> " , message)
         self.master.publish(topic,message,qos,retain)
+        print("[MazeGenerator] Published message: " , topic , " --> " , message)
 
 
     def __init__(self):
         # TODO: this is you job now :-)
 
-        print("Constructor MazeGenerator")
         self.startCol = 2
         self.startRow = 2
         self.endCol = 7
@@ -39,13 +38,15 @@ class MazeGeneratorClient:
         self.master=mqtt.Client()
         self.master.on_connect=self.onConnect
         self.master.connect(mqtt_server,1883,60)
+        print("\n[MazeGenerator] Constructor MazeGenerator successfull executed.")
 
     def printMaze(self):
         # TODO: this is you job now :-)
         for i in range(len(self.maze)):
-            print()
             for j in range(len(self.maze[i])):
                 print(self.maze[i][j], end='')
+            print()
+        print()
 
 
     def sendMaze(self):
@@ -80,26 +81,22 @@ class MazeGeneratorClient:
         #pass
 
     def loadMaze(self,pathToConfigFile):
+        print("[MazeGenerator] Loading maze from file" , pathToConfigFile)
         self.maze=numpy.loadtxt(pathToConfigFile, delimiter=',',dtype=int)
         self.dimensionCol=self.maze.shape[0]
         self.dimensionRow=self.maze.shape[1]
         start_arr = numpy.where(self.maze == 2)
-        self.startCol=int(start_arr[0][0])
-        self.startRow=int(start_arr[1][0])
+        self.startRow=int(start_arr[0][0])
+        self.startCol=int(start_arr[1][0])
         end_arr = numpy.where(self.maze == 3)
-        self.endCol=int(end_arr[0][0])
-        self.endRow=int(end_arr[1][0])
-
-        print(self.startCol,"#",self.startRow)
-        print(self.endCol,"#",self.endRow)
+        self.endRow=int(end_arr[0][0])
+        self.endCol=int(end_arr[1][0])
 
     def saveMaze(self,pathToConfigFile):        
         numpy.savetxt(pathToConfigFile, self.mga.getMaze(), fmt="%d", delimiter=",", newline="\n")
 
     def createNewMaze(self,width, height, complexity, density):
-        print(width, height, complexity, density)
-        # TODO: this is you job now :-)
-        
+        print("\n[MazeGenerator] Generating Maze " , width, height, complexity, density)
         self.mga = Maze()
         self.mga.create(int(int(width)/2), int(int(height)/2), Maze.Create.BACKTRACKING) 
         self.maze =  self.mga.getMaze() 
@@ -145,14 +142,15 @@ def main(argv):
     mg = MazeGeneratorClient()
 
     if len(inputfile) > 0:
-        print ('Input file is ', inputfile)
+        print ('\n[MazeGenerator] Input maze file is: ', inputfile)
         mg.loadMaze(inputfile)
     else:
         mg.createNewMaze(width,height,complexity,density)
         if len(outputfile) > 0:
-            print ('Output file is ', outputfile)
+            print ('\n[MazeGenerator] Output maze file is: ', outputfile)
             mg.saveMaze(outputfile)
     
+    print("[MazeGenerator] Sending following Maze:")
     mg.printMaze()
     mg.sendMaze()
 

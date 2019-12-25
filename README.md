@@ -1,5 +1,30 @@
 # MazeRunner
 
+## Install for Windows 10
+1. Python3.7
+download and install the latest Installer for 3.7.x Version from https://www.python.org/ftp/python/
+e.g. https://www.python.org/ftp/python/3.7.6/python-3.7.6-amd64.exe
+2. Git-Client
+download and install the git client for windows from https://git-scm.com/download/win
+e.g. https://github.com/git-for-windows/git/releases/download/v2.24.1.windows.2/Git-2.24.1.2-64-bit.exe
+3. clone this repository ```git clone https://github.com/AntoniaSophia/MazeRunner.git```
+2. Open Commandline via ```<win>+r cmd```
+3. cd into cloned directory
+3. Update pip ```pip install --upgrade pip```
+4. Install required python packages: ```pip install -U -r requirements.txt```
+
+## Visual Studio Code 
+1. Download and install Visual Studio Code from https://code.visualstudio.com/Download#
+2. Install Python Extension: https://marketplace.visualstudio.com/items?itemName=ms-python.python
+
+## Execute unittests
+```pytest -v```
+
+## Execute Robotframework Tests
+```cd robotframework
+robot end2end_astar.robot
+```
+
 ## Maze Runner in python with MQTT
 This project is for educational purpose. Mazerunner is a collection of applications to introduce Service orientation, IoT Technologies and collaborative Development using state of the art DevOps systems like github and jenkins. 
 
