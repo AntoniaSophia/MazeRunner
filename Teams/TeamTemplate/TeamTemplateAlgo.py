@@ -8,7 +8,7 @@ from math import sqrt
 import numpy
 import queue
 
-class MazeSolverAlgoTemplate:
+class TeamTemplateAlgo:
 
     EMPTY = 0       # empty cell
     OBSTACLE = 1    # cell with obstacle / blocked cell
@@ -17,7 +17,15 @@ class MazeSolverAlgoTemplate:
 
     def __init__(self):
         # TODO: this is you job now :-)
-        pass
+        self.master = 0
+        self.dimCols = 0
+        self.dimRows = 0
+        self.startCol = 0
+        self.startRow = 0
+        self.endCol = 0
+        self.endRow = 0
+        self.grid = [[]]
+        print("\n[TeamTemplateAlgo]: Constructor TeamTemplateAlgo successfully executed.")      
 
     # Setter method for the maze dimension of the rows
     def setDimRows(self, rows):
@@ -83,6 +91,8 @@ class MazeSolverAlgoTemplate:
     def loadMaze(self,pathToConfigFile):
         # check whether a function numpy.loadtxt() could be useful
         # TODO: this is you job now :-)
+        print("[TeamTemplateAlgo]: loading maze: " , pathToConfigFile)
+
         pass
 
     # clears the complete maze 
@@ -139,17 +149,21 @@ class MazeSolverAlgoTemplate:
 
     # Command for starting the solving procedure
     def solveMaze(self):
+        print("[TeamTemplateAlgo]: start solving maze... ")
         return self.myMazeSolver()
 
-
 if __name__ == '__main__':
-    mg = MazeSolverAlgoTemplate()
+    mg = TeamTemplateAlgo()
 
 
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
-    #mg.loadMaze("..\\MazeExamples\\Maze1.txt")
-    #solutionString = mg.solveMaze()
-    #print(solutionString)
+    mg.loadMaze("..\\..\\MazeExamples\\Maze1.txt")
+    print("[TeamTemplateAlgo]: loaded maze", mg.grid)
+    
+    # solve the maze
+    # HINT: this command shall be received from MQTT client in run_all mode
+    solutionString = mg.solveMaze()
+    print("[TeamTemplateAlgo]: Result of solving maze: " , solutionString)
    

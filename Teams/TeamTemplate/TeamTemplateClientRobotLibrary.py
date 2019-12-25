@@ -10,7 +10,7 @@ scriptDirectory = os.path.dirname(os.path.realpath(__file__))
 projectDirectory = os.path.join(scriptDirectory, ".")
 pythonVar = "python"
 
-class TeamTemplateClientLibrary(object):
+class TeamTemplateClientRobotLibrary(object):
     """Test library for testing business logic.
     """
 
