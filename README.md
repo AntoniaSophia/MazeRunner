@@ -13,6 +13,10 @@ e.g. https://github.com/git-for-windows/git/releases/download/v2.24.1.windows.2/
 3. Update pip ```pip install --upgrade pip```
 4. Install required python packages: ```pip install -U -r requirements.txt```
 
+## Visual Studio Code 
+1. Download and install Visual Studio Code from https://code.visualstudio.com/Download#
+2. Install Python Extension: https://marketplace.visualstudio.com/items?itemName=ms-python.python
+
 ## Execute unittests
 ```pytest -v```
 
