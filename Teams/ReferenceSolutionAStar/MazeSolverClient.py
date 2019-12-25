@@ -1,9 +1,6 @@
 import paho.mqtt.client as mqtt
-import time
-import array as arr
 from MazeSolverAlgoAStar import MazeSolverAlgoAStar
 import os
-import sys
 import logging
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:

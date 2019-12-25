@@ -1,9 +1,4 @@
-import numpy as np
-import ctypes
 import enum
-import os
-
-import utils as util
 
 
 class MazeBase(object):
@@ -11,11 +6,11 @@ class MazeBase(object):
     class Create(enum.Enum):
         """Enum for creation algorithms."""
         BACKTRACKING = "Recursive backtracking algorithm"
-        HUNT         = "Hunt and kill algorithm"
-        ELLER        = "Eller's algorithm"
-        SIDEWINDER   = "Sidewinder algorithm"
-        PRIM         = "Prim's algorithm"
-        KRUSKAL      = "Kruskal's algorithm"
+        HUNT = "Hunt and kill algorithm"
+        ELLER = "Eller's algorithm"
+        SIDEWINDER = "Sidewinder algorithm"
+        PRIM = "Prim's algorithm"
+        KRUSKAL = "Kruskal's algorithm"
 
     def __init__(self):
         """Constructor."""
@@ -42,4 +37,3 @@ class MazeBase(object):
     def col_count(self):
         """Returns the mazes column count."""
         return self.col_count_with_walls // 2
-

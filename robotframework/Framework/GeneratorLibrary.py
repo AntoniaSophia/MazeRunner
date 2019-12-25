@@ -1,13 +1,9 @@
-import sys
 from subprocess import Popen
 import os
-import threading
-import time
-import platform
-import paho.mqtt.client as paho
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
 projectDirectory = os.path.join(scriptDirectory, "../..")
+
 
 class GeneratorLibrary(object):
     """Test library for testing *Calculator* business logic.
@@ -26,7 +22,6 @@ class GeneratorLibrary(object):
             height), "--complexity="+str(complexity), "--density="+str(density)], shell=False)
         self.generatorpid.communicate()
         print("Generator run")
-            
 
     def generator_load(self, filename):
         executeSript = os.path.join(

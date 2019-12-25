@@ -11,8 +11,9 @@ class Maze(base.MazeBase):
     OBST = 1        # cell with obstacle
     ROBOT = 2       # the position of the robot
     TARGET = 3      # the position of the target
-    
+
     """This class contains the relevant algorithms for creating and solving."""
+
     def __init__(self):
         """Constructor."""
         super(Maze, self).__init__()
@@ -37,7 +38,6 @@ class Maze(base.MazeBase):
             raise utils.MazeError("Row or column count cannot be smaller than zero.")
 
         self.maze = np.zeros((2 * row_count + 1, 2 * col_count + 1), dtype=np.uint8)
-
 
         if algorithm == Maze.Create.BACKTRACKING:
             return self._recursive_backtracking()
@@ -191,7 +191,8 @@ class Maze(base.MazeBase):
             # Create vertical links
             set_list.sort(reverse=True)
             while set_list:
-                sub_set_list = collections.deque()  # List of set indices with positions for one set index [(set index, position), ...]
+                # List of set indices with positions for one set index [(set index, position), ...]
+                sub_set_list = collections.deque()
                 sub_set_index = set_list[-1][0]
                 while set_list and set_list[-1][0] == sub_set_index:  # Create sub list for one set index
                     sub_set_list.append(set_list.pop())
@@ -386,7 +387,7 @@ class Maze(base.MazeBase):
                 return utils.draw_path(self.solution, utils.stack_deque(cell))
 
         raise utils.MazeError("No solution found.")
-    
+
     def getMaze(self):
         b = self.maze
         b[b == 0] = 2

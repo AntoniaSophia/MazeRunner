@@ -1,5 +1,3 @@
-import sys
-from math import sqrt
 import numpy
 import queue
 
@@ -103,7 +101,7 @@ class MazeSolverAlgoAStar:
         neighbours = []
 
         # no neighbours for out-of-grid elements
-        if self.isInGrid(row, column) == False:
+        if self.isInGrid(row, column) is False:
             return neighbours
 
         # no neighbours for blocked grid elements
@@ -205,7 +203,7 @@ class MazeSolverAlgoAStar:
         while not frontier.empty():
             current = frontier.get()[1]
             currentKey = self.gridElementToString(current[0], current[1])
-            #print("First Queue Element = " , currentKey)
+            # print("First Queue Element = " , currentKey)
 
             if self.isSameGridElement(current, goal):
                 break
@@ -219,7 +217,7 @@ class MazeSolverAlgoAStar:
                 if nextKey not in cost_so_far or new_cost < cost_so_far[nextKey]:
                     cost_so_far[nextKey] = new_cost
                     priority = new_cost + self.heuristic(goal, next)
-                    #print("Next = " , nextKey , " - priority = " , priority)
+                    # print("Next = " , nextKey , " - priority = " , priority)
                     frontier.put((priority, next))
                     came_from[nextKey] = current
         #############################

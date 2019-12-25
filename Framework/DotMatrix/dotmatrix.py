@@ -2,8 +2,6 @@
 
 import opc
 import time
-import numpy
-import math
 import os
 import paho.mqtt.client as mqtt
 
@@ -52,9 +50,11 @@ class MqttClient:
             row = int(cell[0])
 
             if col < 16 and row < 16:
-                if col == self.mazeVisualizer.start_col and row == self.mazeVisualizer.start_row:
+                if col == self.mazeVisualizer.start_col and \
+                        row == self.mazeVisualizer.start_row:
                     print("Start")
-                elif col == self.mazeVisualizer.end_col and row == self.mazeVisualizer.end_row:
+                elif col == self.mazeVisualizer.end_col and \
+                        row == self.mazeVisualizer.end_row:
                     print("End")
                 else:
                     self.mazeVisualizer.addSolutionStep(col, row)
