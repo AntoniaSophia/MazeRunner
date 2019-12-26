@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import time
-from maze import *
+from maze import Maze
 import sys
 import getopt
 import numpy
@@ -95,7 +95,7 @@ class MazeGeneratorClient:
     def createNewMaze(self, width, height, complexity, density):
         print("\n[MazeGenerator] Generating Maze ", width, height, complexity, density)
         self.mga = Maze()
-        self.mga.create(int(int(width)/2), int(int(height)/2), Maze.Create.BACKTRACKING)
+        self.mga.create(int(int(width)/2), int(int(height)/2), Maze.Create.ELLER)
         self.maze = self.mga.getMaze()
         (x, y) = self.maze.shape
         self.startCol = 1

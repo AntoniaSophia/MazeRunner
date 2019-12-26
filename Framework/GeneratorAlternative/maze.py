@@ -1,9 +1,10 @@
-import numpy as np
 import collections
 import random
 
-import utils as utils
+import numpy as np
+
 import base as base
+import utils as utils
 
 
 class Maze(base.MazeBase):
@@ -133,69 +134,70 @@ class Maze(base.MazeBase):
                 x, y = self._create_walk(x, y)
             x, y = self._hunt(hunt_list)
 
-    def _eller(self):
+    def _eller(self): 
         """Creates a maze using Eller's algorithm."""
-        row_stack = [0] * self.col_count  # List of set indices [set index, ...]
-        set_list = []  # List of set indices with positions [(set index, position), ...]
-        set_index = 1
+        self.row_stack = [0] * self.col_count  # List of set indices [set index, ...]
+        self.set_list = []  # List of set indices with positions [(set index, position), ...]
+        self.set_index = 1
 
         for x in range(1, self.row_count_with_walls - 1, 2):
             connect_list = collections.deque()  # List of connections between cells [True, ...]
 
             # Create row stack
-            if row_stack[0] == 0:  # Define first cell in row
-                row_stack[0] = set_index
-                set_index += 1
+            if self.row_stack[0] == 0:  # Define first cell in row
+                self.row_stack[0] = self.set_index
+                self.set_index += 1
 
             for y in range(1, self.col_count):  # Define other cells in row
                 if random.getrandbits(1):  # Connect cell with previous cell
-                    if row_stack[y] != 0:  # Cell has a set
-                        old_index = row_stack[y]
-                        new_index = row_stack[y - 1]
+                    if self.row_stack[y] != 0:  # Cell has a set
+                        old_index = self.row_stack[y]
+                        new_index = self.row_stack[y - 1]
                         if old_index != new_index:  # Combine both sets
-                            row_stack = [new_index if y == old_index else y for y in row_stack]  # Replace old indices
+                            self.row_stack = \
+                                [new_index if y == old_index else y for y in self.row_stack]  # Replace old indices
                             connect_list.append(True)
                         else:
                             connect_list.append(False)
                     else:  # Cell has no set
-                        row_stack[y] = row_stack[y - 1]
+                        self.row_stack[y] = self.row_stack[y - 1]
                         connect_list.append(True)
                 else:  # Do not connect cell with previous cell
-                    if row_stack[y] == 0:
-                        row_stack[y] = set_index
-                        set_index += 1
+                    if self.row_stack[y] == 0:
+                        self.row_stack[y] = self.set_index
+                        self.set_index += 1
                     connect_list.append(False)
 
             # Create set list and fill cells
             for y in range(self.col_count):
                 maze_col = 2 * y + 1
-                set_list.append((row_stack[y], maze_col))
+                self.set_list.append((self.row_stack[y], maze_col))
 
-                self.maze[x, maze_col] = [255, 255, 255]  # Mark as visited
+                self.maze[x, maze_col] = 1  # Mark as visited
                 if y < self.col_count - 1:
                     if connect_list.popleft():
-                        self.maze[x, maze_col + 1] = [255, 255, 255]  # Mark as visited
+                        self.maze[x, maze_col + 1] = 1  # Mark as visited
 
             if x == self.row_count_with_walls - 2:  # Connect all different sets in last row
                 for y in range(1, self.col_count):
-                    new_index = row_stack[y - 1]
-                    old_index = row_stack[y]
+                    new_index = self.row_stack[y - 1]
+                    old_index = self.row_stack[y]
                     if new_index != old_index:
-                        row_stack = [new_index if y == old_index else y for y in row_stack]  # Replace old indices
-                        self.maze[x, 2 * y] = [255, 255, 255]  # Mark as visited
+                        self.row_stack = [new_index if y == old_index else y for y in self.row_stack]  # Replace old indices
+                        self.maze[x, 2 * y] = 1  # Mark as visited
                 break  # End loop with last row
 
             # Reset row stack
-            row_stack = [0] * self.col_count
+            self.row_stack = [0] * self.col_count
 
             # Create vertical links
-            set_list.sort(reverse=True)
-            while set_list:
+            self.set_list.sort(reverse=True)
+            while self.set_list:
                 # List of set indices with positions for one set index [(set index, position), ...]
                 sub_set_list = collections.deque()
-                sub_set_index = set_list[-1][0]
-                while set_list and set_list[-1][0] == sub_set_index:  # Create sub list for one set index
-                    sub_set_list.append(set_list.pop())
+                sub_set_index = self.set_list[-1][0]
+                while self.set_list and self.set_list[-1][0] == sub_set_index:  # Create sub list for one set index
+                    sub_set_list.append(self.set_list.pop())
                 linked = False
                 while not linked:  # Create at least one link for each set index
                     for sub_set_item in sub_set_list:
@@ -203,8 +205,8 @@ class Maze(base.MazeBase):
                             linked = True
                             link_set, link_position = sub_set_item
 
-                            row_stack[link_position // 2] = link_set  # Assign links to new row stack
-                            self.maze[x + 1, link_position] = [255, 255, 255]  # Mark link as visited
+                            self.row_stack[link_position // 2] = link_set  # Assign links to new row stack
+                            self.maze[x + 1, link_position] = 1  # Mark link as visited
 
     def _sidewinder(self):
         """Creates a maze using the sidewinder algorithm."""
