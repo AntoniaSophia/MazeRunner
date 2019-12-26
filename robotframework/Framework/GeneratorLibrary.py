@@ -15,11 +15,12 @@ class GeneratorLibrary(object):
         self._result = ''
         self.generatorpid = 0
 
-    def generator_action(self, width, height, complexity, density):
+    def generator_action(self, width, height, complexity, density, stralgo):
         executeSript = os.path.join(
             projectDirectory, "Framework", "GeneratorAlternative", "MazeGeneratorClient.py")
         self.generatorpid = Popen(['python', executeSript, "--width="+str(width), "--height="+str(
-            height), "--complexity="+str(complexity), "--density="+str(density)], shell=False)
+            height), "--complexity="+str(complexity), "--density="+str(density),
+            "--algo=", stralgo], shell=False)
         self.generatorpid.communicate()
         print("Generator run")
 

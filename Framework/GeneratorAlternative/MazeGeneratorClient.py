@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import time
-from maze import *
+from maze import Maze
 import sys
 import getopt
 import numpy
@@ -92,10 +92,25 @@ class MazeGeneratorClient:
     def saveMaze(self, pathToConfigFile):
         numpy.savetxt(pathToConfigFile, self.mga.getMaze(), fmt="%d", delimiter=",", newline="\n")
 
-    def createNewMaze(self, width, height, complexity, density):
-        print("\n[MazeGenerator] Generating Maze ", width, height, complexity, density)
+    def createNewMaze(self, width, height, complexity, density, stralgo):
+        if stralgo == "backtracking":
+            algorithm = Maze.Create.BACKTRACKING
+        elif stralgo == "hunt":
+            algorithm = Maze.Create.HUNT
+        elif stralgo == "eller":
+            algorithm = Maze.Create.ELLER
+        elif stralgo == "sidewinder":
+            algorithm = Maze.Create.SIDEWINDER
+        elif stralgo == "prim":
+            algorithm = Maze.Create.PRIM
+        elif stralgo == "kruskal":
+            algorithm = Maze.Create.KRUSKAL
+        else:
+            algorithm = Maze.Create.BACKTRACKING
+
+        print("\n[MazeGenerator] Generating Maze ", width, height, complexity, density, stralgo)
         self.mga = Maze()
-        self.mga.create(int(int(width)/2), int(int(height)/2), Maze.Create.BACKTRACKING)
+        self.mga.create(int(int(width)/2), int(int(height)/2), algorithm)
         self.maze = self.mga.getMaze()
         (x, y) = self.maze.shape
         self.startCol = 1
@@ -115,16 +130,23 @@ def main(argv):
     height = 7
     complexity = 50
     density = 50
+    algorithm = "backtracking"
 
     try:
-        opts, args = getopt.getopt(argv, "hi:o:w:h:c:d:", ["ifile=", "ofile=", "width=", "height=", "complexity=", "density="])
+        opts, args = getopt.getopt(argv, "ha:i:o:w:h:c:d:",
+                                   ["algo=", "ifile=", "ofile=", "width=", "height=", "complexity=", "density="])
     except getopt.GetoptError:
         print('MazeGeneratorClient.py -i <inputfile> -o <outputfile> -w <width> -h <height> -c <complexity> -d <density>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('MazeGeneratorClient.py -i <inputfile> -o <outputfile> -w <width> -h <height> -c <complexity> -d <density>')
+            print('MazeGeneratorClient.py -a ' +
+                  'backtracking|hunt|eller|sidewinder|prim|kruskal -i ' +
+                  '<inputfile> -o <outputfile> -w <width> -h <height> -c ' +
+                  '<complexity> -d <density>')
             sys.exit()
+        elif opt in ("-a", "--algo"):
+            algorithm = arg
         elif opt in ("-i", "--ifile"):
             inputfile = arg
         elif opt in ("-o", "--ofile"):
@@ -143,7 +165,7 @@ def main(argv):
         print('\n[MazeGenerator] Input maze file is: ', inputfile)
         mg.loadMaze(inputfile)
     else:
-        mg.createNewMaze(width, height, complexity, density)
+        mg.createNewMaze(width, height, complexity, density, algorithm)
         if len(outputfile) > 0:
             print('\n[MazeGenerator] Output maze file is: ', outputfile)
             mg.saveMaze(outputfile)
