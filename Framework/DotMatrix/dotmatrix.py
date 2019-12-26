@@ -19,14 +19,7 @@ class MqttClient:
         payload = str(msg.payload.decode("utf-8"))
         print("Received message: ", topic, " --> ", payload)
         if topic == "/maze":
-            if payload == "clear":
-                self.mazeVisualizer.clearMaze()
-            elif payload == "start":
-                self.mazeVisualizer.startMaze()
-            elif payload == "end":
-                self.mazeVisualizer.endMaze()
-            else:
-                pass
+            self._mazeaction(self, payload)
         elif topic == "/maze/startCol":
             if int(payload) < 16:
                 self.mazeVisualizer.setStartCol(int(payload))
@@ -45,21 +38,34 @@ class MqttClient:
             if int(cell[0]) < 16 and int(cell[1]) < 16:
                 self.mazeVisualizer.setBlocked(int(cell[1]), int(cell[0]))
         elif topic == "/maze/go":
-            cell = payload.split(",")
-            col = int(cell[1])
-            row = int(cell[0])
-
-            if col < 16 and row < 16:
-                if col == self.mazeVisualizer.start_col and \
-                        row == self.mazeVisualizer.start_row:
-                    print("Start")
-                elif col == self.mazeVisualizer.end_col and \
-                        row == self.mazeVisualizer.end_row:
-                    print("End")
-                else:
-                    self.mazeVisualizer.addSolutionStep(col, row)
+            self._go(payload)
         else:
             pass
+
+    def _mazeaction(self, payload):
+        if payload == "clear":
+            self.mazeVisualizer.clearMaze()
+        elif payload == "start":
+            self.mazeVisualizer.startMaze()
+        elif payload == "end":
+            self.mazeVisualizer.endMaze()
+        else:
+            pass
+
+    def _go(self, payload):
+        cell = payload.split(",")
+        col = int(cell[1])
+        row = int(cell[0])
+
+        if col < 16 and row < 16:
+            if col == self.mazeVisualizer.start_col and \
+                    row == self.mazeVisualizer.start_row:
+                print("Start")
+            elif col == self.mazeVisualizer.end_col and \
+                    row == self.mazeVisualizer.end_row:
+                print("End")
+            else:
+                self.mazeVisualizer.addSolutionStep(col, row)
 
     def onConnect(self, master, obj, flags, rc):
         self.master.subscribe("/maze")

@@ -63,6 +63,10 @@ class MazeGeneratorAlgo:
                         Z[y_ + (y - y_) // 2, x_ + (x - x_) // 2] = 1
                         x, y = x_, y_
 
+        self._process_z(Z)
+        return Z
+
+    def _process_z(self, Z):
         for c in range(self.columns):
             bfound = False
             for r in range(self.rows):
@@ -86,8 +90,6 @@ class MazeGeneratorAlgo:
                     break
             if bfound:
                 break
-
-        return Z
 
     def createMaze(self):
         """
