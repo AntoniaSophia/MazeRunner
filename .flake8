@@ -1,3 +1,6 @@
 [flake8]
+#format=pylint
+format=%(path)s::(Row:%(row)d,Col:%(col)d)::ErrorCode %(code)s::%(text)s
 max-line-length = 127
 max-complexity = 15
+Statistics=True

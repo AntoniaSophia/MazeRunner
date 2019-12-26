@@ -3,10 +3,7 @@ This class is the template class for the MQTT client which receives MQTT message
 and sends MQTT messages
 """
 import paho.mqtt.client as mqtt
-import time
-import array as arr
 import os
-import sys
 import logging
 
 
