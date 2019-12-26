@@ -1,10 +1,5 @@
-import sys
 from subprocess import Popen
 import os
-import threading
-import time
-import platform
-import paho.mqtt.client as paho
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
 projectDirectory = os.path.join(scriptDirectory, ".")
