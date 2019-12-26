@@ -1,5 +1,3 @@
-import sys
-from math import sqrt
 import numpy
 import queue
 
@@ -102,7 +100,7 @@ class MazeSolverAlgoBreadthFirst:
         neighbours = []
 
         # no neighbours for out-of-grid elements
-        if self.isInGrid(row, column) == False:
+        if self.isInGrid(row, column) is False:
             return neighbours
 
         # no neighbours for blocked grid elements

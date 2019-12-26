@@ -1,9 +1,10 @@
-import numpy as np
 import collections
 import random
 
-import utils as utils
+import numpy as np
+
 import base as base
+import utils as utils
 
 
 class Maze(base.MazeBase):
@@ -11,8 +12,9 @@ class Maze(base.MazeBase):
     OBST = 1        # cell with obstacle
     ROBOT = 2       # the position of the robot
     TARGET = 3      # the position of the target
-    
+
     """This class contains the relevant algorithms for creating and solving."""
+
     def __init__(self):
         """Constructor."""
         super(Maze, self).__init__()
@@ -37,7 +39,6 @@ class Maze(base.MazeBase):
             raise utils.MazeError("Row or column count cannot be smaller than zero.")
 
         self.maze = np.zeros((2 * row_count + 1, 2 * col_count + 1), dtype=np.uint8)
-
 
         if algorithm == Maze.Create.BACKTRACKING:
             return self._recursive_backtracking()
@@ -135,102 +136,107 @@ class Maze(base.MazeBase):
 
     def _eller(self):
         """Creates a maze using Eller's algorithm."""
-        row_stack = [0] * self.col_count  # List of set indices [set index, ...]
-        set_list = []  # List of set indices with positions [(set index, position), ...]
-        set_index = 1
+        self.row_stack = [0] * self.col_count  # List of set indices [set index, ...]
+        self.set_list = []  # List of set indices with positions [(set index, position), ...]
+        self.set_index = 1
 
         for x in range(1, self.row_count_with_walls - 1, 2):
             connect_list = collections.deque()  # List of connections between cells [True, ...]
 
             # Create row stack
-            if row_stack[0] == 0:  # Define first cell in row
-                row_stack[0] = set_index
-                set_index += 1
+            if self.row_stack[0] == 0:  # Define first cell in row
+                self.row_stack[0] = self.set_index
+                self.set_index += 1
 
             for y in range(1, self.col_count):  # Define other cells in row
                 if random.getrandbits(1):  # Connect cell with previous cell
-                    if row_stack[y] != 0:  # Cell has a set
-                        old_index = row_stack[y]
-                        new_index = row_stack[y - 1]
+                    if self.row_stack[y] != 0:  # Cell has a set
+                        old_index = self.row_stack[y]
+                        new_index = self.row_stack[y - 1]
                         if old_index != new_index:  # Combine both sets
-                            row_stack = [new_index if y == old_index else y for y in row_stack]  # Replace old indices
+                            self.row_stack = \
+                                [new_index if y == old_index else y for y in self.row_stack]  # Replace old indices
                             connect_list.append(True)
                         else:
                             connect_list.append(False)
                     else:  # Cell has no set
-                        row_stack[y] = row_stack[y - 1]
+                        self.row_stack[y] = self.row_stack[y - 1]
                         connect_list.append(True)
                 else:  # Do not connect cell with previous cell
-                    if row_stack[y] == 0:
-                        row_stack[y] = set_index
-                        set_index += 1
+                    if self.row_stack[y] == 0:
+                        self.row_stack[y] = self.set_index
+                        self.set_index += 1
                     connect_list.append(False)
 
             # Create set list and fill cells
             for y in range(self.col_count):
                 maze_col = 2 * y + 1
-                set_list.append((row_stack[y], maze_col))
+                self.set_list.append((self.row_stack[y], maze_col))
 
-                self.maze[x, maze_col] = [255, 255, 255]  # Mark as visited
+                self.maze[x, maze_col] = 1  # Mark as visited
                 if y < self.col_count - 1:
                     if connect_list.popleft():
-                        self.maze[x, maze_col + 1] = [255, 255, 255]  # Mark as visited
+                        self.maze[x, maze_col + 1] = 1  # Mark as visited
 
             if x == self.row_count_with_walls - 2:  # Connect all different sets in last row
                 for y in range(1, self.col_count):
-                    new_index = row_stack[y - 1]
-                    old_index = row_stack[y]
+                    new_index = self.row_stack[y - 1]
+                    old_index = self.row_stack[y]
                     if new_index != old_index:
-                        row_stack = [new_index if y == old_index else y for y in row_stack]  # Replace old indices
-                        self.maze[x, 2 * y] = [255, 255, 255]  # Mark as visited
+                        self.row_stack = [new_index if y == old_index else y for y in self.row_stack]  # Replace old indices
+                        self.maze[x, 2 * y] = 1  # Mark as visited
                 break  # End loop with last row
 
-            # Reset row stack
-            row_stack = [0] * self.col_count
+            self._eller_final(x)
 
-            # Create vertical links
-            set_list.sort(reverse=True)
-            while set_list:
-                sub_set_list = collections.deque()  # List of set indices with positions for one set index [(set index, position), ...]
-                sub_set_index = set_list[-1][0]
-                while set_list and set_list[-1][0] == sub_set_index:  # Create sub list for one set index
-                    sub_set_list.append(set_list.pop())
-                linked = False
-                while not linked:  # Create at least one link for each set index
-                    for sub_set_item in sub_set_list:
-                        if random.getrandbits(1):  # Create link
-                            linked = True
-                            link_set, link_position = sub_set_item
+    def _eller_final(self, x):
+        # Reset row stack
+        self.row_stack = [0] * self.col_count
 
-                            row_stack[link_position // 2] = link_set  # Assign links to new row stack
-                            self.maze[x + 1, link_position] = [255, 255, 255]  # Mark link as visited
+        # Create vertical links
+        self.set_list.sort(reverse=True)
+        while self.set_list:
+            # List of set indices with positions for one set index [(set index, position), ...]
+            sub_set_list = collections.deque()
+            sub_set_index = self.set_list[-1][0]
+            while self.set_list and self.set_list[-1][0] == sub_set_index:  # Create sub list for one set index
+                sub_set_list.append(self.set_list.pop())
+            linked = False
+            while not linked:  # Create at least one link for each set index
+                for sub_set_item in sub_set_list:
+                    if random.getrandbits(1):  # Create link
+                        linked = True
+                        link_set, link_position = sub_set_item
+
+                        self.row_stack[link_position // 2] = link_set  # Assign links to new row stack
+                        self.maze[x + 1, link_position] = 1  # Mark link as visited
 
     def _sidewinder(self):
         """Creates a maze using the sidewinder algorithm."""
         # Create first row
         for y in range(1, self.col_count_with_walls - 1):
-            self.maze[1, y] = [255, 255, 255]
+            self.maze[1, y] = 1
 
         # Create other rows
         for x in range(3, self.row_count_with_walls, 2):
             row_stack = []  # List of cells without vertical link [y, ...]
             for y in range(1, self.col_count_with_walls - 2, 2):
-                self.maze[x, y] = [255, 255, 255]  # Mark as visited
+                self.maze[x, y] = 1  # Mark as visited
                 row_stack.append(y)
 
                 if random.getrandbits(1):  # Create vertical link
                     idx = random.randint(0, len(row_stack) - 1)
-                    self.maze[x - 1, row_stack[idx]] = [255, 255, 255]  # Mark as visited
+                    self.maze[x - 1, row_stack[idx]] = 1  # Mark as visited
                     row_stack = []  # Reset row stack
                 else:  # Create horizontal link
-                    self.maze[x, y + 1] = [255, 255, 255]  # Mark as visited
+                    self.maze[x, y + 1] = 1  # Mark as visited
 
             # Create vertical link if last cell
             y = self.col_count_with_walls - 2
-            self.maze[x, y] = [255, 255, 255]  # Mark as visited
+            self.maze[x, y] = 1  # Mark as visited
             row_stack.append(y)
             idx = random.randint(0, len(row_stack) - 1)
-            self.maze[x - 1, row_stack[idx]] = [255, 255, 255]  # Mark as visited
+            self.maze[x - 1, row_stack[idx]] = 1  # Mark as visited
 
     def _prim(self):
         """Creates a maze using Prim's algorithm."""
@@ -239,7 +245,7 @@ class Maze(base.MazeBase):
         # Start with random cell
         x = 2 * random.randint(0, self.row_count - 1) + 1
         y = 2 * random.randint(0, self.col_count - 1) + 1
-        self.maze[x, y] = [255, 255, 255]  # Mark as visited
+        self.maze[x, y] = 1  # Mark as visited
 
         # Add cells to frontier for random cell
         for direction in self._dir_two:
@@ -256,7 +262,7 @@ class Maze(base.MazeBase):
             for idx in self._random:
                 tx, ty = self._dir_two[idx](x, y)
                 if not self._out_of_bounds(tx, ty) and self.maze[tx, ty, 0] == 255:  # Check if visited
-                    self.maze[x, y] = self.maze[self._dir_one[idx](x, y)] = [255, 255, 255]  # Connect cells
+                    self.maze[x, y] = self.maze[self._dir_one[idx](x, y)] = 1  # Connect cells
                     break
 
             # Add cells to frontier
@@ -294,7 +300,7 @@ class Maze(base.MazeBase):
             y1, y2 = (y - 1, y + 1) if direction == "h" else (y, y)
 
             if xy_to_set[x1, y1] != xy_to_set[x2, y2]:  # Check if cells are in different sets
-                self.maze[x, y] = self.maze[x1, y1] = self.maze[x2, y2] = [255, 255, 255]  # Mark as visited
+                self.maze[x, y] = self.maze[x1, y1] = self.maze[x2, y2] = 1  # Mark as visited
 
                 new_set = xy_to_set[x1, y1]
                 old_set = xy_to_set[x2, y2]
@@ -386,7 +392,7 @@ class Maze(base.MazeBase):
                 return utils.draw_path(self.solution, utils.stack_deque(cell))
 
         raise utils.MazeError("No solution found.")
-    
+
     def getMaze(self):
         b = self.maze
         b[b == 0] = 2

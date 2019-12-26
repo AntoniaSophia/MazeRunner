@@ -8,3 +8,4 @@ pywin32; sys_platform == 'win32'
 autopep8
 robotframework
 robotframework-mqttlibrary
+flake8

@@ -1,13 +1,10 @@
 import sys
 from subprocess import Popen
 import os
-import threading
-import time
-import platform
-import paho.mqtt.client as paho
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
 projectDirectory = os.path.join(scriptDirectory, "../..")
+
 
 class BrokerLibrary(object):
     """Test library for testing *Calculator* business logic.
@@ -22,12 +19,11 @@ class BrokerLibrary(object):
         if sys.platform == "win32":
             executeSript = os.path.join(
                 projectDirectory, "Framework", "MQTTBroker", "mosquitto.exe")
-            Popen([executeSript], shell=False) 
+            Popen([executeSript], shell=False)
 
     def broker_stop(self):
-        if sys.platform == "win32":        
+        if sys.platform == "win32":
             os.system("taskkill /f /im mosquitto.exe")
-
 
     # def push_button(self, button):
     #     """Pushes the specified ``button``.

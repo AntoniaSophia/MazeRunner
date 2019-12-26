@@ -1,13 +1,8 @@
-from tkinter import *
-from tkinter import font
-from tkinter import messagebox
-from functools import partial
-from operator import attrgetter
-from random import shuffle, randrange
-import webbrowser
-import numpy 
+from tkinter import StringVar, Label, Canvas, Tk, IntVar
+import numpy
 import math
 import os
+import sys
 import paho.mqtt.client as mqtt
 
 
@@ -26,8 +21,8 @@ class MqttClient:
     def onMessage(self, master, obj, msg):
         topic = str(msg.topic)
         payload = str(msg.payload.decode("utf-8"))
-        print("Received message: " , topic , " --> " , payload)
-        if topic=="/maze":
+        print("Received message: ", topic, " --> ", payload)
+        if topic == "/maze":
             if payload == "clear":
                 self.mazeVisualizer.clearMaze()
             elif payload == "start":
@@ -36,51 +31,51 @@ class MqttClient:
                 self.mazeVisualizer.endMaze()
             else:
                 pass
-        elif topic=="/maze/dimRow":
+        elif topic == "/maze/dimRow":
             self.mazeVisualizer.setDimRowsCmd(int(payload))
             self.mazeVisualizer.startMaze(self.mazeVisualizer.columns, self.mazeVisualizer.rows)
-        elif topic=="/maze/dimCol":
+        elif topic == "/maze/dimCol":
             self.mazeVisualizer.setDimColsCmd(int(payload))
             self.mazeVisualizer.startMaze(self.mazeVisualizer.columns, self.mazeVisualizer.rows)
-        elif topic=="/maze/startCol":
+        elif topic == "/maze/startCol":
             self.mazeVisualizer.setStartCol(int(payload))
-        elif topic=="/maze/startRow":
+        elif topic == "/maze/startRow":
             self.mazeVisualizer.setStartRow(int(payload))
-        elif topic=="/maze/endCol":
+        elif topic == "/maze/endCol":
             self.mazeVisualizer.setEndCol(int(payload))
-        elif topic=="/maze/endRow":
+        elif topic == "/maze/endRow":
             self.mazeVisualizer.setEndRow(int(payload))
             self.mazeVisualizer.initialize_grid(False)    # initialize the new grid!!!
-        elif topic=="/maze/blocked":
+        elif topic == "/maze/blocked":
             cell = payload.split(",")
-            self.mazeVisualizer.setBlocked(int(cell[0]),int(cell[1]))
-        elif topic=="/maze/go":
+            self.mazeVisualizer.setBlocked(int(cell[0]), int(cell[1]))
+        elif topic == "/maze/go":
             cell = payload.split(",")
-            self.mazeVisualizer.addSolutionStep(int(cell[0]),int(cell[1]))
+            self.mazeVisualizer.addSolutionStep(int(cell[0]), int(cell[1]))
 
         else:
             pass
 
     def onConnect(self, master, obj, flags, rc):
-        self.master.subscribe("/maze" )
-        self.master.subscribe("/maze/dimRow" )
-        self.master.subscribe("/maze/dimCol" )
-        self.master.subscribe("/maze/startCol" )
-        self.master.subscribe("/maze/startRow" )
-        self.master.subscribe("/maze/endCol" )
-        self.master.subscribe("/maze/endRow" )
-        self.master.subscribe("/maze/blocked" )
-        self.master.subscribe("/maze/go" )
+        self.master.subscribe("/maze")
+        self.master.subscribe("/maze/dimRow")
+        self.master.subscribe("/maze/dimCol")
+        self.master.subscribe("/maze/startCol")
+        self.master.subscribe("/maze/startRow")
+        self.master.subscribe("/maze/endCol")
+        self.master.subscribe("/maze/endRow")
+        self.master.subscribe("/maze/blocked")
+        self.master.subscribe("/maze/go")
 
         print("Connnect to mqtt-broker")
 
-
-    def __init__(self,master,app):
-        self.master=master
-        self.master.on_connect=self.onConnect
-        self.master.on_message=self.onMessage
-        self.master.connect(mqtt_server,1883,60)
+    def __init__(self, master, app):
+        self.master = master
+        self.master.on_connect = self.onConnect
+        self.master.on_message = self.onMessage
+        self.master.connect(mqtt_server, 1883, 60)
         self.mazeVisualizer = MazeVisualizer(app)
+
 
 class MazeVisualizer:
 
@@ -102,7 +97,7 @@ class MazeVisualizer:
                 return self.row == other.row and self.col == other.col
             else:
                 return False
-    
+
     class Point(object):
         """
         Helper class that represents the point on the grid
@@ -149,48 +144,43 @@ class MazeVisualizer:
     def setEndRow(self, row):
         self.targetPos_row = row
 
-    def setBlocked(self,row,col):
-        self.grid[row][col]=1
+    def setBlocked(self, row, col):
+        self.grid[row][col] = 1
 
-
-   
     def startMaze(self, columns=0, rows=0):
-        self.setDimCols = 0 
-        self.setDimRows = 0 
-        self.setStartCols = 0 
-        self.setStartRows = 0 
-        self.setEndCols = 0 
-        self.setEndRows = 0 
-        self.grid=[[]]        
+        self.setDimCols = 0
+        self.setDimRows = 0
+        self.setStartCols = 0
+        self.setStartRows = 0
+        self.setEndCols = 0
+        self.setEndRows = 0
+        self.grid = [[]]
 
-        if columns>0 and rows>0:
+        if columns > 0 and rows > 0:
             self.grid = numpy.empty((rows, columns), dtype=int)
             for i in range(rows):
                 for j in range(columns):
-                    self.grid[i][j]=0
-
-
+                    self.grid[i][j] = 0
 
     def endMaze(self):
         self.grid[self.targetPos_row][self.targetPos_col] = self.TARGET
         self.grid[self.robotStart_row][self.robotStart_col] = self.ROBOT
-        self.targetPos = self.Cell(self.targetPos_row,self.targetPos_col)
-        self.robotStart = self.Cell(self.robotStart_row,self.robotStart_col)
+        self.targetPos = self.Cell(self.targetPos_row, self.targetPos_col)
+        self.robotStart = self.Cell(self.robotStart_row, self.robotStart_col)
         # print("Following Maze received: ")
         self.printMaze()
         self.repaint()
 
     def printMaze(self):
         print(self.grid)
-    
-    def addSolutionStep(self,row,col):
-        step = self.Cell(row,col)
+
+    def addSolutionStep(self, row, col):
+        step = self.Cell(row, col)
         self.closedSet.append(step)
         print("Step")
         if step == self.targetPos:
             print("Finished")
             self.plot_route()
-
 
     def __init__(self, maze):
         """
@@ -215,14 +205,13 @@ class MazeVisualizer:
         self.closedSet = []         # the CLOSED SET
         self.graph = []             # the set of vertices of the graph to be explored by Dijkstra's algorithm
 
-
         self.robotStart_col = 0
         self.robotStart_row = 0
         self.targetPos_col = self.rows - 5
         self.targetPos_row = self.columns - 5
 
-        self.robotStart = self.Cell(self.robotStart_row,self.robotStart_col)
-        self.targetPos = self.Cell(self.targetPos_row,self.targetPos_col)
+        self.robotStart = self.Cell(self.robotStart_row, self.robotStart_col)
+        self.targetPos = self.Cell(self.targetPos_row, self.targetPos_col)
 
         self.grid = [[]]            # the grid
         self.centers = [[self.Point(0, 0) for c in range(83)] for r in range(83)]  # the centers of the cells
@@ -239,11 +228,9 @@ class MazeVisualizer:
 
         self.array = numpy.array([0] * (83 * 83))
         self.cur_row = self.cur_col = self.cur_val = 0
-        app_highlight_font = font.Font(app, family='Helvetica', size=9, weight='bold')
-
         self.message_var = StringVar()
         self.message = Label(app, width=55, anchor='w',
-                             font=('Helvetica', 8), fg="black",textvariable=self.message_var)
+                             font=('Helvetica', 8), fg="black", textvariable=self.message_var)
 
         self.message.place(x=5, y=920)
 
@@ -251,13 +238,10 @@ class MazeVisualizer:
         self.rows_var.set(41)
         self.cols_var = StringVar()
         self.cols_var.set(41)
-  
+
         self.drawArrows = IntVar()
-        memo_colors = ("RED", "GREEN", "BLUE", "CYAN")
-  
+
         self.canvas = Canvas(app, bd=0, highlightthickness=0)
-
-
 
     def initialize_grid(self, make_maze):
         """
@@ -265,8 +249,6 @@ class MazeVisualizer:
 
         :param make_maze: flag that indicates the creation of a random maze
         """
-
-
 
         # the columns of the square maze must be equal to rows
         if make_maze and self.shape == "Square":
@@ -288,10 +270,8 @@ class MazeVisualizer:
             self.canvas.configure(width=self.columns * self.square_size + 1, height=self.rows * self.square_size + 1)
             self.canvas.place(x=10, y=10)
             self.canvas.create_rectangle(0, 0, self.columns*(self.square_size+1),
-                                      self.rows*(self.square_size+1), width=0, fill="DARK GREY")
-            self.canvas.create_rectangle(0,0,950,950,width=0, fill="DARK GREY")
-
-
+                                         self.rows*(self.square_size+1), width=0, fill="DARK GREY")
+            self.canvas.create_rectangle(0, 0, 950, 950, width=0, fill="DARK GREY")
 
         # Calculation of the coordinates of the cells' centers
         y = 0
@@ -314,18 +294,15 @@ class MazeVisualizer:
                         self.centers[r][c] = self.Point(round(self.radius/2+(int(c/2)*3+2)*self.radius),
                                                         round(2*(r+1)*self.height))
 
-
-
-
     def repaint(self):
         """
         Repaints the grid
         """
         color = ""
-        print ("repaint")
+        print("repaint")
         for r in range(self.rows):
             for c in range(self.columns):
-                #print (self.grid[r][c])
+                # print (self.grid[r][c])
                 if self.grid[r][c] == self.EMPTY:
                     color = "WHITE"
                 elif self.grid[r][c] == self.ROBOT:
@@ -362,12 +339,11 @@ class MazeVisualizer:
         :return :   List of the pairs of coordinates
         """
         polygon = []
-        polygon.extend((    c*self.square_size + 1,     r*self.square_size + 1))
+        polygon.extend((c*self.square_size + 1,     r*self.square_size + 1))
         polygon.extend(((c+1)*self.square_size + 0,     r*self.square_size + 1))
         polygon.extend(((c+1)*self.square_size + 0, (r+1)*self.square_size + 0))
-        polygon.extend((    c*self.square_size + 1, (r+1)*self.square_size + 0))
+        polygon.extend((c*self.square_size + 1, (r+1)*self.square_size + 0))
         return polygon
-
 
     def maze_click(self):
         """
@@ -394,7 +370,6 @@ class MazeVisualizer:
         self.canvas.delete("all")
         self.initVar()
         self.initialize_grid(True)
-  
 
     def check_termination(self):
         """
@@ -424,21 +399,17 @@ class MazeVisualizer:
                 self.buttons[5].configure(state="disabled")  # Animation button
                 self.slider.configure(state="disabled")
 
-
-
     def plot_route(self):
         """
-        Calculates the path from the target to the initial position of the robot,
+                                Calculates the path from the target to the initial position of the robot,
         counts the corresponding steps and measures the distance traveled.
         """
-        #self.repaint()
+        # self.repaint()
         self.searching = False
         steps = 0
-        distance = 0.0
-        
+
         cur = self.closedSet[0]
-        old = cur
-        step_pos=1
+        step_pos = 1
         for cur in self.closedSet:
             if self.targetPos == cur:
                 break
@@ -446,20 +417,19 @@ class MazeVisualizer:
             self.paint_cell(cur.row, cur.col, "YELLOW")
             canvas_id = self.canvas.create_text(cur.col*self.square_size, cur.row*self.square_size, anchor="nw")
             self.canvas.itemconfig(canvas_id, text=str(step_pos))
-            step_pos+=1
+            step_pos += 1
             # if cur != old:
             #     self.draw_arrow(old, cur, self.arrow_size, "GREY", 2 if self.arrow_size >= 10 else 1)
-            old =cur
-
         self.grid[self.robotStart.row][self.robotStart.col] = self.ROBOT
         self.paint_cell(self.robotStart.row, self.robotStart.col, "RED")
 
         msg = "Nodes Steps: {}".format(steps)
         self.message_var.set(msg)
+
     def find_connected_component(self, v):
         """
-        Appends to the list containing the nodes of the graph only
-        the cells belonging to the same connected component with node v.
+                                Appends to the list containing the nodes of the graph only
+                                the cells belonging to the same connected component with node v.
 
         :param v: the starting node
         """
@@ -615,6 +585,7 @@ class MazeVisualizer:
         y = h / 2 - size[1] / 2
         window.geometry("%dx%d+%d+%d" % (size + (x, y)))
 
+
 def on_closing():
     os._exit(0)
 
@@ -626,7 +597,7 @@ if __name__ == '__main__':
     app.geometry("700x700")
     app.resizable(True, True)
 
-    mqttclient=mqtt.Client()
-    ob1=MqttClient(mqttclient, app)
+    mqttclient = mqtt.Client()
+    ob1 = MqttClient(mqttclient, app)
     mqttclient.loop_start()
     app.mainloop()

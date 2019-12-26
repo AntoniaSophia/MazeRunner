@@ -4,6 +4,7 @@ import collections
 
 class MazeError(Exception):
     """Maze error class."""
+
     def __init__(self, e):
         """Constructor."""
         super(MazeError, self).__init__(e)
@@ -77,5 +78,5 @@ def downscale(maze):
     scale = get_scale(maze)
     if scale <= 1:
         return maze
-        
+
     return maze[::scale, ::scale]

@@ -1,13 +1,9 @@
-import sys
 from subprocess import Popen
 import os
-import threading
-import time
-import platform
-import paho.mqtt.client as paho
 
 scriptDirectory = os.path.dirname(os.path.realpath(__file__))
 projectDirectory = os.path.join(scriptDirectory, "../..")
+
 
 class GeneratorLibrary(object):
     """Test library for testing *Calculator* business logic.
@@ -19,14 +15,14 @@ class GeneratorLibrary(object):
         self._result = ''
         self.generatorpid = 0
 
-    def generator_action(self, width, height, complexity, density):
+    def generator_action(self, width, height, complexity, density, stralgo):
         executeSript = os.path.join(
             projectDirectory, "Framework", "GeneratorAlternative", "MazeGeneratorClient.py")
         self.generatorpid = Popen(['python', executeSript, "--width="+str(width), "--height="+str(
-            height), "--complexity="+str(complexity), "--density="+str(density)], shell=False)
+            height), "--complexity="+str(complexity), "--density="+str(density),
+            "--algo=", stralgo], shell=False)
         self.generatorpid.communicate()
         print("Generator run")
-            
 
     def generator_load(self, filename):
         executeSript = os.path.join(
