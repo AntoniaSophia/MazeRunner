@@ -215,28 +215,28 @@ class Maze(base.MazeBase):
         """Creates a maze using the sidewinder algorithm."""
         # Create first row
         for y in range(1, self.col_count_with_walls - 1):
-            self.maze[1, y] = [255, 255, 255]
+            self.maze[1, y] = 1
 
         # Create other rows
         for x in range(3, self.row_count_with_walls, 2):
             row_stack = []  # List of cells without vertical link [y, ...]
             for y in range(1, self.col_count_with_walls - 2, 2):
-                self.maze[x, y] = [255, 255, 255]  # Mark as visited
+                self.maze[x, y] = 1  # Mark as visited
                 row_stack.append(y)
 
                 if random.getrandbits(1):  # Create vertical link
                     idx = random.randint(0, len(row_stack) - 1)
-                    self.maze[x - 1, row_stack[idx]] = [255, 255, 255]  # Mark as visited
+                    self.maze[x - 1, row_stack[idx]] = 1  # Mark as visited
                     row_stack = []  # Reset row stack
                 else:  # Create horizontal link
-                    self.maze[x, y + 1] = [255, 255, 255]  # Mark as visited
+                    self.maze[x, y + 1] = 1  # Mark as visited
 
             # Create vertical link if last cell
             y = self.col_count_with_walls - 2
-            self.maze[x, y] = [255, 255, 255]  # Mark as visited
+            self.maze[x, y] = 1  # Mark as visited
             row_stack.append(y)
             idx = random.randint(0, len(row_stack) - 1)
-            self.maze[x - 1, row_stack[idx]] = [255, 255, 255]  # Mark as visited
+            self.maze[x - 1, row_stack[idx]] = 1  # Mark as visited
 
     def _prim(self):
         """Creates a maze using Prim's algorithm."""
@@ -245,7 +245,7 @@ class Maze(base.MazeBase):
         # Start with random cell
         x = 2 * random.randint(0, self.row_count - 1) + 1
         y = 2 * random.randint(0, self.col_count - 1) + 1
-        self.maze[x, y] = [255, 255, 255]  # Mark as visited
+        self.maze[x, y] = 1  # Mark as visited
 
         # Add cells to frontier for random cell
         for direction in self._dir_two:
@@ -262,7 +262,7 @@ class Maze(base.MazeBase):
             for idx in self._random:
                 tx, ty = self._dir_two[idx](x, y)
                 if not self._out_of_bounds(tx, ty) and self.maze[tx, ty, 0] == 255:  # Check if visited
-                    self.maze[x, y] = self.maze[self._dir_one[idx](x, y)] = [255, 255, 255]  # Connect cells
+                    self.maze[x, y] = self.maze[self._dir_one[idx](x, y)] = 1  # Connect cells
                     break
 
             # Add cells to frontier
@@ -300,7 +300,7 @@ class Maze(base.MazeBase):
             y1, y2 = (y - 1, y + 1) if direction == "h" else (y, y)
 
             if xy_to_set[x1, y1] != xy_to_set[x2, y2]:  # Check if cells are in different sets
-                self.maze[x, y] = self.maze[x1, y1] = self.maze[x2, y2] = [255, 255, 255]  # Mark as visited
+                self.maze[x, y] = self.maze[x1, y1] = self.maze[x2, y2] = 1  # Mark as visited
 
                 new_set = xy_to_set[x1, y1]
                 old_set = xy_to_set[x2, y2]

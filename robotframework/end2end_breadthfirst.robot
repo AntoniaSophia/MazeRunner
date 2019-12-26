@@ -26,15 +26,15 @@ End2End BreadthFirst
     Generator load  ../MazeExamples/maze1.txt
     sleep  5s
     Publish     topic=/maze    message=solve
-    Generator action  11  11  0  0
+    Generator action  11  11  0  0  hunt
     sleep  5s
     Publish     topic=/maze    message=solve
     sleep  5s
-    Generator action  21  21  0  0
+    Generator action  21  21  0  0  hunt
     sleep  5s
     Publish     topic=/maze    message=solve    
     sleep  5s
-    Generator action  99  99  0  0
+    Generator action  99  99  0  0  hunt
     sleep  10s
     Publish     topic=/maze    message=solve    
     sleep  10s
