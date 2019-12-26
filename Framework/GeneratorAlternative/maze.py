@@ -134,7 +134,7 @@ class Maze(base.MazeBase):
                 x, y = self._create_walk(x, y)
             x, y = self._hunt(hunt_list)
 
-    def _eller(self): 
+    def _eller(self):
         """Creates a maze using Eller's algorithm."""
         self.row_stack = [0] * self.col_count  # List of set indices [set index, ...]
         self.set_list = []  # List of set indices with positions [(set index, position), ...]
@@ -187,26 +187,29 @@ class Maze(base.MazeBase):
                         self.maze[x, 2 * y] = 1  # Mark as visited
                 break  # End loop with last row
 
-            # Reset row stack
-            self.row_stack = [0] * self.col_count
+            self._eller_final(x)
 
-            # Create vertical links
-            self.set_list.sort(reverse=True)
-            while self.set_list:
-                # List of set indices with positions for one set index [(set index, position), ...]
-                sub_set_list = collections.deque()
-                sub_set_index = self.set_list[-1][0]
-                while self.set_list and self.set_list[-1][0] == sub_set_index:  # Create sub list for one set index
-                    sub_set_list.append(self.set_list.pop())
-                linked = False
-                while not linked:  # Create at least one link for each set index
-                    for sub_set_item in sub_set_list:
-                        if random.getrandbits(1):  # Create link
-                            linked = True
-                            link_set, link_position = sub_set_item
+    def _eller_final(self, x):
+        # Reset row stack
+        self.row_stack = [0] * self.col_count
 
-                            self.row_stack[link_position // 2] = link_set  # Assign links to new row stack
-                            self.maze[x + 1, link_position] = 1  # Mark link as visited
+        # Create vertical links
+        self.set_list.sort(reverse=True)
+        while self.set_list:
+            # List of set indices with positions for one set index [(set index, position), ...]
+            sub_set_list = collections.deque()
+            sub_set_index = self.set_list[-1][0]
+            while self.set_list and self.set_list[-1][0] == sub_set_index:  # Create sub list for one set index
+                sub_set_list.append(self.set_list.pop())
+            linked = False
+            while not linked:  # Create at least one link for each set index
+                for sub_set_item in sub_set_list:
+                    if random.getrandbits(1):  # Create link
+                        linked = True
+                        link_set, link_position = sub_set_item
+
+                        self.row_stack[link_position // 2] = link_set  # Assign links to new row stack
+                        self.maze[x + 1, link_position] = 1  # Mark link as visited
 
     def _sidewinder(self):
         """Creates a maze using the sidewinder algorithm."""
