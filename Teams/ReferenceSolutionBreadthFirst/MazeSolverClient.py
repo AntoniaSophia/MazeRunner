@@ -88,7 +88,7 @@ class MazeSolverClient:
         self.master.publish(topic, message, qos, retain)
 
     def solveMaze(self):
-        """Command to start solving the maze"""
+        """Command to start solving the maze """
         for step in self.solver.solveMaze():
             step_str = '{},{}'.format(step[0], step[1])
 
