@@ -1,9 +1,9 @@
-# MazeRunner Project by Susanna Hepp and Antonia Reiter
+# MazeRunner Project 
 
 ![maze](docs/images/3D-monster-maze.png "maze")
 
 ## 1. Maze Runner in Python with MQTT
-This project is for educational purpose. Mazerunner is a collection of applications to introduce Service orientation, IoT technologies and collaborative development using state of the art DevOps systems like Github. 
+This project is created by Susanna Hepp and Antonia Reiter for educational purpose. Mazerunner is a collection of applications to introduce Service orientation, IoT technologies and collaborative development using state of the art DevOps systems like Github. 
 
 **DevOps** is a set of software development practices that combine software development (Dev) and information technology operations (Ops) to shorten the systems development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives.
 
@@ -138,6 +138,6 @@ robot end2end_astar.robot
 
 
 ## 13. And now let your job begin.... 
- ![Overview1](docs/images/overview1.png "Overview1")
+ ![Overview1](docs/images/Overview1.png "Overview1")
 
- ![Overview2](docs/images/overview2.png "Overview2")
+ ![Overview2](docs/images/Overview2.png "Overview2")
