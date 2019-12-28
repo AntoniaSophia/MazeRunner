@@ -1,16 +1,16 @@
-# MazeRunner
+# MazeRunner Project by Susanna Hepp and Antonia Reiter
 
 ![maze](docs/images/3D-monster-maze.png "maze")
 
-## Maze Runner in Python with MQTT
+## 1. Maze Runner in Python with MQTT
 This project is for educational purpose. Mazerunner is a collection of applications to introduce Service orientation, IoT technologies and collaborative development using state of the art DevOps systems like Github. 
 
 **DevOps** is a set of software development practices that combine software development (Dev) and information technology operations (Ops) to shorten the systems development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives.
 
-**MQTT** stands for Message Queuing Telemetry Transport. It is a lightweight publish and subscribe system where you can publish and receive messages as a client. For almost every language and devcies, libraries are available to implement Publisher and Subscriber communicating in heterogenes networks e.g. https://www.mysensors.org/build/mqtt_gateway
+**MQTT** stands for Message Queuing Telemetry Transport. It is a lightweight publish and subscribe system where you can publish and receive messages as a client. For almost every language and devices, libraries are available to implement Publisher and Subscriber communicating in heterogenes networks e.g. https://www.mysensors.org/build/mqtt_gateway
 
 
-## Install for Windows 10
+## 2. Install for Windows 10
 1. Python3.7
 download and install the latest Installer for 3.7.x Version from https://www.python.org/ftp/python/
 e.g. https://www.python.org/ftp/python/3.7.6/python-3.7.6-amd64.exe
@@ -42,7 +42,7 @@ e.g. https://github.com/git-for-windows/git/releases/download/v2.24.1.windows.2/
 
 ### Congratulations - now your are ready to go.... 
 
-## Visual Studio Code 
+## 3. Visual Studio Code 
 ### Visual Studio Code Installation
 1. Download and install Visual Studio Code from https://code.visualstudio.com/Download#
 2. Install Python Extension: https://marketplace.visualstudio.com/items?itemName=ms-python.python
@@ -53,12 +53,12 @@ e.g. https://github.com/git-for-windows/git/releases/download/v2.24.1.windows.2/
 - plugins
 - pylint
 
-## Better UI for Git 
+## 4. Better UI for Git 
 Use one of both tools
 - GitKraken - download at https://www.gitkraken.com/download
 - TortoiseGit - download at https://tortoisegit.org/
 
-## Execute Unit Tests
+## 5. Execute Unit Tests
 In order to execute all available UnitTests: 
 ```
 cd <project_root> 
@@ -76,7 +76,7 @@ robot run_unit_test.robot
 
 Expected output would be something like ![UnitTest with Coverage](docs/images/pytest_example_coverage.png "UnitTest with Coverage")
 
-## Execute coding style checker flake8
+## 6. Execute coding style checker flake8
 In order to execute the coding style checker flake8:
 ```
 cd <project_root>
@@ -84,28 +84,28 @@ flake8
 ```
 Expected output would be <empty> as the original project is cleaned against coding style violations.
 
-## Execute Robotframework Tests
+## 7. Execute Robotframework Tests
 ```
 cd <project_root>/robotframework
 robot end2end_astar.robot
 ```
 
-## Pytest
+## 8. Pytest
 #TODO: Further explanation tbd 
 
-## Pylint
+## 9. Pylint
 #TODO: Further explanation tbd 
 
-## Robot Testframework
+## 10. Robot Testframework
 #TODO: Further explanation tbd 
 
 
-## GitHub pipeline .github
+## 11. GitHub pipeline .github
 #TODO
 - Docker
 - Codecov
 
-## Maze Application 
+## 12. Maze Application 
 ```
 ├── .github           
 │   ├── workflows       Stores the Github pipeline file pythonapp.yml 
@@ -135,3 +135,9 @@ robot end2end_astar.robot
     └── TeamTemplate                        Folder containing the starting templates for implementation the solution
                                             Use this folder as copy&paste for starting point of an Python-based solution
 ```
+
+
+## 13. And now let your job begin.... 
+ ![Overview1](docs/images/overview1.png "Overview1")
+
+ ![Overview2](docs/images/overview2.png "Overview2")
