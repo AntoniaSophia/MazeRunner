@@ -139,6 +139,20 @@ robot end2end_astar.robot
 
 ## 13. And now let your job begin.... 
 ### How is the Maze described?
+- a maze is defined as a grid of dimension n,m - in our case we use a square as grid, which means n=m.
+- blocked fields are marked as integer 1
+- free fields are marked as integer 0
+- starting position (=start of maze) is marked as integer 2
+- target position (= exit of maze) is marked as integer 3
+
+<b>NOTE:</b>
+- Notation for a field is (row , column) - that means row is always before column
+- The integer numbering starts from 0, which means in a maze with dimension 5 we have rows from 0..4 and columns from 0..4
+- The upper left corner is the position (0,0) (be aware this might not be intuitive!)
+
+ ![Maze grid overview](docs/images/maze_grid1.png "Maze grid overview")
+
+ 
 
 ### How is the overall project architecture?
  ![Overview1](docs/images/Overview1.png "Overview1")
@@ -178,18 +192,15 @@ One valid sequence of a newly created maze could look like this:
 /maze end
 ```
 
-In order to receive new messages you have to implement and register the following callback function ```def on_message(self, master, obj, msg)```, e.g.
-´´´
+In order to receive new messages you have to implement and register the following callback function ```def on_message(self, master, obj, msg)```, e.g. ``` 
 def onMessage(self, master, obj, msg):
      topic = str(msg.topic)
      payload = str(msg.payload.decode("utf-8"))
      print("Received message: ", topic, " --> ", payload)
      # now start your business logic
-´´´
+``` 
 
-In order to register for receiving any MQTT messages you have to implement the following callback function ```def on_connect(self, master, obj, flags, rc)```, e.g. 
-
-´´´
+In order to register for receiving any MQTT messages you have to implement the following callback function ```def on_connect(self, master, obj, flags, rc)```, e.g. ```
 def onConnect(self, master, obj, flags, rc):
     self.master.subscribe("/maze")
     self.master.subscribe("/maze/dimRow")
@@ -199,7 +210,7 @@ def onConnect(self, master, obj, flags, rc):
     self.master.subscribe("/maze/endCol")
     self.master.subscribe("/maze/endRow")
     self.master.subscribe("/maze/blocked")
-´´´
+``` 
 
 And finally this is how you get everything started:
 ´´´
