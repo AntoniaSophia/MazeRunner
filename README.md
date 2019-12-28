@@ -14,14 +14,23 @@ This project is for educational purpose. Mazerunner is a collection of applicati
 1. Python3.7
 download and install the latest Installer for 3.7.x Version from https://www.python.org/ftp/python/
 e.g. https://www.python.org/ftp/python/3.7.6/python-3.7.6-amd64.exe
+
 2. Git-Client
 download and install the git client for windows from https://git-scm.com/download/win
 e.g. https://github.com/git-for-windows/git/releases/download/v2.24.1.windows.2/Git-2.24.1.2-64-bit.exe
-3. clone this repository ```git clone https://github.com/AntoniaSophia/MazeRunner.git```
-2. Open Commandline via ```<win>+r cmd```
-3. cd into cloned directory
-3. Update pip ```pip install --upgrade pip```
-4. Install required python packages: ```pip install -U -r requirements.txt```
+
+3. Create a project folder locally on your system, e.g. c:\projects\mazerunner - we call this folder further on <project_root>
+
+4. Open Commandline via ```<win>+r cmd```
+
+5. Change directory into cloned directory, e.g. ```cd c:\projects\mazerunner```
+
+6. clone this repository ```git clone https://github.com/AntoniaSophia/MazeRunner.git```
+![Clone repo](docs/images/clone_repo.png "Clone Repo")
+
+7. Update pip ```pip install --upgrade pip```
+
+8. Install required python packages: ```pip install -U -r requirements.txt```
 
 ## Visual Studio Code 
 1. Download and install Visual Studio Code from https://code.visualstudio.com/Download#
@@ -33,18 +42,32 @@ Use one of both tools
 - GitKraken - download at https://www.gitkraken.com/download
 - TortoiseGit - download at https://tortoisegit.org/
 
-## Execute unittests
-```cd <root>
-pytest -v
+## Execute Unit Tests
+In order to execute all available UnitTests: 
+```cd <project_root> <br /> pytest -v```
+
+Expected output would be something like ![UnitTest](docs/images/pytest_example.png "UnitTest")
+
+
+Alternatively you could also execute a UnitTest from a Team locally, this time we also use Code Coverage
 ```
+cd <project_root>/Teams/ReferenceSolutionAStar
+robot .\run_unit_test.robot 
+```
+
+Expected output would be something like ![UnitTest with Coverage](docs/images/pytest_example_coverage.png "UnitTest with Coverage")
 
 ## Execute coding style checker flake8
-```cd <root>
+In order to execute the coding style checker flake8:
+```
+cd <project_root>
 flake8
 ```
+Expected output would be <empty> as the original project is cleaned against coding style violations.
 
 ## Execute Robotframework Tests
-```cd <root>/robotframework
+```
+cd <project_root>/robotframework
 robot end2end_astar.robot
 ```
 
