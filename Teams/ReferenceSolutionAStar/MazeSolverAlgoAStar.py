@@ -1,5 +1,5 @@
-import numpy
 import queue
+import numpy
 
 
 class MazeSolverAlgoAStar:
@@ -18,7 +18,7 @@ class MazeSolverAlgoAStar:
         self.endCol = 0
         self.endRow = 0
         self.grid = [[]]
-        print("Initialize a Maze Solver")
+        print("[MazeSolverAlgoAStar]: Instantiating of MazeSolverAlgoAStar successful.")
 
     def setStartCol(self, col):
         self.startCol = col
@@ -60,7 +60,6 @@ class MazeSolverAlgoAStar:
                     self.grid[i][j] = 0
 
     def endMaze(self):
-        print("kdjslfsjlsjf")
         self.grid[self.startRow][self.startCol] = self.START
         self.grid[self.endRow][self.endCol] = self.TARGET
 
@@ -162,8 +161,8 @@ class MazeSolverAlgoAStar:
         # Here Creation of Path ends
         #############################
 
-        for next in path:
-            nextPath = next.split(",")
+        for next_element in path:
+            nextPath = next_element.split(",")
             result_path.append([int(nextPath[0]), int(nextPath[1])])
 
         return result_path
@@ -176,11 +175,11 @@ class MazeSolverAlgoAStar:
 
     def aStar(self):
         result_path = []
-        print("Start of A* Solver...")
+        print("[MazeSolverAlgoAStar]: Start of A* Solver...")
 
-        print("Start = ", self.startRow, self.startCol)
-        print("End = ", self.endRow, self.endCol)
-        print("Maze = \n", self.grid)
+        print("[MazeSolverAlgoAStar]: Start = ", self.startRow, self.startCol)
+        print("[MazeSolverAlgoAStar]: End = ", self.endRow, self.endCol)
+        print("[MazeSolverAlgoAStar]: Maze = \n", self.grid)
 
 #        print("Neighbours [0,4] : " , self.getNeighbours(0,4))
 
@@ -208,17 +207,17 @@ class MazeSolverAlgoAStar:
             if self.isSameGridElement(current, goal):
                 break
 
-            for next in self.getNeighbours(current[0], current[1]):
+            for next_neighbour in self.getNeighbours(current[0], current[1]):
                 # + 1 is extremely important, otherwise you would not punish additional moves!!!
                 new_cost = cost_so_far[currentKey] + 1
                 # + 1 = graph costs
 
-                nextKey = self.gridElementToString(next[0], next[1])
+                nextKey = self.gridElementToString(next_neighbour[0], next_neighbour[1])
                 if nextKey not in cost_so_far or new_cost < cost_so_far[nextKey]:
                     cost_so_far[nextKey] = new_cost
-                    priority = new_cost + self.heuristic(goal, next)
+                    priority = new_cost + self.heuristic(goal, next_neighbour)
                     # print("Next = " , nextKey , " - priority = " , priority)
-                    frontier.put((priority, next))
+                    frontier.put((priority, next_neighbour))
                     came_from[nextKey] = current
         #############################
         # Here A* ends
@@ -226,10 +225,10 @@ class MazeSolverAlgoAStar:
 
         result_path = self.generateResultPath(came_from)
 
-        print("Resulting length A* Solution: ", len(result_path))
-        print("Resulting A* Solution Path = ", result_path)
+        print("[MazeSolverAlgoAStar]: Resulting length A* Solution: ", len(result_path))
+        print("[MazeSolverAlgoAStar]: Resulting A* Solution Path = ", result_path)
 
-        print("Finished A* Solver....")
+        print("[MazeSolverAlgoAStar]: Finished A* Solver....")
 
         return result_path
 

@@ -29,12 +29,13 @@ class MazeSolverClient:
         self.solver.master = self.master
 
     def onMessage(self, master, obj, msg):
+        # pylint: disable=unused-argument
         """This is the onMessage method which has to be implemented \
             in order to serve as MQTT client - don't forget to register it!
             In this method we define how the MQTT messages we receive shall be processed"""
         topic = str(msg.topic)
         payload = str(msg.payload.decode("utf-8"))
-        print("Received message: ", topic, " --> ", payload)
+        print("[MazeSolverClient]: Received message: ", topic, " --> ", payload)
         if topic == "/maze":
             if payload == "clear":
                 self.solver.clearMaze()
@@ -66,6 +67,7 @@ class MazeSolverClient:
             pass
 
     def onConnect(self, master, obj, flags, rc):
+        # pylint: disable=unused-argument
         """This is the onConnect method which has to be implemented \
             in order to serve as MQTT client - don't forget to register it!
             In this method we define which MQTT messages we would like to receive"""
