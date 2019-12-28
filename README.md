@@ -30,18 +30,28 @@ e.g. https://github.com/git-for-windows/git/releases/download/v2.24.1.windows.2/
 ![Clone repo](docs/images/clone_repo.png "Clone Repo")
 
 7. Change directory into cloned directory, e.g. ```cd MazeRunner```
-   You are now in a directory like c:\myprojects\MazeRunner - we call this directory further on ```<project_root>```
+   <br/>You are now in a directory like ```c:\myprojects\MazeRunner``` - we call this directory further on ```<project_root>```
 
-8. Update pip ```pip install --upgrade pip```
+8. Ensure to set the system path environment variable ```%PATH%``` correctly with Python37 and Python37/scripts directory
 
-9. Install required python packages: ```pip install -U -r requirements.txt```
+![Set %PATH%](docs/images/environment_variables_1.png "Set %PATH%")
+
+9. Update pip ```pip install --upgrade pip```
+
+10. Install required python packages: ```pip install -U -r requirements.txt```
 
 ### Congratulations - now your are ready to go.... 
 
 ## Visual Studio Code 
+### Visual Studio Code Installation
 1. Download and install Visual Studio Code from https://code.visualstudio.com/Download#
 2. Install Python Extension: https://marketplace.visualstudio.com/items?itemName=ms-python.python
 3. Install Robot Testframework extension https://marketplace.visualstudio.com/items?temName=vivainio.robotframework
+
+### Visual Studio Code Configuration
+#TODO
+- plugins
+- pylint
 
 ## Better UI for Git 
 Use one of both tools
@@ -80,9 +90,25 @@ cd <project_root>/robotframework
 robot end2end_astar.robot
 ```
 
+## Pytest
+#TODO: Further explanation tbd 
+
+## Pylint
+#TODO: Further explanation tbd 
+
+## Robot Testframework
+#TODO: Further explanation tbd 
+
+
+## GitHub pipeline .github
+#TODO
+- Docker
+- Codecov
 
 ## Maze Application 
 ```
+├── .github           
+│   ├── workflows       Stores the Github pipeline file pythonapp.yml 
 ├── Framework           
 │   ├── DotMatrix       Used for the IoT Demonstration 
 │   ├── Generator       Maze generator application
