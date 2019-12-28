@@ -1,7 +1,7 @@
 # MazeRunner Project 
 This project is created in 2018 by Susanna Hepp and Antonia Reiter for educational purpose. 
 
-![maze](docs/images/3D-monster-maze.png "maze")
+![maze](docs/images/monster-maze.png "maze")
 
 ## 1. Maze Runner in Python with MQTT
 Mazerunner is a collection of applications to introduce Service orientation, IoT technologies and collaborative development using state of the art DevOps systems like Github. 
@@ -118,6 +118,7 @@ robot end2end_astar.robot
 │   ├── README.md
 │   ├── Test            Tests for the mazerunner project
 │   └── Visualizer      Gui application to visualize the Maze for Generator and for solver
+├── MazeExample         A few hardcoded maze examples which are being used to get reproducable results for e.g. Unit Testing   
 ├── .coveragerc         The configuration of the code coverage tool Coverage.py - see https://coverage.readthedocs.io/en/coverage-5.0/
 ├── .flake8             The configuration of the coding style checker tool flake8 - see http://flake8.pycqa.org/en/latest/ 
 ├── .gitignore          The configuration for git - all files to be ignored for change managment
@@ -160,26 +161,26 @@ We use the Model-View-Controller (MVC) design pattern and decouple the Model, Vi
 In our training project all three components are written in Python - but there is absolutely no reason why the Model, View or Controller part should not be implemented in a different language like C, C++, C# , Java, Swift, Ruby, PHP,...
 See https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller for reading more about MVC design pattern.
 
-Some words about design patterns in general:
+<b>Some words about design patterns in general:</b>
 - Design patterns are solutions to software design problems you find again and again in real-world application development
 - Those patterns are about reusable designs and interactions of objects
 - The 23 Gang of Four (GoF) patterns are generally considered the foundation for all other patterns
 - They are categorized in three groups: Creational, Structural, and Behavioral 
 - https://en.wikipedia.org/wiki/Software_design_pattern 
-- 
 
-Some words about Model-View-Controller
+<b>Some words about Model-View-Controller</b>
 - Already pretty old - first implemented in the 1970s
 - Classic pattern for client-server communication and separation of concerns
 - In IoT (= Internet of Things) the pattern is widely adopted
 - As seen above MQTT is one of the easiest IoT protocols in order to separate those concerns and let them be executed in different locations
 
 <b>Advantages of MVC design pattern</b>
-- Simultaneous development – Multiple developers can work simultaneously on the model, controller and views.
-- High cohesion MVC enables logical grouping of related actions on a controller or on a model together. 
+- Simultaneous development – Multiple developers can work simultaneously on the model, controller and views
+- High cohesion MVC enables logical grouping of related actions on a controller or on a model together
 - Loose coupling - the very nature of the MVC framework is such that there is low coupling among models, views or controllers
 - Ease of modification – Because of the separation of responsibilities, future development or modification is easier
 - Multiple views for a model – Models can have multiple views
+
 
 <b>Disadvantages of MVC design pattern</b>
 - Code navigability – The framework navigation can be complex because it introduces new layers of abstraction and requires users to adapt to the decomposition criteria of MVC. 
@@ -202,7 +203,7 @@ Some words about Model-View-Controller
 ### How are the MQTT messages being defined?
 In general MQTT messages are being defined with a topic and a payload, e.g. ```/topic payload```
 
-Examples
+<b>Examples</b>
 - ```/maze clear```     --> Topic: /maze		Payload: clear  (Interpretation: clear the complete maze)
 - ```/maze/dimRow 5```	--> Topic: /maze/dimRow	Payload: 5      (Interpretation: specify the number of rows of the maze)
 - ```/maze/go 1,5```    --> Topic: /maze/go     Payload: 1,5    (Move the robot to next field 1,5 - 1=row, 5=col)
