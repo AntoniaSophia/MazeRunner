@@ -1,7 +1,9 @@
 # MazeRunner
 
-## Maze Runner in python with MQTT
-This project is for educational purpose. Mazerunner is a collection of applications to introduce Service orientation, IoT Technologies and collaborative Development using state of the art DevOps systems like github and jenkins. 
+![maze](docs/images/3D-monster-maze.png "maze")
+
+## Maze Runner in Python with MQTT
+This project is for educational purpose. Mazerunner is a collection of applications to introduce Service orientation, IoT technologies and collaborative development using state of the art DevOps systems like Github. 
 
 **DevOps** is a set of software development practices that combine software development (Dev) and information technology operations (Ops) to shorten the systems development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives.
 
@@ -32,26 +34,21 @@ Use one of both tools
 - TortoiseGit - download at https://tortoisegit.org/
 
 ## Execute unittests
-```
-cd <root>
+```cd <root>
 pytest -v
 ```
 
 ## Execute coding style checker flake8
-```
-cd <root>
+```cd <root>
 flake8
 ```
 
 ## Execute Robotframework Tests
-```
-cd <root>/robotframework
+```cd <root>/robotframework
 robot end2end_astar.robot
 ```
 
 
-
-![maze](docs/images/3D-monster-maze.png "maze")
 ## Maze Application 
 ```bash
 ├── Framework           
