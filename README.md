@@ -138,6 +138,73 @@ robot end2end_astar.robot
 
 
 ## 13. And now let your job begin.... 
+### How is the Maze described?
+
+### How is the overall project architecture?
  ![Overview1](docs/images/Overview1.png "Overview1")
 
  ![Overview2](docs/images/Overview2.png "Overview2")
+
+
+### How are the MQTT messages being defined?
+In general MQTT messages are being defined with a topic and a payload, e.g. ```/topic payload```
+
+Examples
+- ```/maze clear```     --> Topic: /maze		Payload: clear  (Interpretation: clear the complete maze)
+- ```/maze/dimRow 5```	--> Topic: /maze/dimRow	Payload: 5      (Interpretation: specify the number of rows of the maze)
+- ```/maze/go 1,5```    --> Topic: /maze/go     Payload: 1,5    (Move the robot to next field 1,5 - 1=row, 5=col)
+
+See the list of all MQTT messages and their interpretation:
+ ![MQTT messages](docs/images/mqtt_messages.png "MQTT messages")
+
+One valid sequence of a newly created maze could look like this:
+```
+/maze clear
+/maze start
+/maze/dimCol 5
+/maze/dimRow 5
+/maze/startCol 4
+/maze/startRow 0
+/maze/endCol 4
+/maze/endRow 2
+/maze/blocked 1,1
+/maze/blocked 1,2
+/maze/blocked 1,3
+/maze/blocked 1,4
+/maze/blocked 2,1
+/maze/blocked 2,3
+/maze/blocked 3,1
+/maze/blocked 4,3
+/maze end
+```
+
+In order to receive new messages you have to implement and register the following callback function ```def on_message(self, master, obj, msg)```, e.g.
+´´´
+def onMessage(self, master, obj, msg):
+     topic = str(msg.topic)
+     payload = str(msg.payload.decode("utf-8"))
+     print("Received message: ", topic, " --> ", payload)
+     # now start your business logic
+´´´
+
+In order to register for receiving any MQTT messages you have to implement the following callback function ```def on_connect(self, master, obj, flags, rc)```, e.g. 
+
+´´´
+def onConnect(self, master, obj, flags, rc):
+    self.master.subscribe("/maze")
+    self.master.subscribe("/maze/dimRow")
+    self.master.subscribe("/maze/dimCol")
+    self.master.subscribe("/maze/startCol")
+    self.master.subscribe("/maze/startRow")
+    self.master.subscribe("/maze/endCol")
+    self.master.subscribe("/maze/endRow")
+    self.master.subscribe("/maze/blocked")
+´´´
+
+And finally this is how you get everything started:
+´´´
+MQTT_CLIENT = mqtt.Client()
+MQTT_CLIENT.on_connect = onConnect
+MQTT_CLIENT.on_message = self.onMessage
+MQTT_CLIENT.master.connect(MQTT_SERVER, 1883, 60)
+´´´
