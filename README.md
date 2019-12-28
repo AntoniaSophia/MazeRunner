@@ -19,18 +19,24 @@ e.g. https://www.python.org/ftp/python/3.7.6/python-3.7.6-amd64.exe
 download and install the git client for windows from https://git-scm.com/download/win
 e.g. https://github.com/git-for-windows/git/releases/download/v2.24.1.windows.2/Git-2.24.1.2-64-bit.exe
 
-3. Create a project folder locally on your system, e.g. c:\projects\mazerunner - we call this folder further on <project_root>
+3. Create a project folder locally on your system, e.g. c:\myprojects 
 
 4. Open Commandline via ```<win>+r cmd```
 
-5. Change directory into cloned directory, e.g. ```cd c:\projects\mazerunner```
+5. Change directory into cloned directory, e.g. ```cd c:\myprojects```
 
 6. clone this repository ```git clone https://github.com/AntoniaSophia/MazeRunner.git```
+
 ![Clone repo](docs/images/clone_repo.png "Clone Repo")
 
-7. Update pip ```pip install --upgrade pip```
+7. Change directory into cloned directory, e.g. ```cd MazeRunner```
+   You are now in a directory like c:\myprojects\MazeRunner - we call this directory further on ```<project_root>```
 
-8. Install required python packages: ```pip install -U -r requirements.txt```
+8. Update pip ```pip install --upgrade pip```
+
+9. Install required python packages: ```pip install -U -r requirements.txt```
+
+### Congratulations - now your are ready to go.... 
 
 ## Visual Studio Code 
 1. Download and install Visual Studio Code from https://code.visualstudio.com/Download#
@@ -55,7 +61,7 @@ Expected output would be something like ![UnitTest](docs/images/pytest_example.p
 Alternatively you could also execute a UnitTest from a Team locally, this time we also use Code Coverage
 ```
 cd <project_root>/Teams/ReferenceSolutionAStar
-robot .\run_unit_test.robot 
+robot run_unit_test.robot 
 ```
 
 Expected output would be something like ![UnitTest with Coverage](docs/images/pytest_example_coverage.png "UnitTest with Coverage")
