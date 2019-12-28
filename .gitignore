@@ -4,6 +4,7 @@ nosetests\.xml
 .vscode/.ropeproject/config.py
 .vscode/
 .coverage
+**/UnitTestResult.txt
 **/log.html
 **/output.xml
 **/report.html
