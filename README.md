@@ -44,7 +44,10 @@ Use one of both tools
 
 ## Execute Unit Tests
 In order to execute all available UnitTests: 
-```cd <project_root> <br /> pytest -v```
+```
+cd <project_root> 
+pytest -v
+```
 
 Expected output would be something like ![UnitTest](docs/images/pytest_example.png "UnitTest")
 
@@ -73,7 +76,7 @@ robot end2end_astar.robot
 
 
 ## Maze Application 
-```bash
+```
 ├── Framework           
 │   ├── DotMatrix       Used for the IoT Demonstration 
 │   ├── Generator       Maze generator application
