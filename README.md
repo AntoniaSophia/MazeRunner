@@ -1,5 +1,5 @@
 # MazeRunner Project 
-This project is created in 2018 by Susanna Hepp and Antonia Reiter for educational purpose. 
+This project is created in 2019 by Susanna Hepp and Antonia Reiter for educational purpose. 
 
 ![maze](docs/images/monster-maze.png "maze")
 
