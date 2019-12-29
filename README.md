@@ -272,6 +272,9 @@ See https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller for read
 
  ![Overview2](docs/images/Overview2.png "Overview2")
 
+ ![Overview3](docs/images/Overview3.png "Overview3")
+
+
 
 ### How are the MQTT messages being defined?
 In general MQTT messages are being defined with a topic and a payload, e.g. ```/topic payload```
@@ -327,15 +330,55 @@ def onConnect(self, master, obj, flags, rc):
     self.master.subscribe("/maze/blocked")
 ```
 
+
+In order to send back MQTT messages of a solved maze the messages ```/maze/go row,col``` is being used. Just send all the steps of the solution from the starting position to the target position. The method to send back MQTT messages is e.g. a function called ```def publish(self, topic, message=None, qos=1, retain=False)```
+
+```
+def publish(self, topic, message=None, qos=1, retain=False):
+    self.master.publish(topic, message, qos, retain)
+```
+
+See following example:
+ ![Maze Solver Example](docs/images/maze_solver_example.png "Maze Solver Example")
+
+So one valid sequence of a solved maze could look like this:
+```
+/maze solve (this message is received - actually this is a kind of remote command to start the solver!)
+/maze/go 0,3
+/maze/go 0,2
+/maze/go 0,1
+/maze/go 0,0
+/maze/go 1,0
+/maze/go 2,0
+/maze/go 3,0
+/maze/go 4,0
+/maze/go 4,1
+/maze/go 4,2
+/maze/go 3,2
+/maze/go 3,3
+/maze/go 3,4
+/maze/go 2,4
+```
+
+
+
 And finally this is how you get everything started:
 ```
 MQTT_CLIENT = mqtt.Client()
 MQTT_CLIENT.on_connect = onConnect
 MQTT_CLIENT.on_message = self.onMessage
-MQTT_CLIENT.master.connect(MQTT_SERVER, 1883, 60)
+MQTT_CLIENT.connect("127.0.0.1", 1883, 60)  
+# NOTE: 127.0.0.1 because assuming the MQTT server is started locally - modify if on a different host!  
 ```
 
 ### How to start?
+Basically your job is to implement two Python classes:
+- an MQTT client which is receiving maze information
+- a solver for a maze (A*, Dijkstra,...)
+
+![Overview3](docs/images/Overview3.png "Overview3")
+
+
 The best way to start is to check the [Team Template repository](../MazeRunner/Teams/TeamTemplate) and take all the content as starting point for your team. Eventually just copy&paste this TeamTemplate folder into you team folder and adjust the names.
 From scratch you can already: 
 - generate a maze via  ```robot run_generate_maze.robot``` --> your job is to receive and interprete the incoming MQTT messages (in order to do so touch the file [TeamTemplateClient.py](../MazeRunner/Teams/TeamTemplate/TeamTemplateClient.py))  

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 3.1.2 (Python 3.7.6rc1 on win32)" generated="20191228 19:26:05.876" rpa="false">
+<robot generator="Robot 3.1.2 (Python 3.7.6rc1 on win32)" generated="20191229 18:42:52.247" rpa="false">
 <suite id="s1" name="Run All" source="D:\_Projects\MazeRunner_2020\MazeRunner\MazeRunner\Teams\ReferenceSolutionAStar\run_all.robot">
 <test id="s1-t1" name="RunMaze">
 <kw name="Broker Start" library="BrokerLibrary">
-<status status="PASS" starttime="20191228 19:26:05.951" endtime="20191228 19:26:05.958"></status>
+<status status="PASS" starttime="20191229 18:42:52.342" endtime="20191229 18:42:52.349"></status>
 </kw>
 <kw name="Gui Start" library="MazeGuiLibrary">
-<status status="PASS" starttime="20191228 19:26:05.958" endtime="20191228 19:26:05.964"></status>
+<status status="PASS" starttime="20191229 18:42:52.350" endtime="20191229 18:42:52.356"></status>
 </kw>
 <kw name="Astarreference Start" library="AStarReferenceSolverLibrary">
-<status status="PASS" starttime="20191228 19:26:05.964" endtime="20191228 19:26:05.970"></status>
+<status status="PASS" starttime="20191229 18:42:52.356" endtime="20191229 18:42:52.365"></status>
 </kw>
 <kw name="Connect" library="MQTTLibrary">
 <doc>Connect to an MQTT broker. This is a pre-requisite step for publish
@@ -17,31 +17,31 @@ and subscribe keywords.</doc>
 <arguments>
 <arg>127.0.0.1</arg>
 </arguments>
-<msg timestamp="20191228 19:26:05.971" level="INFO">Connecting to 127.0.0.1 at port 1883</msg>
-<status status="PASS" starttime="20191228 19:26:05.970" endtime="20191228 19:26:06.492"></status>
+<msg timestamp="20191229 18:42:52.366" level="INFO">Connecting to 127.0.0.1 at port 1883</msg>
+<status status="PASS" starttime="20191229 18:42:52.366" endtime="20191229 18:42:52.377"></status>
 </kw>
 <kw name="Sleep" library="BuiltIn">
 <doc>Pauses the test executed for the given time.</doc>
 <arguments>
 <arg>2s</arg>
 </arguments>
-<msg timestamp="20191228 19:26:08.494" level="INFO">Slept 2 seconds</msg>
-<status status="PASS" starttime="20191228 19:26:06.493" endtime="20191228 19:26:08.494"></status>
+<msg timestamp="20191229 18:42:54.378" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" starttime="20191229 18:42:52.377" endtime="20191229 18:42:54.379"></status>
 </kw>
 <kw name="Generator Load" library="GeneratorLibrary">
 <arguments>
 <arg>../../MazeExamples/maze2.txt</arg>
 </arguments>
-<msg timestamp="20191228 19:26:09.110" level="INFO">Generator run</msg>
-<status status="PASS" starttime="20191228 19:26:08.494" endtime="20191228 19:26:09.111"></status>
+<msg timestamp="20191229 18:42:56.537" level="INFO">Generator run</msg>
+<status status="PASS" starttime="20191229 18:42:54.381" endtime="20191229 18:42:56.537"></status>
 </kw>
 <kw name="Sleep" library="BuiltIn">
 <doc>Pauses the test executed for the given time.</doc>
 <arguments>
 <arg>5s</arg>
 </arguments>
-<msg timestamp="20191228 19:26:14.114" level="INFO">Slept 5 seconds</msg>
-<status status="PASS" starttime="20191228 19:26:09.112" endtime="20191228 19:26:14.114"></status>
+<msg timestamp="20191229 18:43:01.540" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" starttime="20191229 18:42:56.538" endtime="20191229 18:43:01.540"></status>
 </kw>
 <kw name="Publish" library="MQTTLibrary">
 <doc>Publish a message to a topic with specified qos and retained flag.
@@ -51,17 +51,17 @@ keyword before using this keyword.</doc>
 <arg>topic=/maze</arg>
 <arg>message=solve</arg>
 </arguments>
-<msg timestamp="20191228 19:26:14.123" level="INFO">Publish topic: /maze, message: solve, qos: 0, retain: False</msg>
-<status status="PASS" starttime="20191228 19:26:14.122" endtime="20191228 19:26:14.123"></status>
+<msg timestamp="20191229 18:43:01.543" level="INFO">Publish topic: /maze, message: solve, qos: 0, retain: False</msg>
+<status status="PASS" starttime="20191229 18:43:01.542" endtime="20191229 18:43:01.545"></status>
 </kw>
 <kw name="Sleep" library="BuiltIn">
 <doc>Pauses the test executed for the given time.</doc>
 <arguments>
 <arg>200s</arg>
 </arguments>
-<status status="FAIL" starttime="20191228 19:26:14.126" endtime="20191228 19:26:27.415"></status>
+<status status="FAIL" starttime="20191229 18:43:01.548" endtime="20191229 18:43:16.678"></status>
 </kw>
-<status status="FAIL" starttime="20191228 19:26:05.951" endtime="20191228 19:26:27.417" critical="yes">Execution terminated by signal</status>
+<status status="FAIL" starttime="20191229 18:42:52.341" endtime="20191229 18:43:16.689" critical="yes">Execution terminated by signal</status>
 </test>
 <doc>Example test cases using the keyword-driven testing approach.
 
@@ -76,7 +76,7 @@ same workflow needs to repeated multiple times, it is best
 to use to the _data-driven_ approach.
 Start command: robot &lt;robotfile&gt; , e.g. robot keyword_driven.robot
 dtrhreth</doc>
-<status status="FAIL" starttime="20191228 19:26:05.878" endtime="20191228 19:26:27.422"></status>
+<status status="FAIL" starttime="20191229 18:42:52.249" endtime="20191229 18:43:16.766"></status>
 </suite>
 <statistics>
 <total>
