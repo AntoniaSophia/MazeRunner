@@ -141,7 +141,18 @@ robot end2end_astar.robot
 
 ## 13. And now let your job begin.... 
 ### How is the Maze described?
-- a maze is defined as a grid of dimension n,m - in our case we use a square as grid, which means n=m.
+A maze is a structured map containing different location elements which are connected to each other and represent an environment in which objects can navigate. There are plenty types of structures possible: squares, honeycombs, graphs,...
+See also [A* Star Tutorial](docs/slides/A_Star_Tutorial.pdf) which provides a great introduction to map representation.
+In order to read more about maze representation you my also check the following ressources
+- https://www.redblobgames.com/pathfinding/a-star/introduction.html
+- http://theory.stanford.edu/~amitp/GameProgramming/MapRepresentations.html
+- http://theory.stanford.edu/~amitp/GameProgramming/MapRepresentations.html 
+- https://en.wikipedia.org/wiki/Admissible_heuristic  
+- http://theory.stanford.edu/~amitp/GameProgramming/
+
+
+<b>Let's get back to our project.....how is a maze in our case defined?</b>
+- our maze is defined as a grid of dimension (n,n) - which means we use a square as grid
 - blocked fields are marked as integer 1
 - free fields are marked as integer 0
 - starting position (=start of maze) is marked as integer 2
@@ -154,6 +165,68 @@ robot end2end_astar.robot
 
  ![Maze grid overview](docs/images/maze_grid1.png "Maze grid overview")
 
+### Maze solving algorithms
+There are many maze solving algorithms out there, in our case we concentrate on the following algorithms:
+- BreadthFirst
+- A* 
+- Dijkstra
+  
+We closely follow the implementation of "Red Blob Games" See also [A* Tutorial](docs/slides/A_Star_Tutorial.pdf) (here is the original link [Red Blob Games](https://www.redblobgames.com/pathfinding/a-star/introduction.html)) which provides a great introduction to different types of maze solving algorithms. As the description there is so great we don't dare to come up with a different description which could only be much worse...
+
+Please refer to the reference implementations in the following files:
+- [BreadthFirst reference implementation](../MazeRunner/Teams/ReferenceSolutionAStar/MazeSolverAlgoAStar.py)
+- [A* reference implementation](../MazeRunner/Teams/ReferenceSolutionBreadthFirst/MazeSolverAlgoBreadthFirst.py)
+
+See following code which is taken from the A* reference implementation
+```
+   def aStar(self):
+        result_path = []
+        print("[MazeSolverAlgoAStar]: Start of A* Solver...")
+
+        #############################
+        # Here A* starts
+        #############################
+        start = [self.startRow, self.startCol]
+        frontier = queue.PriorityQueue()
+        frontier.put((0, start))
+
+        startKey = self.gridElementToString(self.startRow, self.startCol)
+        came_from = {}
+        came_from[startKey] = None
+
+        cost_so_far = {}
+        cost_so_far[startKey] = 0
+
+        goal = [self.endRow, self.endCol]
+
+        while not frontier.empty():
+            current = frontier.get()[1]
+            currentKey = self.gridElementToString(current[0], current[1])
+
+            if self.isSameGridElement(current, goal):
+                break
+
+            for next_neighbour in self.getNeighbours(current[0], current[1]):
+                new_cost = cost_so_far[currentKey] + 1
+                # + 1 = graph costs - it is extremely important, otherwise you would not punish additional moves!!!
+
+                nextKey = self.gridElementToString(next_neighbour[0], next_neighbour[1])
+                if nextKey not in cost_so_far or new_cost < cost_so_far[nextKey]:
+                    cost_so_far[nextKey] = new_cost
+                    priority = new_cost + self.heuristic(goal, next_neighbour)
+                    frontier.put((priority, next_neighbour))
+                    came_from[nextKey] = current
+        #############################
+        # Here A* ends
+        #############################
+
+        result_path = self.generateResultPath(came_from)
+
+        print("[MazeSolverAlgoAStar]: Resulting length A* Solution: ", len(result_path))
+        print("[MazeSolverAlgoAStar]: Resulting A* Solution Path = ", result_path)
+
+        return result_path
+```
 
 
 ### How is the overall project architecture?
@@ -261,3 +334,19 @@ MQTT_CLIENT.on_connect = onConnect
 MQTT_CLIENT.on_message = self.onMessage
 MQTT_CLIENT.master.connect(MQTT_SERVER, 1883, 60)
 ```
+
+### How to start?
+The best way to start is to check the [Team Template repository](../MazeRunner/Teams/TeamTemplate) and take all the content as starting point for your team. Eventually just copy&paste this TeamTemplate folder into you team folder and adjust the names.
+From scratch you can already: 
+- generate a maze via  ```robot run_generate_maze.robot``` --> your job is to receive and interprete the incoming MQTT messages (in order to do so touch the file [TeamTemplateClient.py](../MazeRunner/Teams/TeamTemplate/TeamTemplateClient.py))  
+- get a starting point for implementation via ```robot run_solve_maze.robot``` --> your job is to implement A*, Dijkstra,... (in order to do so touch the file [TeamTemplateAlgo.py](../MazeRunner/Teams/TeamTemplate/TeamTemplateAlgo.py))
+- run the unit tests via ```robot run_unit_test``` --> your job would be to increase the code coverage (in order to do so add more unit tests in the [tests folder](../MazeRunner/Teams/TeamTemplate/tests))
+
+Only the End2End Test via ```robot run_all.robot``` is not yet possible as you have to finish your implementations first.
+
+## 14. Troubleshooting
+In  general: don't stop fighting and always keep in mind that usually things are much easier than they appear!
+
+In case of doubts or questions just get back to me at [LinkedIn](https://www.linkedin.com/in/antonia-reiter-13461a74/) 
+
+Have fun and enjoy!
