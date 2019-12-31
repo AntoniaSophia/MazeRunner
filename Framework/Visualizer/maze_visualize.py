@@ -1,8 +1,8 @@
 from tkinter import StringVar, Label, Canvas, Tk, IntVar
-import numpy
-import math
 import os
 import sys
+import math
+import numpy
 import paho.mqtt.client as mqtt
 
 
@@ -11,17 +11,15 @@ if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
 else:
     mqtt_server = "127.0.0.1"
 
-"""
-contains Code from Nikos Kanargias <nkana@tee.gr>
-"""
-
 
 class MqttClient:
+    """contains Code from Nikos Kanargias <nkana@tee.gr>"""
 
     def onMessage(self, master, obj, msg):
+        # pylint: disable=unused-argument
         topic = str(msg.topic)
         payload = str(msg.payload.decode("utf-8"))
-        print("Received message: ", topic, " --> ", payload)
+        print("[MazeVisualizer]: Received message: ", topic, " --> ", payload)
         if topic == "/maze":
             if payload == "clear":
                 self.mazeVisualizer.clearMaze()
@@ -57,6 +55,7 @@ class MqttClient:
             pass
 
     def onConnect(self, master, obj, flags, rc):
+        # pylint: disable=unused-argument
         self.master.subscribe("/maze")
         self.master.subscribe("/maze/dimRow")
         self.master.subscribe("/maze/dimCol")
@@ -67,18 +66,18 @@ class MqttClient:
         self.master.subscribe("/maze/blocked")
         self.master.subscribe("/maze/go")
 
-        print("Connnect to mqtt-broker")
+        print("[MazeVisualizer]: Connnect to mqtt-broker")
 
-    def __init__(self, master, app):
+    def __init__(self, master, appl):
         self.master = master
         self.master.on_connect = self.onConnect
         self.master.on_message = self.onMessage
         self.master.connect(mqtt_server, 1883, 60)
-        self.mazeVisualizer = MazeVisualizer(app)
+        self.mazeVisualizer = MazeVisualizer(appl)
 
 
 class MazeVisualizer:
-
+    # pylint: disable=no-member
     class Cell(object):
         """
         Helper class that represents the cell of the grid
@@ -177,9 +176,9 @@ class MazeVisualizer:
     def addSolutionStep(self, row, col):
         step = self.Cell(row, col)
         self.closedSet.append(step)
-        print("Step")
+        # print("Step")
         if step == self.targetPos:
-            print("Finished")
+            # print("Finished")
             self.plot_route()
 
     def __init__(self, maze):
@@ -349,6 +348,7 @@ class MazeVisualizer:
         """
         Action performed when user clicks "Maze" button
         """
+        # pylint: disable=no-member
         self.animation = False
         self.realTime = False
         for but in self.buttons:

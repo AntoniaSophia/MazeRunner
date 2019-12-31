@@ -1,10 +1,10 @@
-import paho.mqtt.client as mqtt
-import time
-from maze import Maze
+import os
 import sys
 import getopt
+import time
 import numpy
-import os
+import paho.mqtt.client as mqtt
+from maze import Maze
 
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
@@ -25,8 +25,6 @@ class MazeGeneratorClient:
         print("[MazeGenerator] Published message: ", topic, " --> ", message)
 
     def __init__(self):
-        # TODO: this is you job now :-)
-
         self.startCol = 2
         self.startRow = 2
         self.endCol = 7
@@ -39,7 +37,6 @@ class MazeGeneratorClient:
         print("\n[MazeGenerator] Constructor MazeGenerator successfull executed.")
 
     def printMaze(self):
-        # TODO: this is you job now :-)
         for i in range(len(self.maze)):
             for j in range(len(self.maze[i])):
                 print(self.maze[i][j], end='')
@@ -47,8 +44,6 @@ class MazeGeneratorClient:
         print()
 
     def sendMaze(self):
-        # TODO: this is you job now :-)
-
         self.publish("/maze", "clear")
         self.publish("/maze", "start")
         self.publish("/maze/dimCol", self.dimensionCol)

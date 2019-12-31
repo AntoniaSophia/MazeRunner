@@ -1,11 +1,10 @@
-import paho.mqtt.client as mqtt
 import time
-from maze_generator_algo import MazeGeneratorAlgo
 import sys
+import os
 import getopt
 import numpy
-import os
-
+import paho.mqtt.client as mqtt
+from maze_generator_algo import MazeGeneratorAlgo
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
     mqtt_server = os.environ['MQTTSERVER']

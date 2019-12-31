@@ -1,14 +1,8 @@
-import numpy as np
 import collections
-
+import numpy as np
 
 class MazeError(Exception):
     """Maze error class."""
-
-    def __init__(self, e):
-        """Constructor."""
-        super(MazeError, self).__init__(e)
-
 
 def stack_empty():
     """Creates empty spaghetti stack."""

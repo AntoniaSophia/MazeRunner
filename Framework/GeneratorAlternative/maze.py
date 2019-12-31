@@ -1,13 +1,12 @@
 import collections
 import random
-
 import numpy as np
-
-import base as base
-import utils as utils
+import base
+import utils
 
 
 class Maze(base.MazeBase):
+    # pylint: disable=no-member
     EMPTY = 0       # empty cell
     OBST = 1        # cell with obstacle
     ROBOT = 2       # the position of the robot

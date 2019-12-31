@@ -2,9 +2,9 @@
 This class is the template class for the MQTT client which receives MQTT messages
 and sends MQTT messages
 """
-import paho.mqtt.client as mqtt
 import os
 import logging
+import paho.mqtt.client as mqtt
 
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
@@ -45,6 +45,7 @@ class TeamTemplateClient:
     # Implement MQTT receive message function
 
     def onMessage(self, master, obj, msg):
+        # pylint: disable=unused-argument
         # TODO: this is you job now :-)
         # HINT: it might be a good idea to look into file Framework\Test\test_mqtt_subscriber.py
         print("[TeamTemplateClient]: Received message:", str(msg.topic), " --> ", str(msg.payload.decode("utf-8")))

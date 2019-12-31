@@ -3,10 +3,10 @@
 This class is the template class for the Maze solver
 """
 
-import sys
-from math import sqrt
-import numpy
-import queue
+# import sys
+# from math import sqrt
+# import queue
+# import numpy
 
 
 class TeamTemplateAlgo:

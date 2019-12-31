@@ -2,13 +2,9 @@
 nosetests\.xml
 **/.pytest_cache
 .vscode/.ropeproject/config.py
-
 .vscode/
-
 .coverage
-
-robotframework/log.html
-
-robotframework/output.xml
-
-robotframework/report.html
+**/UnitTestResult.txt
+**/log.html
+**/output.xml
+**/report.html

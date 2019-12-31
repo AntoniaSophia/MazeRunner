@@ -1,29 +1,41 @@
-import paho.mqtt.client as mqtt
-from MazeSolverAlgoAStar import MazeSolverAlgoAStar
+"""This is an implementation of an MQTT client which
+    - receives mazes
+    - sends back solution steps from a maze solver
+    It is an implementation of TeamTemplate/TeamTemplateClient"""
 import os
 import logging
+import paho.mqtt.client as mqtt
+from MazeSolverAlgoAStar import MazeSolverAlgoAStar
+
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
-    mqtt_server = os.environ['MQTTSERVER']
+    MQTT_SERVER = os.environ['MQTTSERVER']
 else:
-    mqtt_server = "127.0.0.1"
+    MQTT_SERVER = "127.0.0.1"
 
 
 class MazeSolverClient:
-
+    """This is an implementation of an MQTT client which
+        - receives mazes
+        - sends back solution steps from a maze solver
+        It is an implementation of TeamTemplate/TeamTemplateClient"""
     def __init__(self, master):
         self.master = master
         self.master.on_connect = self.onConnect
         self.master.on_message = self.onMessage
-        self.master.connect(mqtt_server, 1883, 60)
+        self.master.connect(MQTT_SERVER, 1883, 60)
 
         self.solver = MazeSolverAlgoAStar()
         self.solver.master = self.master
 
     def onMessage(self, master, obj, msg):
+        # pylint: disable=unused-argument
+        """This is the onMessage method which has to be implemented \
+            in order to serve as MQTT client - don't forget to register it!
+            In this method we define how the MQTT messages we receive shall be processed"""
         topic = str(msg.topic)
         payload = str(msg.payload.decode("utf-8"))
-        print("Received message: ", topic, " --> ", payload)
+        print("[MazeSolverClient]: Received message: ", topic, " --> ", payload)
         if topic == "/maze":
             if payload == "clear":
                 self.solver.clearMaze()
@@ -55,6 +67,10 @@ class MazeSolverClient:
             pass
 
     def onConnect(self, master, obj, flags, rc):
+        # pylint: disable=unused-argument
+        """This is the onConnect method which has to be implemented \
+            in order to serve as MQTT client - don't forget to register it!
+            In this method we define which MQTT messages we would like to receive"""
         self.master.subscribe("/maze")
         self.master.subscribe("/maze/dimRow")
         self.master.subscribe("/maze/dimCol")
@@ -65,13 +81,16 @@ class MazeSolverClient:
         self.master.subscribe("/maze/blocked")
 
     def logMsg(self, msg):
+        """Method to publish log messages via MQTT"""
         self.publish("/logging/Solver", msg)
 
     def publish(self, topic, message=None, qos=1, retain=False):
-        print("Published message: ", topic, " --> ", message)
+        """Generic method to publish MQTT messages"""
+        print("[MazeSolverClient]: Published message: ", topic, " --> ", message)
         self.master.publish(topic, message, qos, retain)
 
     def solveMaze(self):
+        """Command to start solving the maze """
         for step in self.solver.solveMaze():
             step_str = '{},{}'.format(step[0], step[1])
 
@@ -79,9 +98,9 @@ class MazeSolverClient:
 
 
 if __name__ == '__main__':
-    mqttclient = mqtt.Client()
-    solverClient = MazeSolverClient(mqttclient)
+    MQTT_CLIENT = mqtt.Client()
+    SOLVER_CLIENT = MazeSolverClient(MQTT_CLIENT)
     logging.basicConfig(level=logging.ERROR)
-    logger = logging.getLogger(__name__)
-    mqttclient.enable_logger(logger)
-    solverClient.master.loop_forever()
+    LOGGER = logging.getLogger(__name__)
+    MQTT_CLIENT.enable_logger(LOGGER)
+    SOLVER_CLIENT.master.loop_forever()

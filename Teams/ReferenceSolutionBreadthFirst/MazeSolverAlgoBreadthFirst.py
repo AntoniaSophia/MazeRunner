@@ -1,5 +1,5 @@
-import numpy
 import queue
+import numpy
 
 
 class MazeSolverAlgoBreadthFirst:
@@ -161,8 +161,8 @@ class MazeSolverAlgoBreadthFirst:
         # Here Creation of Path ends
         #############################
 
-        for next in path:
-            nextPath = next.split(",")
+        for nextElement in path:
+            nextPath = nextElement.split(",")
             result_path.append([int(nextPath[0]), int(nextPath[1])])
 
         return result_path
@@ -196,10 +196,10 @@ class MazeSolverAlgoBreadthFirst:
         while not frontier.empty():
             current = frontier.get()
 
-            for next in self.getNeighbours(current[0], current[1]):
-                nextKey = self.gridElementToString(next[0], next[1])
+            for next_element in self.getNeighbours(current[0], current[1]):
+                nextKey = self.gridElementToString(next_element[0], next_element[1])
                 if nextKey not in came_from:
-                    frontier.put(next)
+                    frontier.put(next_element)
                     came_from[nextKey] = current
 
         #############################
