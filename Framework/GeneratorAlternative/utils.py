@@ -1,8 +1,10 @@
 import collections
 import numpy as np
 
+
 class MazeError(Exception):
     """Maze error class."""
+
 
 def stack_empty():
     """Creates empty spaghetti stack."""
