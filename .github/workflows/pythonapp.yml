@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v1
@@ -28,13 +28,12 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=15 --max-line-length=127 --statistics
     - name: Test with pytest / coverage
       run: |
-        pip install coverage
-        coverage run -m pytest
-        coverage report -m 
-        coverage xml
+        pip install pytest
+        pip install pytest-cov
+        pytest --cov=./ --cov-report=xml
 
     - name: Codecov
-      uses: codecov/codecov-action@v1.0.5
+      uses: codecov/codecov-action@v1
       with:
         # User defined upload name. Visible in Codecov UI
         name: # optional
