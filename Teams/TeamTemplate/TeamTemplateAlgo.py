@@ -7,6 +7,7 @@ This class is the template class for the Maze solver
 # from math import sqrt
 # import queue
 # import numpy
+import os.path
 
 
 class TeamTemplateAlgo:
@@ -87,7 +88,12 @@ class TeamTemplateAlgo:
     def loadMaze(self, pathToConfigFile):
         # check whether a function numpy.loadtxt() could be useful
         # TODO: this is you job now :-)
-        print("[TeamTemplateAlgo]: loading maze: ", pathToConfigFile)
+        exists = os.path.exists(pathToConfigFile)
+
+        if exists:
+            print("[TeamTemplateAlgo]: SUCCESS loading file: ", pathToConfigFile)
+        else:
+            print("[TeamTemplateAlgo]: ERROR loading file ", pathToConfigFile)
 
         pass
 
