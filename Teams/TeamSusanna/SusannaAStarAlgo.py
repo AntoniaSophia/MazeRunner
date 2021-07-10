@@ -28,6 +28,7 @@ class SusannaAStarAlgo:
         self.endCol = 0
         self.endRow = 0
         self.grid = [[]]
+        self.resultpath = []
         print("\n[TeamTemplateAlgo]: Constructor TeamTemplateAlgo successfully executed.")
 
     # Setter method for the maze dimension of the rows
@@ -185,7 +186,7 @@ class SusannaAStarAlgo:
            nextmove = came_from[nextmove]
            mazepath.insert(0,nextmove)
 
-
+        self.resultpath=mazepath
         return mazepath
 
     #############################

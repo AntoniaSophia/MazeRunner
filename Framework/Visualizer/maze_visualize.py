@@ -185,6 +185,7 @@ class MazeVisualizer:
         """
         Constructor
         """
+        self.maze=maze
         self.center(maze)
         self.rows = 9               # the number of rows of the grid
         self.columns = 9            # the number of columns of the grid
@@ -228,7 +229,7 @@ class MazeVisualizer:
         self.array = numpy.array([0] * (83 * 83))
         self.cur_row = self.cur_col = self.cur_val = 0
         self.message_var = StringVar()
-        self.message = Label(app, width=55, anchor='w',
+        self.message = Label(self.maze, width=55, anchor='w',
                              font=('Helvetica', 8), fg="black", textvariable=self.message_var)
 
         self.message.place(x=5, y=920)
@@ -240,7 +241,7 @@ class MazeVisualizer:
 
         self.drawArrows = IntVar()
 
-        self.canvas = Canvas(app, bd=0, highlightthickness=0)
+        self.canvas = Canvas(self.maze, bd=0, highlightthickness=0)
 
     def initialize_grid(self, make_maze):
         """
