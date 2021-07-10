@@ -5,6 +5,7 @@ import threading
 import os
 sys.path.append("../..")
 import Framework.Visualizer.maze_visualize
+import Framework.Generator.maze_generator_algo
 
 def on_closing():
     os._exit(0)
@@ -18,7 +19,11 @@ apptk.resizable(True, True)
 alg = SusannaAStarAlgo.SusannaAStarAlgo()
 vis = Framework.Visualizer.maze_visualize.MazeVisualizer(apptk)
 
-if not alg.loadMaze("..\\..\\MazeExamples\\Maze1.txt"):
+gen = Framework.Generator.maze_generator_algo.MazeGeneratorAlgo(81, 81,60, 10)
+gen.createMaze()
+gen.save("test.txt")
+
+if not alg.loadMaze("test.txt"):
     exit(1)
 
 print("[TeamTemplateAlgo]: loaded maze\n", alg.grid)

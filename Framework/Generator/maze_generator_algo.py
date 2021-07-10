@@ -98,9 +98,12 @@ class MazeGeneratorAlgo:
         :param make_maze: flag that indicates the creation of a random maze
         """
         self.grid = self.maze(self.columns, self.rows, self.complexity, self.density)
+        self.grid[1][5]=1
 
+    def save(self,filename):
+        numpy.savetxt(filename,numpy.array(self.grid),delimiter=',')
 
 if __name__ == '__main__':
-    mg = MazeGeneratorAlgo(9, 9, 50, 50)
+    mg = MazeGeneratorAlgo(9, 9, 10, 10)
     mg.createMaze()
     print(mg.grid)
