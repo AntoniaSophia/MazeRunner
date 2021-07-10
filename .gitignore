@@ -8,3 +8,4 @@ nosetests\.xml
 **/log.html
 **/output.xml
 **/report.html
+robotframework/result/UnitTestResult.txt
