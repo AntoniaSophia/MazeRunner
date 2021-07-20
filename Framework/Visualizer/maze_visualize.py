@@ -405,6 +405,19 @@ class MazeVisualizer:
                 self.slider.configure(state="disabled")
 
 
+    def prepareVisualization(self, dimrows, dimcols,startrow,startcol,endrow,endcol):
+        self.clearMaze()
+        self.setDimRowsCmd(dimrows)
+        self.setDimColsCmd(dimcols)
+        self.startMaze(self.columns, self.rows)
+        self.setStartCol(startcol)
+        self.setEndCol(endcol)
+        self.setStartRow(startrow)
+        self.setEndRow(endrow)
+        self.initialize_grid(False)
+
+
+
     def plot_route(self):
         """
                                 Calculates the path from the target to the initial position of the robot,

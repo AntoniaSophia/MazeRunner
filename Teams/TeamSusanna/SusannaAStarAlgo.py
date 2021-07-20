@@ -242,8 +242,6 @@ if __name__ == '__main__':
         exit(1)
 
     print("[TeamTemplateAlgo]: loaded maze\n", mg.grid)
-    # solve the maze
-    # HINT: this command shall be received from MQTT client in run_all mode
 
     solutionString = mg.solveMaze()
     print("[TeamTemplateAlgo]: Result of solving maze: ", solutionString)

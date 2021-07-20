@@ -45,15 +45,8 @@ def main():
 
     print("[TeamTemplateAlgo]: loaded maze\n", alg.grid)
 
-    vis.clearMaze()
-    vis.setDimRowsCmd(alg.dimRows)
-    vis.setDimColsCmd(alg.dimCols)
-    vis.startMaze(vis.columns, vis.rows)
-    vis.setStartCol(alg.startCol)
-    vis.setEndCol(alg.endCol)
-    vis.setStartRow(alg.startRow)
-    vis.setEndRow(alg.endRow)
-    vis.initialize_grid(False)
+
+    vis.prepareVisualization(alg.dimRows,alg.dimCols,alg.startRow,alg.startCol,alg.endRow,alg.endCol)
 
     for row in range(alg.dimRows):
         for col in range(alg.dimCols):
