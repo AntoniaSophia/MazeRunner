@@ -29,8 +29,13 @@ new_pixels = ''.join(new_pixels)
 new_pixels_count = len(new_pixels)
 ascii_image = [new_pixels[index:index + new_width] for index in range(0, new_pixels_count, new_width)]
 ascii_image = "\n".join(ascii_image)
-print(ascii_image)
+#print(ascii_image)
+b=""
+for a in ascii_image.splitlines():
+   b+=','.join(a)
+   b+='\n'
 
 # write to a text file.
-with open("ascii_image2.txt", "w") as f:
- f.write(ascii_image)
+with open("ascii_image1.txt", "w") as f:
+ f.write(b)
+

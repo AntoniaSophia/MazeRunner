@@ -20,7 +20,6 @@ class SusannaAStarAlgo:
 
     def __init__(self):
         # TODO: this is you job now :-)
-        self.master = 0
         self.dimCols = 0
         self.dimRows = 0
         self.startCol = 0
@@ -106,32 +105,24 @@ class SusannaAStarAlgo:
             return False
         
         try:
-            # self.grid=numpy.loadtxt(pathToConfigFile, dtype='int64',delimiter=",")
-            file1 = open(pathToConfigFile, 'r')
-            Lines = file1.readlines()
-            
-            self.dimRows = len(Lines)
-            self.dimCols = len(Lines[0])
-            self.grid = [ [ None for x in range( self.dimCols ) ] for y in range(self.dimRows ) ]
 
+            self.grid=numpy.loadtxt(pathToConfigFile, dtype='int64',delimiter=",")
+            (self.dimRows,self.dimCols)=self.grid.shape
             ypos=0
-            # Strips the newline character
-            for line in Lines:
-                
-                for xpos in range(len(line)):
-                    if line[xpos] != '\n':
-                        if int(line[xpos]) >= 0 and int(line[xpos]) <=3:
-                            if int(line[xpos])==self.TARGET:
-                                self.endRow=ypos
-                                self.endCol=xpos
-                            elif int(line[xpos])==self.START:
-                                self.startRow=ypos
-                                self.startCol=xpos
-                            else:
-                                self.grid[ypos][xpos] = int(line[xpos])
-                       
-                ypos +=1
 
+            [self.endRow,self.endCol] = numpy.concatenate(numpy.where(self.grid==self.TARGET)).tolist()
+            [self.startRow,self.startCol] = numpy.concatenate(numpy.where(self.grid==self.START)).tolist()
+            
+            # # This can be solved much easier or?!
+            # for ypos in range(self.dimRows):
+            #     for xpos in range(self.dimCols):
+            #         if int(self.grid[ypos][xpos])==self.TARGET:
+            #             self.endRow=ypos
+            #             self.endCol=xpos
+            #         elif int(self.grid[ypos][xpos])==self.START:
+            #             self.startRow=ypos
+            #             self.startCol=xpos
+                       
         except ValueError as err:
             print(f"Error in Maze please check: {err}",pathToConfigFile)
             return False
