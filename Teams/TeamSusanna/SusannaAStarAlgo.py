@@ -106,18 +106,34 @@ class SusannaAStarAlgo:
             return False
         
         try:
-            self.grid=numpy.loadtxt(pathToConfigFile, dtype=int,delimiter=",")
-            self.dimRows=self.grid.shape[0]
-            self.dimCols=self.grid.shape[1]
-            start_arr = numpy.where(self.grid == self.START)
-            self.startRow = int(start_arr[0][0])
-            self.startCol = int(start_arr[1][0])
-            target_arr = numpy.where(self.grid == self.TARGET)
-            self.endRow = int(target_arr[0][0])
-            self.endCol = int(target_arr[1][0])            
+            # self.grid=numpy.loadtxt(pathToConfigFile, dtype='int64',delimiter=",")
+            file1 = open(pathToConfigFile, 'r')
+            Lines = file1.readlines()
+            
+            self.dimRows = len(Lines)
+            self.dimCols = len(Lines[0])
+            self.grid = [ [ None for x in range( self.dimCols ) ] for y in range(self.dimRows ) ]
 
-        except ValueError:
-            print("Error in Maze please check:",pathToConfigFile)
+            ypos=0
+            # Strips the newline character
+            for line in Lines:
+                
+                for xpos in range(len(line)):
+                    if line[xpos] != '\n':
+                        if int(line[xpos]) >= 0 and int(line[xpos]) <=3:
+                            if int(line[xpos])==self.TARGET:
+                                self.endRow=ypos
+                                self.endCol=xpos
+                            elif int(line[xpos])==self.START:
+                                self.startRow=ypos
+                                self.startCol=xpos
+                            else:
+                                self.grid[ypos][xpos] = int(line[xpos])
+                       
+                ypos +=1
+
+        except ValueError as err:
+            print(f"Error in Maze please check: {err}",pathToConfigFile)
             return False
         return True
 

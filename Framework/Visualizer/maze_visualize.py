@@ -11,6 +11,10 @@ if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
 else:
     mqtt_server = "127.0.0.1"
 
+def _from_rgb(rgb):
+    """translates an rgb tuple of int to a tkinter friendly color code
+    """
+    return "#%02x%02x%02x" % rgb  
 
 class MqttClient:
     """contains Code from Nikos Kanargias <nkana@tee.gr>"""
@@ -400,6 +404,7 @@ class MazeVisualizer:
                 self.buttons[5].configure(state="disabled")  # Animation button
                 self.slider.configure(state="disabled")
 
+
     def plot_route(self):
         """
                                 Calculates the path from the target to the initial position of the robot,
@@ -408,17 +413,20 @@ class MazeVisualizer:
         # self.repaint()
         self.searching = False
         steps = 0
-
+        print(len(self.closedSet))
+        stepcol=255/len(self.closedSet)
+        step_colpos=0.0
         cur = self.closedSet[0]
         step_pos = 1
         for cur in self.closedSet:
             if self.targetPos == cur:
                 break
             self.grid[cur.row][cur.col] = self.ROUTE
-            self.paint_cell(cur.row, cur.col, "YELLOW")
-            canvas_id = self.canvas.create_text(cur.col*self.square_size, cur.row*self.square_size, anchor="nw")
+            self.paint_cell(cur.row, cur.col, _from_rgb((255-int(step_colpos),int(step_colpos) , 10)))
+            canvas_id = self.canvas.create_text(cur.col*self.square_size, cur.row*self.square_size, anchor="nw", font=("Courier", 6),fill=_from_rgb((0, 10, 100)))
             self.canvas.itemconfig(canvas_id, text=str(step_pos))
             step_pos += 1
+            step_colpos+=stepcol
             # if cur != old:
             #     self.draw_arrow(old, cur, self.arrow_size, "GREY", 2 if self.arrow_size >= 10 else 1)
         self.grid[self.robotStart.row][self.robotStart.col] = self.ROBOT
