@@ -74,11 +74,12 @@ def mainloop():
             map_object = map(int, a_list)
             move = list(map_object)
         vis.addSolutionStep(move[0],move[1])    
-
     vis.plot_route()
 
     for move in alg.getResultPath():
         vis.addSolutionStepFin(move[0],move[1])   
     
+    print(f'Steps necessary {len(alg.came_from)} - Optimal path needs:{len(alg.getResultPath())}')
+
 if __name__ == "__main__":
     main()
