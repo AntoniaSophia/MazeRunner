@@ -9,10 +9,13 @@ import argparse
 import threading
 import os
 import sys
+import timeit
 sys.path.append("../..")
 import SusannaAStarAlgo
 
 import Framework.Visualizer.maze_visualize
+import Teams.ReferenceSolutionBreadthFirst.MazeSolverAlgoBreadthFirst
+import Teams.ReferenceSolutionAStar.MazeSolverAlgoAStar
 
 def on_closing():
     """ Callback function if Visualizer Window is closed
@@ -27,6 +30,9 @@ apptk.geometry("700x700")
 apptk.resizable(True, True)
 
 alg = SusannaAStarAlgo.SusannaAStarAlgo()
+#alg = Teams.ReferenceSolutionBreadthFirst.MazeSolverAlgoBreadthFirst.MazeSolverAlgoBreadthFirst()
+#alg = Teams.ReferenceSolutionAStar.MazeSolverAlgoAStar.MazeSolverAlgoAStar()
+
 vis = Framework.Visualizer.maze_visualize.MazeVisualizer(apptk)
 
 def main():
@@ -42,10 +48,6 @@ def main():
     
     if not alg.loadMaze(args.input_file):
         exit(1)
-
-    print("[TeamTemplateAlgo]: loaded maze\n", alg.grid)
-
-
     vis.prepareVisualization(alg.dimRows,alg.dimCols,alg.startRow,alg.startCol,alg.endRow,alg.endCol)
 
     for row in range(alg.dimRows):
@@ -54,6 +56,7 @@ def main():
                 vis.setBlocked(row,col)
 
     vis.endMaze()
+
     t = threading.Thread(target=mainloop)
     t.start()
     apptk.mainloop()
@@ -61,10 +64,21 @@ def main():
 def mainloop():
     """[summary]
     """
-    solutionString = alg.solveMaze()
-    print("[TeamTemplateAlgo]: Result of solving maze: ", solutionString)
-    for move in alg.resultpath:
+    starttime = timeit.default_timer()    
+    alg.solveMaze()
+    print("The time difference is :", timeit.default_timer() - starttime)
+    
+    for move in alg.came_from:
+        if type(move) == str:
+            a_list = move.split(',')
+            map_object = map(int, a_list)
+            move = list(map_object)
         vis.addSolutionStep(move[0],move[1])    
 
+    vis.plot_route()
+
+    for move in alg.getResultPath():
+        vis.addSolutionStepFin(move[0],move[1])   
+    
 if __name__ == "__main__":
     main()

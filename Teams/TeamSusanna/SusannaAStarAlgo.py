@@ -28,6 +28,7 @@ class SusannaAStarAlgo:
         self.endRow = 0
         self.grid = [[]]
         self.resultpath = []
+        self.came_from = []
         print("\n[TeamTemplateAlgo]: Constructor TeamTemplateAlgo successfully executed.")
 
     # Setter method for the maze dimension of the rows
@@ -108,12 +109,12 @@ class SusannaAStarAlgo:
 
             self.grid=numpy.loadtxt(pathToConfigFile, dtype='int64',delimiter=",")
             (self.dimRows,self.dimCols)=self.grid.shape
-            ypos=0
-
+            
             [self.endRow,self.endCol] = numpy.concatenate(numpy.where(self.grid==self.TARGET)).tolist()
             [self.startRow,self.startCol] = numpy.concatenate(numpy.where(self.grid==self.START)).tolist()
             
             # # This can be solved much easier or?!
+            # ypos=0
             # for ypos in range(self.dimRows):
             #     for xpos in range(self.dimCols):
             #         if int(self.grid[ypos][xpos])==self.TARGET:
@@ -181,6 +182,8 @@ class SusannaAStarAlgo:
     def heuristic(self, aGrid, bGrid):
         return numpy.linalg.norm(numpy.array(aGrid)-numpy.array(bGrid))
 
+    def getResultPath(self):
+        return self.resultpath
     # Generates the resulting path as string from the came_from list
     def generateResultPath(self, came_from):
         mazepath=[]
@@ -202,7 +205,6 @@ class SusannaAStarAlgo:
     # implementation taken from https://www.redblobgames.com/pathfinding/a-star/introduction.html
     #############################
     def myMazeSolver(self):
-        print(self.startRow,"-",self.startCol)
         frontier = PriorityQueue()
         frontier.put((self.startRow,self.startCol),0)
         came_from = dict()
@@ -223,7 +225,7 @@ class SusannaAStarAlgo:
                     priority = new_cost + self.heuristic((self.endRow,self.endCol), nextfrontier)
                     frontier.put(nextfrontier, priority)
                     came_from[nextfrontier] = current
-       
+        self.came_from =came_from
         return  self.generateResultPath(came_from)
 
     # Command for starting the solving procedure

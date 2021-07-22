@@ -18,6 +18,8 @@ class MazeSolverAlgoBreadthFirst:
         self.endCol = 0
         self.endRow = 0
         self.grid = [[]]
+        self.resultpath = []
+        self.came_from = []
         print("Initialize a Maze Solver: MazeSolverBreadthFirst")
 
     def setStartCol(self, col):
@@ -51,13 +53,18 @@ class MazeSolverAlgoBreadthFirst:
         self.startRows = 0
         self.endCols = 0
         self.endRows = 0
-        self.grid = [[]]
+        # self.grid = [[]]
 
-        if self.dimCols > 0 and self.dimRows > 0:
-            self.grid = numpy.empty((self.dimCols, self.dimRows), dtype=int)
-            for i in range(self.dimRows):
-                for j in range(self.dimCols):
-                    self.grid[i][j] = 0
+        # if self.dimCols > 0 and self.dimRows > 0:
+        #     self.grid = numpy.empty((self.dimCols, self.dimRows), dtype=int)
+            
+        #     for i in range(self.dimRows):
+        #         for j in range(self.dimCols):
+        #             print(f"{i}-{j}")
+        #             self.grid[i][j] = 0
+    
+    def getResultPath(self):
+        return self.resultpath
 
     def endMaze(self):
         self.grid[self.startRow][self.startCol] = self.START
@@ -68,7 +75,8 @@ class MazeSolverAlgoBreadthFirst:
 
     def loadMaze(self, pathToConfigFile):
         self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',', dtype=int)
-        self.startMaze(self.grid.shape[0], self.grid.shape[1])
+        print(self.grid.shape)
+        self.startMaze(self.grid.shape[1], self.grid.shape[0])
         self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',', dtype=int)
         start_arr = numpy.where(self.grid == 2)
         self.startRow = int(start_arr[0][0])
@@ -77,6 +85,7 @@ class MazeSolverAlgoBreadthFirst:
         end_arr = numpy.where(self.grid == 3)
         self.endRow = int(end_arr[0][0])
         self.endCol = int(end_arr[1][0])
+        return True
 
     def clearMaze(self):
         self.startMaze()
@@ -164,7 +173,7 @@ class MazeSolverAlgoBreadthFirst:
         for nextElement in path:
             nextPath = nextElement.split(",")
             result_path.append([int(nextPath[0]), int(nextPath[1])])
-
+        
         return result_path
 
     #############################
@@ -205,9 +214,9 @@ class MazeSolverAlgoBreadthFirst:
         #############################
         # Here Breadth First ends
         #############################
-
+        self.came_from = came_from
         result_path = self.generateResultPath(came_from)
-
+        self.resultpath=result_path 
         print("Resulting length BreadthFirst Solution: ", len(result_path))
         print("Resulting BreadthFirst Solution Path = ", result_path)
 

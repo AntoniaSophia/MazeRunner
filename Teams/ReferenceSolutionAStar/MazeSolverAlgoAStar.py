@@ -18,6 +18,8 @@ class MazeSolverAlgoAStar:
         self.endCol = 0
         self.endRow = 0
         self.grid = [[]]
+        self.resultpath = [] 
+        self.came_from= []       
         print("[MazeSolverAlgoAStar]: Instantiating of MazeSolverAlgoAStar successful.")
 
     def setStartCol(self, col):
@@ -55,9 +57,9 @@ class MazeSolverAlgoAStar:
 
         if self.dimCols > 0 and self.dimRows > 0:
             self.grid = numpy.empty((self.dimCols, self.dimRows), dtype=int)
-            for i in range(self.dimRows):
-                for j in range(self.dimCols):
-                    self.grid[i][j] = 0
+            # for i in range(self.dimRows):
+            #     for j in range(self.dimCols):
+            #         self.grid[i][j] = 0
 
     def endMaze(self):
         self.grid[self.startRow][self.startCol] = self.START
@@ -66,9 +68,12 @@ class MazeSolverAlgoAStar:
     def printMaze(self):
         print(self.grid)
 
+    def getResultPath(self):
+        return self.resultpath
+
     def loadMaze(self, pathToConfigFile):
         self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',', dtype=int)
-        self.startMaze(self.grid.shape[0], self.grid.shape[1])
+        self.startMaze(self.grid.shape[1], self.grid.shape[0])
         self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',', dtype=int)
         start_arr = numpy.where(self.grid == 2)
         self.startRow = int(start_arr[0][0])
@@ -77,6 +82,7 @@ class MazeSolverAlgoAStar:
         end_arr = numpy.where(self.grid == 3)
         self.endRow = int(end_arr[0][0])
         self.endCol = int(end_arr[1][0])
+        return True
 
     def clearMaze(self):
         self.startMaze()
@@ -164,7 +170,7 @@ class MazeSolverAlgoAStar:
         for next_element in path:
             nextPath = next_element.split(",")
             result_path.append([int(nextPath[0]), int(nextPath[1])])
-
+        self.resultpath=result_path
         return result_path
 
     #############################
@@ -219,17 +225,19 @@ class MazeSolverAlgoAStar:
                     # print("Next = " , nextKey , " - priority = " , priority)
                     frontier.put((priority, next_neighbour))
                     came_from[nextKey] = current
+                    
         #############################
         # Here A* ends
         #############################
 
+        self.came_from=came_from
         result_path = self.generateResultPath(came_from)
 
         print("[MazeSolverAlgoAStar]: Resulting length A* Solution: ", len(result_path))
         print("[MazeSolverAlgoAStar]: Resulting A* Solution Path = ", result_path)
 
         print("[MazeSolverAlgoAStar]: Finished A* Solver....")
-
+        self.resultpath = result_path
         return result_path
 
     def solveMaze(self):

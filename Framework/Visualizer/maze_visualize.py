@@ -171,19 +171,25 @@ class MazeVisualizer:
         self.targetPos = self.Cell(self.targetPos_row, self.targetPos_col)
         self.robotStart = self.Cell(self.robotStart_row, self.robotStart_col)
         # print("Following Maze received: ")
-        self.printMaze()
+        #self.printMaze()
         self.repaint()
 
     def printMaze(self):
         print(self.grid)
 
+    def addSolutionStepFin(self, row, col):
+        step = self.Cell(row, col)
+        self.closedSet2.append(step)
+        # print("Step")
+        if step == self.targetPos:
+            # print("Finished")
+            self.plot_route(True)
+
     def addSolutionStep(self, row, col):
         step = self.Cell(row, col)
         self.closedSet.append(step)
         # print("Step")
-        if step == self.targetPos:
-            # print("Finished")
-            self.plot_route()
+
 
     def __init__(self, maze):
         """
@@ -207,6 +213,7 @@ class MazeVisualizer:
 
         self.openSet = []           # the OPEN SET
         self.closedSet = []         # the CLOSED SET
+        self.closedSet2 = []         # the CLOSED SET        
         self.graph = []             # the set of vertices of the graph to be explored by Dijkstra's algorithm
 
         self.robotStart_col = 0
@@ -303,7 +310,7 @@ class MazeVisualizer:
         Repaints the grid
         """
         color = ""
-        print("repaint")
+        #print("repaint")
         for r in range(self.rows):
             for c in range(self.columns):
                 # print (self.grid[r][c])
@@ -418,7 +425,7 @@ class MazeVisualizer:
 
 
 
-    def plot_route(self):
+    def plot_route(self,fin=False):
         """
                                 Calculates the path from the target to the initial position of the robot,
         counts the corresponding steps and measures the distance traveled.
@@ -426,18 +433,28 @@ class MazeVisualizer:
         # self.repaint()
         self.searching = False
         steps = 0
-        print(len(self.closedSet))
-        stepcol=255/len(self.closedSet)
+        if fin:
+            closedSet = self.closedSet2
+        else:
+            closedSet = self.closedSet
+
+        #print(len(self.closedSet))
+        stepcol=255/len(closedSet)
         step_colpos=0.0
-        cur = self.closedSet[0]
+        cur = closedSet[0]
         step_pos = 1
-        for cur in self.closedSet:
+        for cur in closedSet:
             if self.targetPos == cur:
                 break
             self.grid[cur.row][cur.col] = self.ROUTE
-            self.paint_cell(cur.row, cur.col, _from_rgb((255-int(step_colpos),int(step_colpos) , 10)))
-            canvas_id = self.canvas.create_text(cur.col*self.square_size, cur.row*self.square_size, anchor="nw", font=("Courier", 6),fill=_from_rgb((0, 10, 100)))
-            self.canvas.itemconfig(canvas_id, text=str(step_pos))
+            if fin:
+                self.paint_cell(cur.row, cur.col, _from_rgb((255,int(step_colpos) , 255-int(step_colpos))))
+                canvas_id = self.canvas.create_text(cur.col*self.square_size, cur.row*self.square_size, anchor="nw", font=("Courier", 6),fill=_from_rgb((0, 10, 100)))
+                self.canvas.itemconfig(canvas_id, text=str(step_pos))
+            else:
+                self.paint_cell(cur.row, cur.col, _from_rgb((10,int(step_colpos) , 255-int(step_colpos))))
+                canvas_id = self.canvas.create_text(cur.col*self.square_size, cur.row*self.square_size, anchor="nw", font=("Courier", 6),fill=_from_rgb((0, 10, 100)))
+                self.canvas.itemconfig(canvas_id, text=str(step_pos))
             step_pos += 1
             step_colpos+=stepcol
             # if cur != old:
