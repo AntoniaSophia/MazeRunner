@@ -16,7 +16,7 @@ import SusannaAStarAlgo
 import Framework.Visualizer.maze_visualize
 import Teams.ReferenceSolutionBreadthFirst.MazeSolverAlgoBreadthFirst
 import Teams.ReferenceSolutionAStar.MazeSolverAlgoAStar
-
+import Teams.ReferenceSolutionAStarCPP.build.astar as astarcpp
 def on_closing():
     """ Callback function if Visualizer Window is closed
     """
@@ -32,6 +32,7 @@ apptk.resizable(True, True)
 alg = SusannaAStarAlgo.SusannaAStarAlgo()
 #alg = Teams.ReferenceSolutionBreadthFirst.MazeSolverAlgoBreadthFirst.MazeSolverAlgoBreadthFirst()
 #alg = Teams.ReferenceSolutionAStar.MazeSolverAlgoAStar.MazeSolverAlgoAStar()
+alg2= astarcpp.AStar("Test")
 
 vis = Framework.Visualizer.maze_visualize.MazeVisualizer(apptk)
 
@@ -46,6 +47,10 @@ def main():
     )
     args = parser.parse_args()
     
+
+    if not alg2.loadMaze(args.input_file):
+        exit(1)
+
     if not alg.loadMaze(args.input_file):
         exit(1)
     vis.prepareVisualization(alg.dimRows,alg.dimCols,alg.startRow,alg.startCol,alg.endRow,alg.endCol)
@@ -68,7 +73,12 @@ def mainloop():
     alg.solveMaze()
     print("The time difference is :", timeit.default_timer() - starttime)
     
-    for move in alg.came_from:
+    starttime = timeit.default_timer()    
+    alg2.solveMaze()
+    print("The time difference is :", timeit.default_timer() - starttime)
+
+
+    for move in alg2.came_from:
         if type(move) == str:
             a_list = move.split(',')
             map_object = map(int, a_list)
