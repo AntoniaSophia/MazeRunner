@@ -1,0 +1,6 @@
+[submodule "Teams/ReferenceSolutionAStarC++/pybind11"]
+	path = Teams/ReferenceSolutionAStarC++/pybind11
+	url = https://github.com/pybind/pybind11.git
+[submodule "Teams/ReferenceSolutionAStarC++/a-star"]
+	path = Teams/ReferenceSolutionAStarC++/a-star
+	url = https://github.com/daancode/a-star.git
