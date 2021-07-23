@@ -105,17 +105,17 @@ class MazeDotMatrix:
         if row < 8:
             if col < 8:
                 # 0,0 Segment
-                pos = col+(row*8)
+                pos = col + (row * 8)
             else:
                 # 0,1 Segment
-                pos = 64+(col-8)+(row*8)
+                pos = 64 + (col - 8)+(row * 8)
         else:
             if col < 8:
                 # 1,0 Segment
-                pos = 128+col+(row-8)*8
+                pos = 128 + col + (row - 8) * 8
             else:
                 # 1,1 Segement
-                pos = 192+(col-8)+(row-8)*8
+                pos = 192+(col - 8)+(row - 8) * 8
 
         # print("{}x{}={}".format(col,row,pos))
         return pos

@@ -18,8 +18,8 @@ class MazeSolverAlgoAStar:
         self.endCol = 0
         self.endRow = 0
         self.grid = [[]]
-        self.resultpath = [] 
-        self.came_from= []       
+        self.resultpath = []
+        self.came_from = []
         print("[MazeSolverAlgoAStar]: Instantiating of MazeSolverAlgoAStar successful.")
 
     def setStartCol(self, col):
@@ -170,7 +170,7 @@ class MazeSolverAlgoAStar:
         for next_element in path:
             nextPath = next_element.split(",")
             result_path.append([int(nextPath[0]), int(nextPath[1])])
-        self.resultpath=result_path
+        self.resultpath = result_path
         return result_path
 
     #############################
@@ -218,22 +218,24 @@ class MazeSolverAlgoAStar:
                 new_cost = cost_so_far[currentKey] + 1
                 # + 1 = graph costs
 
-                nextKey = self.gridElementToString(next_neighbour[0], next_neighbour[1])
+                nextKey = self.gridElementToString(
+                    next_neighbour[0], next_neighbour[1])
                 if nextKey not in cost_so_far or new_cost < cost_so_far[nextKey]:
                     cost_so_far[nextKey] = new_cost
                     priority = new_cost + self.heuristic(goal, next_neighbour)
                     # print("Next = " , nextKey , " - priority = " , priority)
                     frontier.put((priority, next_neighbour))
                     came_from[nextKey] = current
-                    
+
         #############################
         # Here A* ends
         #############################
 
-        self.came_from=came_from
+        self.came_from = came_from
         result_path = self.generateResultPath(came_from)
 
-        print("[MazeSolverAlgoAStar]: Resulting length A* Solution: ", len(result_path))
+        print("[MazeSolverAlgoAStar]: Resulting length A* Solution: ",
+              len(result_path))
         print("[MazeSolverAlgoAStar]: Resulting A* Solution Path = ", result_path)
 
         print("[MazeSolverAlgoAStar]: Finished A* Solver....")

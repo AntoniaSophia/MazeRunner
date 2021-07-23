@@ -6,8 +6,8 @@ https://github.com/pypa/sampleproject
 """
 
 # Always prefer setuptools over distutils
-from setuptools import setup, find_packages
 import pathlib
+from setuptools import setup
 
 here = pathlib.Path(__file__).parent.resolve()
 
@@ -183,7 +183,7 @@ setup(
     #         'img2maze:main',
     #     ],
     # },
-    entry_points={'console_scripts':['img2maze = imgconvert:main'] },
+    entry_points={'console_scripts': ['img2maze = imgconvert:main']},
     # List additional URLs that are relevant to your project as a dict.
     #
     # This field corresponds to the "Project-URL" metadata fields:

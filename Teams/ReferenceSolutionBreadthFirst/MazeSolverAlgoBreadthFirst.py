@@ -62,7 +62,7 @@ class MazeSolverAlgoBreadthFirst:
                 for j in range(self.dimCols):
                     print(f"{i}-{j}")
                     self.grid[i][j] = 0
-    
+
     def getResultPath(self):
         return self.resultpath
 
@@ -173,7 +173,7 @@ class MazeSolverAlgoBreadthFirst:
         for nextElement in path:
             nextPath = nextElement.split(",")
             result_path.append([int(nextPath[0]), int(nextPath[1])])
-        
+
         return result_path
 
     #############################
@@ -206,7 +206,8 @@ class MazeSolverAlgoBreadthFirst:
             current = frontier.get()
 
             for next_element in self.getNeighbours(current[0], current[1]):
-                nextKey = self.gridElementToString(next_element[0], next_element[1])
+                nextKey = self.gridElementToString(
+                    next_element[0], next_element[1])
                 if nextKey not in came_from:
                     frontier.put(next_element)
                     came_from[nextKey] = current
@@ -216,7 +217,7 @@ class MazeSolverAlgoBreadthFirst:
         #############################
         self.came_from = came_from
         result_path = self.generateResultPath(came_from)
-        self.resultpath=result_path 
+        self.resultpath = result_path
         print("Resulting length BreadthFirst Solution: ", len(result_path))
         print("Resulting BreadthFirst Solution Path = ", result_path)
 
