@@ -1,13 +1,15 @@
 import pytest
 import sys
 import os
+
 sys.path.append(os.path.realpath(os.path.dirname(__file__)+"/.."))
 from SusannaAStarAlgo import SusannaAStarAlgo
 
 mg = SusannaAStarAlgo()
-mg.loadMaze("..\\..\\MazeExamples\\Maze1.txt")
+
 
 def test_isingrid():
+    assert mg.loadMaze(os.path.realpath(os.path.dirname(__file__))+"/../../../MazeExamples/Maze1.txt")==True
     assert mg.isInGrid(0,0) == True
     assert mg.isInGrid(-1,-1) == False
     assert mg.isInGrid(6,4) == False

@@ -56,10 +56,10 @@ class MazeSolverAlgoAStar:
         self.grid = [[]]
 
         if self.dimCols > 0 and self.dimRows > 0:
-            self.grid = numpy.empty((self.dimCols, self.dimRows), dtype=int)
-            # for i in range(self.dimRows):
-            #     for j in range(self.dimCols):
-            #         self.grid[i][j] = 0
+            self.grid = numpy.empty((self.dimRows, self.dimCols), dtype=int)
+            for i in range(self.dimRows):
+                for j in range(self.dimCols):
+                    self.grid[i][j] = 0
 
     def endMaze(self):
         self.grid[self.startRow][self.startCol] = self.START

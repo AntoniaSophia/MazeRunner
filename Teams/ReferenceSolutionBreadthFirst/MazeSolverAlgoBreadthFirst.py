@@ -53,15 +53,15 @@ class MazeSolverAlgoBreadthFirst:
         self.startRows = 0
         self.endCols = 0
         self.endRows = 0
-        # self.grid = [[]]
+        self.grid = [[]]
 
-        # if self.dimCols > 0 and self.dimRows > 0:
-        #     self.grid = numpy.empty((self.dimCols, self.dimRows), dtype=int)
-            
-        #     for i in range(self.dimRows):
-        #         for j in range(self.dimCols):
-        #             print(f"{i}-{j}")
-        #             self.grid[i][j] = 0
+        if self.dimCols > 0 and self.dimRows > 0:
+            self.grid = numpy.empty([self.dimRows, self.dimCols], dtype=int)
+            print(self.grid)
+            for i in range(self.dimRows):
+                for j in range(self.dimCols):
+                    print(f"{i}-{j}")
+                    self.grid[i][j] = 0
     
     def getResultPath(self):
         return self.resultpath
