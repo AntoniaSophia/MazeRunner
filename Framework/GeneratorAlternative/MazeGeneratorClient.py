@@ -85,7 +85,8 @@ class MazeGeneratorClient:
         self.endCol = int(end_arr[1][0])
 
     def saveMaze(self, pathToConfigFile):
-        numpy.savetxt(pathToConfigFile, self.mga.getMaze(), fmt="%d", delimiter=",", newline="\n")
+        numpy.savetxt(pathToConfigFile, self.mga.getMaze(),
+                      fmt="%d", delimiter=",", newline="\n")
 
     def createNewMaze(self, width, height, complexity, density, stralgo):
         if stralgo == "backtracking":
@@ -103,7 +104,8 @@ class MazeGeneratorClient:
         else:
             algorithm = Maze.Create.BACKTRACKING
 
-        print("\n[MazeGenerator] Generating Maze ", width, height, complexity, density, stralgo)
+        print("\n[MazeGenerator] Generating Maze ",
+              width, height, complexity, density, stralgo)
         self.mga = Maze()
         self.mga.create(int(int(width)/2), int(int(height)/2), algorithm)
         self.maze = self.mga.getMaze()
@@ -135,9 +137,9 @@ def main(argv):
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('MazeGeneratorClient.py -a ' +
-                  'backtracking|hunt|eller|sidewinder|prim|kruskal -i ' +
-                  '<inputfile> -o <outputfile> -w <width> -h <height> -c ' +
+            print('MazeGeneratorClient.py -a ' +    # noqa: W504
+                  'backtracking|hunt|eller|sidewinder|prim|kruskal -i ' +   # noqa: W504
+                  '<inputfile> -o <outputfile> -w <width> -h <height> -c ' +    # noqa: W504
                   '<complexity> -d <density>')
             sys.exit()
         elif opt in ("-a", "--algo"):
