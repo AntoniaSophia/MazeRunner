@@ -9,15 +9,12 @@ import threading
 import os
 import sys
 import timeit
-
+sys.path.append("../..")
 import SusannaAStarAlgo
 import Teams.ReferenceSolutionAStarCPP.build.astar as astarcpp
 import Teams.ReferenceSolutionAStar.MazeSolverAlgoAStar
 import Teams.ReferenceSolutionBreadthFirst.MazeSolverAlgoBreadthFirst
 import Framework.Visualizer.maze_visualize
-
-
-sys.path.append("../..")
 
 
 def on_closing():
@@ -83,7 +80,7 @@ def mainloop():
     print("The time difference is :", timeit.default_timer() - starttime)
 
     for move in alg2.came_from:
-        if isinstance(move) == str:
+        if isinstance(move, str):
             a_list = move.split(',')
             map_object = map(int, a_list)
             move = list(map_object)

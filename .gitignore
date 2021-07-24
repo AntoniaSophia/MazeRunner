@@ -13,3 +13,4 @@ Framework/img2maze/dist
 Framework/img2maze/build
 Framework/img2maze/img2maze.egg-info
 Teams/ReferenceSolutionAStarCPP/build
+**/__pycache__/
