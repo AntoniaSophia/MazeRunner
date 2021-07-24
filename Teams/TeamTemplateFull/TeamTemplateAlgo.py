@@ -27,7 +27,6 @@ class TeamTemplateAlgo:
         self.endCol = 0
         self.endRow = 0
         self.grid = [[]]
-        self.came_from = []
         print("\n[TeamTemplateAlgo]: Constructor TeamTemplateAlgo successfully executed.")
 
     # Setter method for the maze dimension of the rows
@@ -88,7 +87,6 @@ class TeamTemplateAlgo:
     # loads a maze from a file pathToConfigFile
     def loadMaze(self, pathToConfigFile):
         # check whether a function numpy.loadtxt() could be useful
-        # https://numpy.org/doc/1.20/reference/generated/numpy.loadtxt.html        
         # TODO: this is you job now :-)
         exists = os.path.exists(pathToConfigFile)
 
@@ -97,7 +95,7 @@ class TeamTemplateAlgo:
         else:
             print("[TeamTemplateAlgo]: ERROR loading file ", pathToConfigFile)
 
-        return True
+        pass
 
     # clears the complete maze
     def clearMaze(self):
@@ -139,11 +137,6 @@ class TeamTemplateAlgo:
     def generateResultPath(self, came_from):
         # TODO: this is you job now :-)
         # HINT: this method is a bit tricky as you have to invert the came_from list (follow the path from end to start)
-        pass
-
-
-    def getResultPath(self):
-        # TODO: this is you job now :-)
         pass
 
     #############################
