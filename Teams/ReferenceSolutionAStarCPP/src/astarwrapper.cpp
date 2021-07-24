@@ -14,7 +14,7 @@ using namespace std;
 struct AStarWrapper {
     AStarWrapper(const std::string &name) : name(name) { 
         generator.setHeuristic(AStar::Heuristic::euclidean);
-        generator.setDiagonalMovement(true);
+        generator.setDiagonalMovement(false);
     }
 
 
@@ -45,7 +45,7 @@ struct AStarWrapper {
             {
                 int numval = std::stoi( value );
                 if (numval==1){
-                    generator.addCollision({xpos, ypos});
+                    generator.addCollision({xpos,ypos});
                 }else if(numval==2){
                     AStar::Vec2i posv({xpos,ypos});
                     startpos=posv;
@@ -68,14 +68,16 @@ struct AStarWrapper {
     void solveMaze(){
         solpath = generator.findPath(startpos, endpos);
         std::ostringstream stringStream;
-        
+
         std::string copyOfStr = stringStream.str();
-        for(auto& coordinate : solpath) {
-            stringStream << coordinate.y << "," << coordinate.x;
+
+        for (auto &coordinate : solpath)
+        {
+            stringStream << coordinate.y<< "," << coordinate.x;
             copyOfStr = stringStream.str();
-            came_from.push_back(copyOfStr);
+            came_from.insert(came_from.begin(), copyOfStr);
             stringStream.str(std::string());
-        }        
+        }
     }
 
     void setName(const std::string &name_) { name = name_; }
