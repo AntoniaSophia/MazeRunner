@@ -30,9 +30,9 @@ apptk.geometry("700x700")
 apptk.resizable(True, True)
 
 alg = SusannaAStarAlgo.SusannaAStarAlgo()
+alg2 = astarcpp.AStar("Test")
 alg3 = Teams.ReferenceSolutionBreadthFirst.MazeSolverAlgoBreadthFirst.MazeSolverAlgoBreadthFirst()
 alg4 = Teams.ReferenceSolutionAStar.MazeSolverAlgoAStar.MazeSolverAlgoAStar()
-alg2 = astarcpp.AStar("Test")
 
 vis = Framework.Visualizer.maze_visualize.MazeVisualizer(apptk)
 
@@ -79,7 +79,7 @@ def mainloop():
     alg2.solveMaze()
     print("The time difference is :", timeit.default_timer() - starttime)
 
-    for move in alg2.came_from:
+    for move in alg.came_from:
         if isinstance(move, str):
             a_list = move.split(',')
             map_object = map(int, a_list)
