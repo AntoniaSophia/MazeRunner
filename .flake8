@@ -4,3 +4,5 @@ format=%(path)s::(Row:%(row)d,Col:%(col)d)::ErrorCode %(code)s::%(text)s
 max-line-length = 127
 max-complexity = 15
 Statistics=True
+exclude = .git,__pycache__,docs/source/conf.py,old,build,dist,Teams/ReferenceSolutionAStarCPP/pybind11
+ignore = E402,E226

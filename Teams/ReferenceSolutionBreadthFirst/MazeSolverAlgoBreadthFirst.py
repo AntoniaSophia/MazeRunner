@@ -18,6 +18,8 @@ class MazeSolverAlgoBreadthFirst:
         self.endCol = 0
         self.endRow = 0
         self.grid = [[]]
+        self.resultpath = []
+        self.came_from = []
         print("Initialize a Maze Solver: MazeSolverBreadthFirst")
 
     def setStartCol(self, col):
@@ -54,10 +56,15 @@ class MazeSolverAlgoBreadthFirst:
         self.grid = [[]]
 
         if self.dimCols > 0 and self.dimRows > 0:
-            self.grid = numpy.empty((self.dimCols, self.dimRows), dtype=int)
+            self.grid = numpy.empty([self.dimRows, self.dimCols], dtype=int)
+            print(self.grid)
             for i in range(self.dimRows):
                 for j in range(self.dimCols):
+                    print(f"{i}-{j}")
                     self.grid[i][j] = 0
+
+    def getResultPath(self):
+        return self.resultpath
 
     def endMaze(self):
         self.grid[self.startRow][self.startCol] = self.START
@@ -68,7 +75,8 @@ class MazeSolverAlgoBreadthFirst:
 
     def loadMaze(self, pathToConfigFile):
         self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',', dtype=int)
-        self.startMaze(self.grid.shape[0], self.grid.shape[1])
+        print(self.grid.shape)
+        self.startMaze(self.grid.shape[1], self.grid.shape[0])
         self.grid = numpy.loadtxt(pathToConfigFile, delimiter=',', dtype=int)
         start_arr = numpy.where(self.grid == 2)
         self.startRow = int(start_arr[0][0])
@@ -77,6 +85,7 @@ class MazeSolverAlgoBreadthFirst:
         end_arr = numpy.where(self.grid == 3)
         self.endRow = int(end_arr[0][0])
         self.endCol = int(end_arr[1][0])
+        return True
 
     def clearMaze(self):
         self.startMaze()
@@ -197,7 +206,8 @@ class MazeSolverAlgoBreadthFirst:
             current = frontier.get()
 
             for next_element in self.getNeighbours(current[0], current[1]):
-                nextKey = self.gridElementToString(next_element[0], next_element[1])
+                nextKey = self.gridElementToString(
+                    next_element[0], next_element[1])
                 if nextKey not in came_from:
                     frontier.put(next_element)
                     came_from[nextKey] = current
@@ -205,9 +215,9 @@ class MazeSolverAlgoBreadthFirst:
         #############################
         # Here Breadth First ends
         #############################
-
+        self.came_from = came_from
         result_path = self.generateResultPath(came_from)
-
+        self.resultpath = result_path
         print("Resulting length BreadthFirst Solution: ", len(result_path))
         print("Resulting BreadthFirst Solution Path = ", result_path)
 

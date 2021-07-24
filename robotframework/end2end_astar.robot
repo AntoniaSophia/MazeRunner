@@ -32,10 +32,6 @@ End2End AStar Eller
     sleep  5s
     Publish     topic=/maze    message=solve    
     sleep  5s
-    Generator action  99  99  0  0  eller
-    sleep  10s
-    Publish     topic=/maze    message=solve    
-    sleep  10s
     AStarReference stop    
     Gui stop
     Broker stop
@@ -54,10 +50,6 @@ End2End AStar Hunt
     sleep  5s
     Publish     topic=/maze    message=solve    
     sleep  5s
-    Generator action  99  99  0  0  hunt
-    sleep  10s
-    Publish     topic=/maze    message=solve    
-    sleep  10s
     AStarReference stop    
     Gui stop
     Broker stop
@@ -76,9 +68,6 @@ End2End AStar Sidewinder
     sleep  5s
     Publish     topic=/maze    message=solve    
     sleep  5s
-    Generator action  99  99  0  0  sidewinder
-    sleep  10s
-    Publish     topic=/maze    message=solve    
     sleep  10s
     AStarReference stop    
     Gui stop
@@ -95,10 +84,6 @@ End2End AStar Backtracking
     Publish     topic=/maze    message=solve
     sleep  5s
     Generator action  21  21  0  0  backtracking
-    sleep  5s
-    Publish     topic=/maze    message=solve    
-    sleep  5s
-    Generator action  99  99  0  0  backtracking
     sleep  10s
     Publish     topic=/maze    message=solve    
     sleep  10s
