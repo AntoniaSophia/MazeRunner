@@ -14,8 +14,8 @@ curpath = os.path.abspath(pathname)
 
 if platform.system() == "Windows":
     broker_path = os.path.join(curpath, "..\\MQTTBroker\\mosquitto.exe")
-else:
-    os.environ['MQTTSERVER'] = "mqtt.eclipse.org"
+# else:
+#     os.environ['MQTTSERVER'] = "mqtt.eclipse.org"
 
 
 class TestMazeGenerator(unittest.TestCase):
