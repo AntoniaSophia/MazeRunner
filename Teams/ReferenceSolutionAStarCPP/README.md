@@ -10,7 +10,7 @@ Auszug aus https://docs.microsoft.com/de-de/cpp/build/building-on-the-command-li
 ## Herunterladen und Installieren der Tools
 Wenn Sie Visual Studio und einen C++-Workload installiert haben, verfügen Sie über alle Befehlszeilentools. Informationen zum Installieren von C++ und Visual Studio finden Sie unter Installieren der C++-Unterstützung in Visual Studio. Wenn Sie nur die Befehlszeilentools wünschen, laden Sie die Visual Studio Build Tools herunter. Wenn Sie die heruntergeladene ausführbare Datei ausführen, wird der Visual Studio-Installer aktualisiert und ausgeführt. Um nur die Tools zu installieren, die Sie für die C++-Entwicklung benötigen, wählen Sie die Workload C++-Buildtools aus. Sie können optionale Bibliotheken und Toolsets auswählen, die unter Installationsdetails enthalten sein sollen. Wählen Sie zum Erstellen von Code mithilfe der Visual Studio 2015- oder 2017-Toolsets die optionalen Buildtools von MSVC v140 oder v141 aus. Wenn Sie die gewünschten Einstellungen vorgenommen haben, wählen Sie Installieren aus.
 
-![screencast](doc/animation.gif)
+![screencast](doc/Animation.gif)
 
 # Grundlagen
 ![overview](doc/astarcpp.png)
