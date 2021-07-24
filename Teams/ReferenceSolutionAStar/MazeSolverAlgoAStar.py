@@ -248,7 +248,7 @@ class MazeSolverAlgoAStar:
 
 if __name__ == '__main__':
     mg = MazeSolverAlgoAStar()
-    mg.loadMaze("..\\..\\MazeExamples\\Maze1.txt")
+    mg.loadMaze("..\\..\\MazeExamples\\maze1.txt")
 
     for step in mg.solveMaze():
         step_str = '{},{}'.format(step[0], step[1])

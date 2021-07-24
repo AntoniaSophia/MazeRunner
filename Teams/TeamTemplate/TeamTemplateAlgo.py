@@ -160,7 +160,7 @@ if __name__ == '__main__':
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
-    mg.loadMaze("..\\..\\MazeExamples\\Maze1.txt")
+    mg.loadMaze("..\\..\\MazeExamples\\maze1.txt")
     print("[TeamTemplateAlgo]: loaded maze", mg.grid)
 
     # solve the maze

@@ -7,8 +7,8 @@ if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
 else:
     mqtt_server = "127.0.0.1"
 
-if platform.system() != "Windows":
-    mqtt_server = "mqtt.eclipse.org"
+# if platform.system() != "Windows":
+#     mqtt_server = "mqtt.eclipse.org"
 
 
 class Sample_Maze_Generator:
