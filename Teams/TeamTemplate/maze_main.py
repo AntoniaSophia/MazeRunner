@@ -13,6 +13,7 @@ sys.path.append("../..")
 import TeamTemplateAlgo
 import Framework.Visualizer.maze_visualize
 
+
 def on_closing():
     """ Callback function if Visualizer Window is closed
     """

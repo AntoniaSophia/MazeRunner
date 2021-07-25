@@ -88,7 +88,7 @@ class TeamTemplateAlgo:
     # loads a maze from a file pathToConfigFile
     def loadMaze(self, pathToConfigFile):
         # check whether a function numpy.loadtxt() could be useful
-        # https://numpy.org/doc/1.20/reference/generated/numpy.loadtxt.html        
+        # https://numpy.org/doc/1.20/reference/generated/numpy.loadtxt.html
         # TODO: this is you job now :-)
         exists = os.path.exists(pathToConfigFile)
 
@@ -140,7 +140,6 @@ class TeamTemplateAlgo:
         # TODO: this is you job now :-)
         # HINT: this method is a bit tricky as you have to invert the came_from list (follow the path from end to start)
         pass
-
 
     def getResultPath(self):
         # TODO: this is you job now :-)
