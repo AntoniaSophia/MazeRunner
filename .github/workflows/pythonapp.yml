@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 pytest
+          pip install flake8 pytest coverage
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Lint with flake8
         run: |
@@ -37,20 +37,12 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-      - name: pytest
-        id: pytest
-        uses: alexanderdamiani/pytester-cov@v1.2.0
+      - name: pytest coverage
+        run: |
+        coverage run -m pytest
+      - uses: codecov/codecov-action@v2
         with:
-          pytest-root-dir: '.'
-          cov-omit-list: 'Teams/ReferenceSolutionAStarCPP/*'
-          cov-threshold-single: ${{ env.COVERAGE_SINGLE }}
-          cov-threshold-total: ${{ env.COVERAGE_TOTAL }}
-      - name: Coverage total fail - new issue
-        if: ${{ steps.pytester-cov.outputs.cov-threshold-total-fail == 'true' }}
-        uses: nashmaniac/create-issue-action@v1.1
-        with:
-          title: Pytest coverage total falls below minimum ${{ env.COVERAGE_TOTAL }}
-          token: ${{secrets.GITHUB_TOKEN}}
-          assignees: ${{github.actor}}
-          labels: workflow-failed
-          body: ${{ steps.pytester-cov.outputs.output-table }}
+          flags: unittests # optional
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
