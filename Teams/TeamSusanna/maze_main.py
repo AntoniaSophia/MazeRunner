@@ -88,7 +88,7 @@ def mainloop():
     vis.plot_route()
 
     for move in alg.getResultPath():
-        vis.addSolutionStepFin(move[0], move[1]) 
+        vis.addSolutionStepFin(move[0], move[1])
 
     print(
         f'Steps necessary {len(alg.came_from)} - Optimal path needs:{len(alg.getResultPath())}')
