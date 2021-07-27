@@ -43,3 +43,18 @@ class FillMazeTest(unittest.TestCase):
         self.assertTrue(mg.heuristic((0, 1), (1, 0)) == pytest.approx(1.41, 0.01))
         self.assertTrue(mg.heuristic((2, 2), (4, 4)) == pytest.approx(2.82, 0.01))
         self.assertTrue(mg.heuristic((2, 2), (2, 5)) == 3)
+
+    def test_setter(self):
+        mg = SusannaAStarAlgo()
+        mg.setDimRows(10)
+        mg.setDimCols(-10)
+        self.assertTrue(mg.dimCols==-10)
+        self.assertTrue(mg.dimRows==10)
+        mg.setStartRow(1)
+        mg.setStartCol(2)
+        mg.setEndCol(3)
+        mg.setEndRow(4)
+        self.assertTrue(mg.startRow==1)
+        self.assertTrue(mg.startCol==2)  
+        self.assertTrue(mg.EndRow==4)
+        self.assertTrue(mg.endCol==3)               
