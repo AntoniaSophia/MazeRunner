@@ -393,3 +393,18 @@ In  general: don't stop fighting and always keep in mind that usually things are
 In case of doubts or questions just get back to me at [LinkedIn](https://www.linkedin.com/in/antonia-reiter-13461a74/) 
 
 Have fun and enjoy!
+
+## 15. Test Coverage
+* Show code coverage with [coverage-gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters)
+* add to .vscode\settings.json:
+```
+{
+    "python.testing.pytestArgs": [
+        "--cov=.",
+        "--cov-report=xml:coverage.xml"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
+}
+```
