@@ -30,7 +30,7 @@ class SusannaAStarAlgo:
         self.resultpath = []
         self.came_from = []
         print(
-            "\n[TeamTemplateAlgo]: Constructor TeamTemplateAlgo successfully executed.")
+            "\n[TeamTemplateAlgo]: Constructor TeamTemplateAlgo successfully executed")
 
     # Setter method for the maze dimension of the rows
     def setDimRows(self, rows):
