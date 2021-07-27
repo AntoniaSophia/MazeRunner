@@ -1,11 +1,11 @@
 
+from SusannaAStarAlgo import SusannaAStarAlgo
 import unittest
 import sys
 import os
 import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__)+"/.."))
-from SusannaAStarAlgo import SusannaAStarAlgo
 
 mg = SusannaAStarAlgo()
 
@@ -48,13 +48,13 @@ class FillMazeTest(unittest.TestCase):
         mg = SusannaAStarAlgo()
         mg.setDimRows(10)
         mg.setDimCols(-10)
-        self.assertTrue(mg.dimCols==-10)
-        self.assertTrue(mg.dimRows==10)
+        self.assertTrue(mg.dimCols == -10)
+        self.assertTrue(mg.dimRows == 10)
         mg.setStartRow(1)
         mg.setStartCol(2)
         mg.setEndCol(3)
         mg.setEndRow(4)
-        self.assertTrue(mg.startRow==1)
-        self.assertTrue(mg.startCol==2)  
-        self.assertTrue(mg.EndRow==4)
-        self.assertTrue(mg.endCol==3)               
+        self.assertTrue(mg.startRow == 1)
+        self.assertTrue(mg.startCol == 2)
+        self.assertTrue(mg.EndRow == 4)
+        self.assertTrue(mg.endCol == 3)
