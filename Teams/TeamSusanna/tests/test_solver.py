@@ -1,11 +1,11 @@
 
-from SusannaAStarAlgo import SusannaAStarAlgo
 import unittest
 import sys
 import os
 import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__)+"/.."))
+from SusannaAStarAlgo import SusannaAStarAlgo
 
 mg = SusannaAStarAlgo()
 
