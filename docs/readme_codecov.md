@@ -1,1 +1,0 @@
-![](images/codegov_login.gif)
