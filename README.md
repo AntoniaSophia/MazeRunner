@@ -408,3 +408,43 @@ Have fun and enjoy!
     "python.testing.pytestEnabled": true
 }
 ```
+
+## 16. Linux System
+you don't have to do anything else to use the MazeRunner project on Linux. It should be possible on every modern Linux distribution, but in the following we reference Ubuntu. In the area of the reference implementation of AStar under c++ you need a small patch, otherwise the installation under Ubuntu(21.04) follows. In the Informatica 2021 training we will not have a deep contact with mqtt Transport Protocol but it is used in the pytests so please install it to:
+* Essentials ```sudo apt-get install gcc g++ git python3 python3-pip python3-tk mosquitto```
+* Set python3 as standard ```sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1```
+* Clone Mazerunner ```git clone https://github.com/AntoniaSophia/MazeRunner.git```
+* Install necessary python modules ```cd MazeRunner; pip install -r requirements.txt```
+* Download [vscode for linux](https://code.visualstudio.com/docs/?dv=linux64_deb)
+* Install vscode ```sudo dpkg -i ~/Downloads/code*.deb```
+* Install vscode extensions 
+```
+code --install-extension ms-vscode.cpptools
+code --install-extension Cameron.vscode-pytest
+code --install-extension MS-CEINTL.vscode-language-pack-de
+code --install-extension ms-python.python
+code --install-extension ms-python.vscode-pylance
+code --install-extension ms-toolsai.jupyter
+code --install-extension ms-vscode.cpptools
+code --install-extension njpwerner.autodocstring
+code --install-extension ryanluker.vscode-coverage-gutters
+```
+* Optional, build AStar C++ Reference Implementation
+You will be given a homework assignment to develop the AStar in another programming language. Since we already provide a visualization of the maze and the solution path with python, we present you a way how to bring together C++ code and Python code with a Python package called pybind11, maybe it helps you in the task. The pybind11 approach works with Windows as well as with Linux. You can find the explanations for the installation under Windows in [Teams/ReferenceSolutionAStarCPP](Teams/ReferenceSolutionAStarCPP/README.md) 
+Install for linux:
+
+```
+pip install cmake
+cd Mazerunner
+git submodule update --init --recursive
+cd Teams/ReferenceSolutionAStarCPP/
+pushd a-star
+git apply ../astar_linux.patch
+popd
+mkdir build
+cd build
+cmake ..
+make
+```
+In [TeamSusanna](Teams/TeamSusanna/maze_main.py) you will find a way how to integrate the built C++ lib with the AStar algorithm into the python project.
+ 

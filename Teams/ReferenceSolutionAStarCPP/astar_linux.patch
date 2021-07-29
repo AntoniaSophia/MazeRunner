@@ -1,0 +1,12 @@
+diff --git a/source/AStar.hpp b/source/AStar.hpp
+index 0776430..4a19913 100644
+--- a/source/AStar.hpp
++++ b/source/AStar.hpp
+@@ -9,6 +9,7 @@
+ #include <vector>
+ #include <functional>
+ #include <set>
++#include <math.h>
+ 
+ namespace AStar
+ {
