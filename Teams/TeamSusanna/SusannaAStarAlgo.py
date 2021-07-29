@@ -54,7 +54,7 @@ class SusannaAStarAlgo:
 
     # Setter method for the row of the end position
     def setEndRow(self, row):
-        self.EndRow = row
+        self.endRow = row
 
     # Setter method for blocked grid elements
     def setBlocked(self, row, col):
@@ -62,16 +62,15 @@ class SusannaAStarAlgo:
 
     # Start to build up a new maze
     # HINT: don't forget to initialize all member variables of this class (grid, start position, end position, dimension,...)
-    def startMaze(self, columns=0, rows=0):
+    def startMaze(self, rows=0, columns=0):
         if rows > 0:
             self.dimRows = rows
 
         if columns > 0:
             self.dimCols = columns
 
-        if columns == 0 and rows == 0:
-            self.dimRows = 0
-            self.dimCols = 0
+        if self.dimCols == 0 or self.dimRows == 0:
+            return
 
         self.startCols = 0
         self.startRows = 0
@@ -79,16 +78,18 @@ class SusannaAStarAlgo:
         self.endRows = 0
         self.grid = [[]]
 
-        # self.grid = numpy.empty((self.dimCols, self.dimRows), dtype=int)
+        print(self.dimRows, self.dimCols)
 
-        for row in range(self.dimRows):
-            for col in range(self.dimCols):
-                self.grid[row][col] = self.EMPTY
+        if self.dimCols > 0 and self.dimRows > 0:
+            self.grid = numpy.empty((self.dimRows, self.dimCols), dtype=int)
+            for i in range(self.dimRows):
+                for j in range(self.dimCols):
+                    self.grid[i][j] = 0
 
     # Define what shall happen after the full information of a maze has been received
     def endMaze(self):
-        self.grid[self.startRow][self.startCol] = self.START
-        self.grid[self.endRow][self.endCol] = self.TARGET
+        self.grid[self.startRow, self.startCol] = self.START
+        self.grid[self.endRow, self.endCol] = self.TARGET
 
     # just prints a maze on the command line
     def printMaze(self):

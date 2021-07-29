@@ -179,7 +179,7 @@ class MazeVisualizer:
         # print("Following Maze received: ")
         # self.printMaze()
         self.repaint()
-
+ 
     def printMaze(self):
         print(self.grid)
 
@@ -194,7 +194,10 @@ class MazeVisualizer:
     def addSolutionStep(self, row, col):
         step = self.Cell(row, col)
         self.closedSet.append(step)
-        # print("Step")
+        # if step == self.targetPos:
+        #     # print("Finished")
+        #     self.plot_route(False)        
+        # # print("Step")
 
     def __init__(self, maze):
         """
