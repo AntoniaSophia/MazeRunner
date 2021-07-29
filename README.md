@@ -447,4 +447,7 @@ cmake ..
 make
 ```
 In [TeamSusanna](Teams/TeamSusanna/maze_main.py) you will find a way how to integrate the built C++ lib with the AStar algorithm into the python project.
- 
+
+## Further Information
+* MacOS 
+* 
