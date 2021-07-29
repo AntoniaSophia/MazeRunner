@@ -12,8 +12,6 @@ import timeit
 sys.path.append("../..")
 import SusannaAStarAlgo
 import Teams.ReferenceSolutionAStarCPP.build.astar as astarcpp
-import Teams.ReferenceSolutionAStar.MazeSolverAlgoAStar
-import Teams.ReferenceSolutionBreadthFirst.MazeSolverAlgoBreadthFirst
 import Framework.Visualizer.maze_visualize
 
 
@@ -23,23 +21,27 @@ def on_closing():
     os._exit(0)
 
 
+# Initialize TK Window
 apptk = Tk()
 apptk.protocol("WM_DELETE_WINDOW", on_closing)
 apptk.title("MazeRunner")
 apptk.geometry("700x700")
 apptk.resizable(True, True)
 
+# Instanciate Python and C++ Algo objects
 alg = SusannaAStarAlgo.SusannaAStarAlgo()
 alg2 = astarcpp.AStar("Test")
-alg3 = Teams.ReferenceSolutionBreadthFirst.MazeSolverAlgoBreadthFirst.MazeSolverAlgoBreadthFirst()
-alg4 = Teams.ReferenceSolutionAStar.MazeSolverAlgoAStar.MazeSolverAlgoAStar()
 
+# Instanciate Maze Visualizer
 vis = Framework.Visualizer.maze_visualize.MazeVisualizer(apptk)
 
 
 def main():
-    """[summary]
+    """ Main fucntion to execute all the stuff
     """
+
+    # Only one parameter is used
+    # Maze as textfile
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         'input_file',
