@@ -73,11 +73,11 @@ class MazeNeighbours(unittest.TestCase):
         lResultArr = mazealgo.getNeighbours(3, 2)
         self.assertTrue(len(lResultArr) == 3)
         print(lResultArr)
-        self.assertTrue(lResultArr == [[2, 2], [4, 2], [3, 3]])
+        self.assertTrue(lResultArr == [(2, 2), (4, 2), (3, 3)])
 
         lResultArr = mazealgo.getNeighbours(5, 4)
         self.assertTrue(len(lResultArr) == 2)
-        self.assertTrue(lResultArr == [[4, 4], [5, 3]])
+        self.assertTrue(lResultArr == [(4, 4), (5, 3)])
 
 
 class MazeMiscFunctions(unittest.TestCase):
@@ -91,3 +91,16 @@ class MazeMiscFunctions(unittest.TestCase):
 
     def test_heuristic(self):
         self.assertAlmostEqual(mazealgo.heuristic([2, 1], [1, 2]), 2)
+
+
+class MazeSolver(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        super(MazeSolver, self).__init__(*args, **kwargs)
+        mazealgo.loadMaze(os.path.realpath(
+            os.path.dirname(__file__)) + "/../../../MazeExamples/maze1.txt")
+
+    def test_solvemaze(self):
+        solvepath = mazealgo.solveMaze()
+        self.assertTrue([(0, 4), (0, 3), (0, 2), (0, 1), (0, 0), (1, 0),
+                         (2, 0), (3, 0), (4, 0), (4, 1), (4, 2), (3, 2), 
+                         (3, 3), (3, 4), (2, 4)], solvepath)

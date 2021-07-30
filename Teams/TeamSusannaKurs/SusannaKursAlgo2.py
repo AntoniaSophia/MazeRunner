@@ -211,7 +211,7 @@ class SusannaKursAlgo:
                     frontier.put(next, priority)
                     came_from[next] = current
 
-        print(self.getSolvePath(came_from))
+        return self.getSolvePath(came_from)
 
     def getSolvePath(self, came_from):
         current = (self.endRow, self.endCol)
@@ -241,5 +241,5 @@ if __name__ == '__main__':
 
     # solve the maze
     # HINT: this command shall be received from MQTT client in run_all mode
-    solutionString = mg.solveMaze()
-    print("[SusannaKursAlgo]: Result of solving maze: ", solutionString)
+    solvepath = mg.solveMaze()
+    print("[SusannaKursAlgo]: Result of solving maze: ", str(solvepath))
