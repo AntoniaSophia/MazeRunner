@@ -56,3 +56,25 @@ class MazeLoadTest(unittest.TestCase):
     def test_loadmaze_broken(self):
         self.assertFalse(mazealgo.loadMaze(os.path.realpath(
             os.path.dirname(__file__)) + "/../../../MazeExamples/maze1_broken.txt"))
+
+
+class MazeNeighbours(unittest.TestCase):
+
+    def __init__(self, *args, **kwargs):
+        super(MazeNeighbours, self).__init__(*args, **kwargs)
+        mazealgo.loadMaze(os.path.realpath(
+            os.path.dirname(__file__)) + "/../../../MazeExamples/maze1.txt")
+
+    def test_neighbour_up(self):
+        lResultArr = mazealgo.getNeighbours(0, 0)
+        self.assertTrue(len(lResultArr) == 2)
+
+    def test_neighbours(self):
+        lResultArr = mazealgo.getNeighbours(3, 2)
+        self.assertTrue(len(lResultArr) == 3)
+        print(lResultArr)
+        self.assertTrue(lResultArr == [[2, 2], [4, 2], [3, 3]])
+
+        lResultArr = mazealgo.getNeighbours(5, 4)
+        self.assertTrue(len(lResultArr) == 2)
+        self.assertTrue(lResultArr == [[4, 4], [5, 3]])

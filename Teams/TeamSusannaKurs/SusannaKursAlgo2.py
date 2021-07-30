@@ -12,7 +12,7 @@ import os.path
 class SusannaKursAlgo:
 
     EMPTY = 0       # empty cell
-    OBSTACLE = 1    # cell with obstacle / blocked cell
+    BLOCKED = 1    # cell with obstacle / blocked cell
     START = 2       # the start position of the maze (red color)
     END = 3      # the target/end position of the maze (green color)
 
@@ -141,9 +141,16 @@ class SusannaKursAlgo:
 
     # Returns a list of all grid elements neighboured to the grid element row,column
     def getNeighbours(self, row, column):
-        # TODO: this is you job now :-)
-        # TODO: Add a Unit Test Case --> Very good example for boundary tests and condition coverage
-        pass
+        lNeighbours = []
+        if not self.isInGrid(row, column):
+            return False
+
+        directions = [[row - 1, column], [row + 1, column], [row, column - 1], [row, column + 1]]
+        for direction in directions:
+            if self.isInGrid(direction[0], direction[1]) and self.grid[direction[0], direction[1]] != self.BLOCKED:
+                lNeighbours.append(direction)
+
+        return lNeighbours
 
     # Gives a grid element as string, the result should be a string row,column
     def gridElementToString(self, row, col):
