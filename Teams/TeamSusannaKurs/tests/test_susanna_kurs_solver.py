@@ -78,3 +78,16 @@ class MazeNeighbours(unittest.TestCase):
         lResultArr = mazealgo.getNeighbours(5, 4)
         self.assertTrue(len(lResultArr) == 2)
         self.assertTrue(lResultArr == [[4, 4], [5, 3]])
+
+
+class MazeMiscFunctions(unittest.TestCase):
+    def test_neighbours(self):
+        self.assertTrue(mazealgo.gridElementToString(1, 2) == "1-2")
+        self.assertTrue(mazealgo.gridElementToString(1123213, 223234234) == "1123213-223234234")
+
+    def test_isSameGridElement(self):
+        self.assertFalse(mazealgo.isSameGridElement([2, 1], [1, 2]))
+        self.assertTrue(mazealgo.isSameGridElement([100, 101], [100, 101]))
+
+    def test_heuristic(self):
+        self.assertAlmostEqual(mazealgo.heuristic([2, 1], [1, 2]), 2)

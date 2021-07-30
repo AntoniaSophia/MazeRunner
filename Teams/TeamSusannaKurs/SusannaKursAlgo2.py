@@ -4,7 +4,7 @@ Susannas implementation of AStar done during exercise
 
 # import sys
 # from math import sqrt
-# import queue
+import queue
 import numpy as np
 import os.path
 
@@ -140,12 +140,15 @@ class SusannaKursAlgo:
         return True
 
     # Returns a list of all grid elements neighboured to the grid element row,column
+    def getNeighboursArr(self, arrpos):
+        return self.getNeighbours(arrpos[0], arrpos[1])
+
     def getNeighbours(self, row, column):
         lNeighbours = []
         if not self.isInGrid(row, column):
             return False
 
-        directions = [[row - 1, column], [row + 1, column], [row, column - 1], [row, column + 1]]
+        directions = [(row - 1, column), (row + 1, column), (row, column - 1), (row, column + 1)]
         for direction in directions:
             if self.isInGrid(direction[0], direction[1]) and self.grid[direction[0], direction[1]] != self.BLOCKED:
                 lNeighbours.append(direction)
@@ -154,23 +157,19 @@ class SusannaKursAlgo:
 
     # Gives a grid element as string, the result should be a string row,column
     def gridElementToString(self, row, col):
-        # TODO: this is you job now :-)
-        # HINT: this method is used as primary key in a lookup table
-        pass
+        return f'{row}-{col}'
 
     # check whether two different grid elements are identical
     # aGrid and bGrid are both elements [row,column]
     def isSameGridElement(self, aGrid, bGrid):
-        # TODO: this is you job now :-)
-        pass
+        return aGrid == bGrid
 
     # Defines a heuristic method used for A* algorithm
     # aGrid and bGrid are both elements [row,column]
-
     def heuristic(self, aGrid, bGrid):
-        # TODO: this is you job now :-)
-        # HINT: a good heuristic could be the distance between to grid elements aGrid and bGrid
-        pass
+        # Manhattan distance on a square grid
+        # taken from https://www.redblobgames.com/pathfinding/a-star/introduction.html
+        return abs(aGrid[0] - bGrid[0]) + abs(aGrid[1] - bGrid[1])
 
     # Generates the resulting path as string from the came_from list
     def generateResultPath(self, came_from):
@@ -188,8 +187,42 @@ class SusannaKursAlgo:
     # implementation taken from https://www.redblobgames.com/pathfinding/a-star/introduction.html
     #############################
     def myMazeSolver(self):
-        # TODO: this is you job now :-)
-        pass
+        frontier = queue.PriorityQueue()
+        start = (self.startRow, self.startCol)
+        frontier.put(start, 0)
+        came_from = dict()
+        cost_so_far = dict()
+        came_from[start] = None
+        cost_so_far[start] = 0
+
+        goal = (self.endRow, self.endCol)
+
+        while not frontier.empty():
+            current = frontier.get()
+
+            if current == goal:
+                break
+            for next in self.getNeighbours(current[0], current[1]):
+                new_cost = cost_so_far[current] + 1  # Simplified costs
+
+                if next not in cost_so_far or new_cost < cost_so_far[next]:
+                    cost_so_far[next] = new_cost
+                    priority = new_cost + self.heuristic([self.endRow, self.endCol], next)
+                    frontier.put(next, priority)
+                    came_from[next] = current
+
+        print(self.getSolvePath(came_from))
+
+    def getSolvePath(self, came_from):
+        current = (self.endRow, self.endCol)
+        start = (self.startRow, self.startCol)
+        path = []
+        while not self.isSameGridElement(current, start):
+            path.append(current)
+            current = came_from[current]
+        path.append(start)
+        path.reverse()
+        return path
 
     # Command for starting the solving procedure
     def solveMaze(self):
@@ -204,7 +237,7 @@ if __name__ == '__main__':
     #       loading new different mazes --> just load any maze you would like from a file
 
     mg.loadMaze("..\\..\\MazeExamples\\maze1.txt")
-    print("[SusannaKursAlgo]: loaded maze", mg.grid)
+    print("[SusannaKursAlgo]: loaded maze\n", mg.grid)
 
     # solve the maze
     # HINT: this command shall be received from MQTT client in run_all mode
