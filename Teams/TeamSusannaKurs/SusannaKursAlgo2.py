@@ -209,10 +209,10 @@ class SusannaKursAlgo:
                     priority = new_cost + self.heuristic([self.endRow, self.endCol], next)
                     frontier.put((priority, next))
                     came_from[next] = current
-        
+
         self.came_from = came_from
-        self.solutionpath = self.getSolvePath(came_from)
-        return self.solutionpath
+        self.solution_path = self.getSolvePath(came_from)
+        return self.solution_path
 
     def getSolvePath(self, came_from):
         current = (self.endRow, self.endCol)

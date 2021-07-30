@@ -441,7 +441,7 @@ class MazeVisualizer:
         self.setEndRow(endrow)
         self.initialize_grid(False)
 
-    def plot_route(self, fin=False):
+    def plot_route(self, fin=False, font=False):
         """
                 Calculates the path from the target to the initial position of the robot,
         counts the corresponding steps and measures the distance traveled.
@@ -469,7 +469,8 @@ class MazeVisualizer:
                 canvas_id = self.canvas.create_text(
                     cur.col*self.square_size, cur.row*self.square_size,
                     anchor="nw", font=("Courier", 6), fill=_from_rgb((0, 10, 100)))
-                self.canvas.itemconfig(canvas_id, text=str(step_pos))
+                if font:
+                    self.canvas.itemconfig(canvas_id, text=str(step_pos))
             else:
                 self.paint_cell(cur.row, cur.col, _from_rgb(
                     (10, int(step_colpos), 255-int(step_colpos))))
@@ -477,7 +478,8 @@ class MazeVisualizer:
                     cur.col*self.square_size,
                     cur.row*self.square_size,
                     anchor="nw", font=("Courier", 6), fill=_from_rgb((0, 10, 100)))
-                self.canvas.itemconfig(canvas_id, text=str(step_pos))
+                if font:
+                    self.canvas.itemconfig(canvas_id, text=str(step_pos))
             step_pos += 1
             step_colpos += stepcol
             # if cur != old:

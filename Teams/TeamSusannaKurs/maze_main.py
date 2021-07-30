@@ -74,11 +74,11 @@ def mainloop():
         vis.addSolutionStep(move[0], move[1])
     vis.plot_route()
 
-    for move in alg.solutionpath:
+    for move in alg.solution_path:
         vis.addSolutionStepFin(move[0], move[1])
 
     print(
-        f'Steps necessary {len(alg.came_from)} - Optimal path needs:{len(alg.solutionpath)}')
+        f'Steps necessary {len(alg.came_from)} - Optimal path needs:{len(alg.solution_path)}')
 
 
 if __name__ == "__main__":
