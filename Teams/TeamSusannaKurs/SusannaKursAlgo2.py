@@ -189,7 +189,7 @@ class SusannaKursAlgo:
     def myMazeSolver(self):
         frontier = queue.PriorityQueue()
         start = (self.startRow, self.startCol)
-        frontier.put(start, 0)
+        frontier.put((0, start))
         came_from = dict()
         cost_so_far = dict()
         came_from[start] = None
@@ -198,8 +198,7 @@ class SusannaKursAlgo:
         goal = (self.endRow, self.endCol)
 
         while not frontier.empty():
-            current = frontier.get()
-
+            current = frontier.get()[1]
             if current == goal:
                 break
             for next in self.getNeighbours(current[0], current[1]):
@@ -208,10 +207,12 @@ class SusannaKursAlgo:
                 if next not in cost_so_far or new_cost < cost_so_far[next]:
                     cost_so_far[next] = new_cost
                     priority = new_cost + self.heuristic([self.endRow, self.endCol], next)
-                    frontier.put(next, priority)
+                    frontier.put((priority, next))
                     came_from[next] = current
-
-        return self.getSolvePath(came_from)
+        
+        self.came_from = came_from
+        self.solutionpath = self.getSolvePath(came_from)
+        return self.solutionpath
 
     def getSolvePath(self, came_from):
         current = (self.endRow, self.endCol)
@@ -236,7 +237,7 @@ if __name__ == '__main__':
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
-    mg.loadMaze("..\\..\\MazeExamples\\maze1.txt")
+    mg.loadMaze("..\\..\\MazeExamples\\maze1_solvetest.txt")
     print("[SusannaKursAlgo]: loaded maze\n", mg.grid)
 
     # solve the maze

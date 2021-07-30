@@ -10,7 +10,7 @@ import os
 import sys
 import timeit
 sys.path.append("../..")
-import SusannaKursAlgo
+import SusannaKursAlgo2
 import Framework.Visualizer.maze_visualize
 
 
@@ -26,7 +26,7 @@ apptk.title("MazeRunner")
 apptk.geometry("700x700")
 apptk.resizable(True, True)
 
-alg = SusannaKursAlgo.SusannaKursAlgo()
+alg = SusannaKursAlgo2.SusannaKursAlgo()
 
 vis = Framework.Visualizer.maze_visualize.MazeVisualizer(apptk)
 
@@ -49,7 +49,7 @@ def main():
                              alg.startRow, alg.startCol, alg.endRow, alg.endCol)
     for row in range(alg.dimRows):
         for col in range(alg.dimCols):
-            if alg.grid[row][col] == alg.OBSTACLE:
+            if alg.grid[row][col] == alg.BLOCKED:
                 vis.setBlocked(row, col)
 
     vis.endMaze()
@@ -74,11 +74,11 @@ def mainloop():
         vis.addSolutionStep(move[0], move[1])
     vis.plot_route()
 
-    for move in alg.getResultPath():
+    for move in alg.solutionpath:
         vis.addSolutionStepFin(move[0], move[1])
 
     print(
-        f'Steps necessary {len(alg.came_from)} - Optimal path needs:{len(alg.getResultPath())}')
+        f'Steps necessary {len(alg.came_from)} - Optimal path needs:{len(alg.solutionpath)}')
 
 
 if __name__ == "__main__":
