@@ -40,7 +40,7 @@ class SusannaKursAlgo:
     def setDimCols(self, cols):
         if cols < 1:
             print("dim < 1 not allowed")
-            raise Exception("setDimCols")        
+            raise Exception("setDimCols")
         self.dimCols = cols
 
     # Setter method for the column of the start position
