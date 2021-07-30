@@ -58,7 +58,7 @@ class MqttClient:
             self.mazeVisualizer.setBlocked(int(cell[0]), int(cell[1]))
         elif topic == "/maze/go":
             cell = payload.split(",")
-            self.mazeVisualizer.addSolutionStep(int(cell[0]), int(cell[1]))
+            self.mazeVisualizer.addSolutionStepFin(int(cell[0]), int(cell[1]))
 
         else:
             pass
@@ -186,9 +186,9 @@ class MazeVisualizer:
     def addSolutionStepFin(self, row, col):
         step = self.Cell(row, col)
         self.closedSet2.append(step)
-        # print("Step")
+        print("Step")
         if step == self.targetPos:
-            # print("Finished")
+            print("Finished")
             self.plot_route(True)
 
     def addSolutionStep(self, row, col):

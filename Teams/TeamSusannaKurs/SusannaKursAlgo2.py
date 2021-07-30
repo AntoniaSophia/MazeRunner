@@ -61,17 +61,15 @@ class SusannaKursAlgo:
 
     # Setter method for blocked grid elements
     def setBlocked(self, row, col):
-        # TODO: this is you job now :-)
-        pass
+        self.grid[row, col] = self.BLOCKED
 
     # Start to build up a new maze
     # HINT: don't forget to initialize all member variables of this class (grid, start position, end position, dimension,...)
-    def startMaze(self, columns=0, rows=0):
-        # TODO: this is you job now :-)
-        pass
+    def startMaze(self):
+        if self.dimRows == 0 or self.dimCols == 0:
+            return
+        self.grid = np.zeros((self.dimRows, self.dimCols), dtype='int')
 
-    # Start to build up a new maze
-    # HINT: don't forget to initialize all member variables of this class (grid, start position, end position, dimension,...)
 
     # Define what shall happen after the full information of a maze has been received
     def endMaze(self):
