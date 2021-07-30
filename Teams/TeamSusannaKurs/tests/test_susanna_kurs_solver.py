@@ -102,5 +102,5 @@ class MazeSolver(unittest.TestCase):
     def test_solvemaze(self):
         solvepath = mazealgo.solveMaze()
         self.assertTrue([(0, 4), (0, 3), (0, 2), (0, 1), (0, 0), (1, 0),
-                         (2, 0), (3, 0), (4, 0), (4, 1), (4, 2), (3, 2), 
+                         (2, 0), (3, 0), (4, 0), (4, 1), (4, 2), (3, 2),
                          (3, 3), (3, 4), (2, 4)], solvepath)
