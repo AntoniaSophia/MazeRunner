@@ -5,9 +5,9 @@ import os
 # import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__)+"/.."))
-from SusannaKursAlgo2 import SusannaKursAlgo
+from IFBW21Algo import IFBW21Algo
 
-mazealgo = SusannaKursAlgo()
+mazealgo = IFBW21Algo()
 
 
 class DimMazeTest(unittest.TestCase):

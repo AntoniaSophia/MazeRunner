@@ -186,7 +186,7 @@ class MazeVisualizer:
     def addSolutionStepFin(self, row, col):
         step = self.Cell(row, col)
         self.closedSet2.append(step)
-        print("Step")
+        #print("Step")
         if step == self.targetPos:
             print("Finished")
             self.plot_route(True)

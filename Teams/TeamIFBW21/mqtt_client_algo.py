@@ -5,7 +5,7 @@
 import os
 import logging
 import paho.mqtt.client as mqtt
-from SusannaKursAlgo2 import SusannaKursAlgo
+from IFBW21Algo import IFBW21Algo
 
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
@@ -14,7 +14,7 @@ else:
     MQTT_SERVER = "127.0.0.1"
 
 
-class MazeSolverClient:
+class MQTTClientAlgo:
     """This is an implementation of an MQTT client which
         - receives mazes
         - sends back solution steps from a maze solver
@@ -25,7 +25,7 @@ class MazeSolverClient:
         self.master.on_message = self.onMessage
         self.master.connect(MQTT_SERVER, 1883, 60)
 
-        self.solver = SusannaKursAlgo()
+        self.solver = IFBW21Algo()
         self.solver.master = self.master
 
     def onMessage(self, master, obj, msg):
@@ -100,7 +100,7 @@ class MazeSolverClient:
 
 if __name__ == '__main__':
     MQTT_CLIENT = mqtt.Client()
-    SOLVER_CLIENT = MazeSolverClient(MQTT_CLIENT)
+    SOLVER_CLIENT = MQTTClientAlgo(MQTT_CLIENT)
     logging.basicConfig(level=logging.ERROR)
     LOGGER = logging.getLogger(__name__)
     MQTT_CLIENT.enable_logger(LOGGER)

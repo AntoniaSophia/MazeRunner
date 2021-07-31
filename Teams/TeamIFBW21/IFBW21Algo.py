@@ -9,7 +9,7 @@ import numpy as np
 import os.path
 
 
-class SusannaKursAlgo:
+class IFBW21Algo:
 
     EMPTY = 0       # empty cell
     BLOCKED = 1    # cell with obstacle / blocked cell
@@ -27,7 +27,7 @@ class SusannaKursAlgo:
         self.endRow = 0
         self.grid = [[]]
         self.came_from = []
-        print("\n[SusannaKursAlgo]: Constructor TeamSusannaKurs successfully executed.")
+        print("\n[IFBW21Algo]: Constructor TeamSusannaKurs successfully executed.")
 
     # Setter method for the maze dimension of the rows
     def setDimRows(self, rows):
@@ -88,16 +88,16 @@ class SusannaKursAlgo:
         exists = os.path.exists(pathToConfigFile)
 
         if not exists:
-            print("[SusannaKursAlgo]: ERROR loading file ", pathToConfigFile)
+            print("[IFBW21Algo]: ERROR loading file ", pathToConfigFile)
             return False
 
-        print("[SusannaKursAlgo]: SUCCESS loading file ", pathToConfigFile)
+        print("[IFBW21Algo]: SUCCESS loading file ", pathToConfigFile)
 
         # put loadtxt return into value
         self.grid = np.loadtxt(pathToConfigFile, delimiter=',', dtype='int')
 
         if len(self.grid.shape) != 2:
-            print("[SusannaKursAlgo]: Check your Maze!")
+            print("[IFBW21Algo]: Check your Maze!")
             return False
 
         # get dimension of grid
@@ -108,7 +108,7 @@ class SusannaKursAlgo:
         # get Start pos from grid
         [lStartRowArr, lStartColArr] = np.where(self.grid == self.START)
         if len(lStartRowArr) != 1 or len(lStartColArr) != 1:
-            print("[SusannaKursAlgo]: Check the start pos of the Maze!")
+            print("[IFBW21Algo]: Check the start pos of the Maze!")
             return False
 
         self.setStartRow(lStartRowArr[0])
@@ -117,7 +117,7 @@ class SusannaKursAlgo:
         # get End pos from grid
         [lEndRowArr, lEndColArr] = np.where(self.grid == self.END)
         if len(lEndRowArr) != 1 or len(lEndColArr) != 1:
-            print("[SusannaKursAlgo]: Check the end pos of the Maze!")
+            print("[IFBW21Algo]: Check the end pos of the Maze!")
             return False
 
         self.setEndRow(lEndRowArr[0])
@@ -229,15 +229,15 @@ class SusannaKursAlgo:
 
 
 if __name__ == '__main__':
-    mg = SusannaKursAlgo()
+    mg = IFBW21Algo()
 
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
     mg.loadMaze("..\\..\\MazeExamples\\maze1_solvetest.txt")
-    print("[SusannaKursAlgo]: loaded maze\n", mg.grid)
+    print("[IFBW21Algo]: loaded maze\n", mg.grid)
 
     # solve the maze
     # HINT: this command shall be received from MQTT client in run_all mode
     solvepath = mg.solveMaze()
-    print("[SusannaKursAlgo]: Result of solving maze: ", str(solvepath))
+    print("[IFBW21Algo]: Result of solving maze: ", str(solvepath))

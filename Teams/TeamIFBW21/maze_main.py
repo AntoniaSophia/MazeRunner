@@ -10,7 +10,7 @@ import os
 import sys
 import timeit
 sys.path.append("../..")
-import SusannaKursAlgo2
+import IFBW21Algo
 import Framework.Visualizer.maze_visualize
 
 
@@ -26,7 +26,7 @@ apptk.title("MazeRunner")
 apptk.geometry("700x700")
 apptk.resizable(True, True)
 
-alg = SusannaKursAlgo2.SusannaKursAlgo()
+alg = IFBW21Algo.IFBW21Algo()
 
 vis = Framework.Visualizer.maze_visualize.MazeVisualizer(apptk)
 

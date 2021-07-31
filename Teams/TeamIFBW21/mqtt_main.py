@@ -51,9 +51,7 @@ class MQTTTester:
         else:
             print("[TeamTemplateAlgo]: ERROR file not exist ", pathToConfigFile)
             return False
-
         try:
-
             self.grid = numpy.loadtxt(
                 pathToConfigFile, dtype='int64', delimiter=",")
             (self.dimRows, self.dimCols) = self.grid.shape
@@ -73,13 +71,6 @@ class MQTTTester:
         print("[MazeSolverClient]: Published message: ", topic, " --> ", message)
         self.master.publish(topic, message, qos, retain)
         # time.sleep(0.01)
-
-    def solveMaze(self):
-        """Command to start solving the maze """
-        for step in self.solver.solveMaze():
-            step_str = '{},{}'.format(step[0], step[1])
-
-            self.publish("/maze/go", step_str)
 
 
 if __name__ == '__main__':
@@ -107,9 +98,11 @@ if __name__ == '__main__':
     tester.publish("/maze/startCol", str(tester.startCol))
     tester.publish("/maze/endRow", str(tester.endRow))
     tester.publish("/maze/endCol", str(tester.endCol))
+
     for y in range(tester.dimRows):
         for x in range(tester.dimCols):
             if tester.grid[y][x] == tester.OBSTACLE:
                 tester.publish("/maze/blocked", f'{y},{x}')
+
     tester.publish("/maze", "solve")
     tester.publish("/maze", "end")
