@@ -9,3 +9,4 @@ autopep8
 robotframework
 robotframework-mqttlibrary
 flake8
+pillow

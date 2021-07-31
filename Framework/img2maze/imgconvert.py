@@ -25,7 +25,7 @@ def main():
     # resize the image
     width, height = img.size
     aspect_ratio = height/width
-    new_width = 101
+    new_width = 81
     new_height = aspect_ratio * new_width * 1.0
     img = img.resize((new_width, int(new_height)))
     # new size of image
