@@ -3,7 +3,6 @@ import logging
 import paho.mqtt.client as mqtt
 import numpy
 import argparse
-import time
 
 if "MQTTSERVER" in os.environ and os.environ['MQTTSERVER']:
     MQTT_SERVER = os.environ['MQTTSERVER']

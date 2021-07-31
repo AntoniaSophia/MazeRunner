@@ -70,7 +70,6 @@ class SusannaKursAlgo:
             return
         self.grid = np.zeros((self.dimRows, self.dimCols), dtype='int')
 
-
     # Define what shall happen after the full information of a maze has been received
     def endMaze(self):
         # TODO: this is you job now :-)
