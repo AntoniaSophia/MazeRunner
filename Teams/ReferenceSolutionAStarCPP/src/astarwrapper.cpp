@@ -35,6 +35,9 @@ struct AStarWrapper {
         filehandle.close();
 
         generator.setWorldSize({length,number_of_lines});
+
+        ary = new int[number_of_lines*length];
+
         filehandle = std::ifstream(mazepath);        
         while(getline(filehandle,line))
         {
@@ -44,15 +47,22 @@ struct AStarWrapper {
             while(getline(linestream,value,','))
             {
                 int numval = std::stoi( value );
+                ary[ypos*length+xpos]=numval;
+
                 if (numval==1){
                     generator.addCollision({xpos,ypos});
                 }else if(numval==2){
                     AStar::Vec2i posv({xpos,ypos});
                     startpos=posv;
+                    startRow=ypos;
+                    startCol=xpos;
 
                 }else if(numval==3){
                     AStar::Vec2i posv({xpos,ypos});
                     endpos=posv;
+                    endRow=ypos;
+                    endCol=xpos;
+
                 }
                 //std::cout << xpos << "|" << ypos << "Value(" << std::stoi( value ) << ")\n";
                 xpos++;
@@ -62,6 +72,8 @@ struct AStarWrapper {
             xpos=0;
         }
         filehandle.close();
+        dimCols=length;
+        dimRows=number_of_lines;
         return true;
     }
 
@@ -79,6 +91,8 @@ struct AStarWrapper {
             stringStream.str(std::string());
         }
     }
+    
+    int getValueAt(int ypos, int xpos) { return ary[ypos*dimCols+xpos];}
 
     void setName(const std::string &name_) { name = name_; }
     const std::string &getName() const { return name; }
@@ -89,6 +103,14 @@ struct AStarWrapper {
     AStar::Vec2i endpos;
     AStar::CoordinateList solpath;
     std::vector<std::string> came_from;
+    int dimRows;
+    int dimCols;
+    int startRow;
+    int startCol;
+    int endRow;
+    int endCol;    
+    int *ary;
+
 };
 
 PYBIND11_MODULE(astar, m) {
@@ -111,5 +133,14 @@ PYBIND11_MODULE(astar, m) {
         .def("getName", &AStarWrapper::getName)
         .def("loadMaze", &AStarWrapper::loadMaze)
         .def("solveMaze", &AStarWrapper::solveMaze)
-        .def_readwrite("came_from", &AStarWrapper::came_from);
+        .def("getValueAt", &AStarWrapper::getValueAt)        
+        .def_readwrite("came_from", &AStarWrapper::came_from)
+        .def_readwrite("dimRows", &AStarWrapper::dimRows)
+        .def_readwrite("dimCols", &AStarWrapper::dimCols)
+        .def_readwrite("startRow", &AStarWrapper::startRow)
+        .def_readwrite("startCol", &AStarWrapper::startCol)
+        .def_readwrite("endRow", &AStarWrapper::endRow)
+        .def_readwrite("endCol", &AStarWrapper::endCol);
+
+
 }
